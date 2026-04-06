@@ -1,0 +1,61 @@
+# SECRETS
+.env
+.env.*
+!.env.example
+
+.key
+*.key
+
+.pem
+*.pem
+
+.cert
+*.cert
+
+backupd.yaml
+backupd.*.yaml
+!backupd.example.yaml
+
+secrets/**/*.json
+!secrets/**/*.example.*
+!secrets/**/*.example
+
+# NODE_MODULES
+node_modules
+
+# PACKAGE-LOCK
+# pnpm-lock.yaml
+package-lock.json
+
+# BUILD & CACHE
+dist
+out
+build
+.next
+.turbo
+.eslintcache
+.tsbuildinfo
+.rollup.cache
+
+# generated content
+.contentlayer
+.content-collections
+.source
+coverage
+
+# OS
+.DS_Store
+
+# NextJS public directory
+public
+
+# TypeScript
+next-env.d.ts
+
+
+# HashiCorp files
+*.tfvars
+*.tfstate
+*.tfstate*
+.terraform
+*.pkrvars.hcl

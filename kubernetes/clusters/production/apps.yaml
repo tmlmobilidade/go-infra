@@ -4,6 +4,8 @@ metadata:
   name: apps-production
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: infra-production
   # How often the kustomization should be reconciled.
   # The default is 5m0s (5 minutes).
   interval: 10s

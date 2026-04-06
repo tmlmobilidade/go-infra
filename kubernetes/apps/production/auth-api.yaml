@@ -27,8 +27,8 @@ spec:
     ingress:
       enabled: true
       className: nginx
-      host: auth.tmlmobilidade.pt
-      path: /
+      host: go.tmlmobilidade.pt
+      path: /auth/api
       annotations: {}
     sharedSecrets:
       - auth-shared-secrets

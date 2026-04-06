@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: auth-api-production
+  name: go-infra-root
   namespace: argocd
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -10,21 +10,13 @@ spec:
   source:
     repoURL: https://github.com/tmlmobilidade/go-infra
     targetRevision: main
-    path: kubernetes/charts/auth-api
-    helm:
-      valueFiles:
-        - values.yaml
-      parameters:
-        - name: image.tag
-          value: production
-        - name: namespace
-          value: auth
+    path: kubernetes/apps
+    directory:
+      recurse: true
   destination:
     server: https://kubernetes.default.svc
-    namespace: auth
+    namespace: argocd
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true

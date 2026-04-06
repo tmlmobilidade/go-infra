@@ -1,10 +1,9 @@
 name: auth-api
+replicas: 1
 
 image:
   repository: myrepo/auth-api
-  tag: staging
-
-replicas: 1
+  tag: production
 
 service:
   port: 80
@@ -12,5 +11,5 @@ service:
 
 ingress:
   enabled: true
-  host: url.com
+  host: auth.myapp.com
   path: /auth

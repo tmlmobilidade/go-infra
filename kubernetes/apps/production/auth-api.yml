@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: auth-api-production
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/tmlmobilidade/go-infra
+    targetRevision: production
+    path: charts/auth-api
+    helm:
+      valueFiles:
+        - charts/auth-api/values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: auth-stg
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

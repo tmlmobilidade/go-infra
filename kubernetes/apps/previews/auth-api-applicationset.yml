@@ -1,0 +1,43 @@
+apiVersion: argoproj.io/v1alpha1
+
+kind: ApplicationSet
+
+metadata:
+  name: auth-api-previews
+  namespace: argocd
+
+spec:
+  generators:
+    - pullRequest:
+        github:
+          owner: your-org
+          repo: app-repo
+          tokenRef:
+            secretName: github-token
+            key: token
+  template:
+    metadata:
+      name: '{{branch}}-auth-api'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/your-org/go-infra
+        targetRevision: '{{head_sha}}'
+        path: charts/auth-api
+        helm:
+          parameters:
+            - name: image.tag
+              value: '{{head_sha}}'
+            - name: ingress.host
+              value: 'auth-{{branch}}.myapp.com'
+            - name: name
+              value: 'auth-api-{{branch}}'
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: 'auth-{{branch}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true

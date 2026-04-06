@@ -1,0 +1,53 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: ingress-nginx-charts
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://kubernetes.github.io/ingress-nginx
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: ingress-nginx
+  namespace: flux-system
+spec:
+  interval: 5m
+  targetNamespace: ingress-nginx
+  install:
+    createNamespace: true
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      chart: ingress-nginx
+      sourceRef:
+        kind: HelmRepository
+        name: ingress-nginx-charts
+        namespace: flux-system
+      interval: 1h
+  values:
+    controller:
+      # Use an OCI internal (private) Network Load Balancer.
+      # The OCI cloud controller manager provisions this automatically
+      # with a stable private IP — no need to track node IPs.
+      service:
+        type: LoadBalancer
+        annotations:
+          oci.oraclecloud.com/load-balancer-type: "nlb"
+          oci-network-load-balancer.oraclecloud.com/internal: "true"
+          oci-network-load-balancer.oraclecloud.com/oci-network-load-balancer-ip-address: "10.91.101.123"
+      # Allow the controller to process Ingress resources from all namespaces
+      watchIngressWithoutClass: false
+      ingressClassResource:
+        name: nginx
+        enabled: true
+        default: true
+      # Since external NGINX handles TLS and sets X-Forwarded-* headers
+      config:
+        use-forwarded-headers: "true"
+        compute-full-forwarded-for: "true"

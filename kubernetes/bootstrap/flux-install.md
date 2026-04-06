@@ -20,10 +20,11 @@ This installs Flux components and sets up the Git connection. Replace `<GITHUB_P
 flux bootstrap github \
   --owner=tmlmobilidade \
   --repository=go-infra \
-  --branch=main \
+  --branch=production \
   --path=kubernetes/clusters/production \
-  --personal=false \
-  --token-auth
+  --insecure-skip-tls-verify
+#  --personal=false
+#  --token-auth
 ```
 
 When prompted, enter the GitHub PAT. Flux will:

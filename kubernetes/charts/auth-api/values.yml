@@ -1,0 +1,16 @@
+name: auth-api
+
+image:
+  repository: myrepo/auth-api
+  tag: staging
+
+replicas: 1
+
+service:
+  port: 80
+  targetPort: 3000
+
+ingress:
+  enabled: true
+  host: url.com
+  path: /auth

@@ -1,0 +1,35 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: auth-api
+  namespace: auth-prd
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: kubernetes/charts/auth-api
+      sourceRef:
+        kind: GitRepository
+        name: go-infra
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    name: auth-api
+    namespace: auth-prd
+    replicas: 1
+    image:
+      repository: ghcr.io/tmlmobilidade/go/auth-api
+      tag: production
+      pullPolicy: IfNotPresent
+    service:
+      port: 80
+      targetPort: 5050
+    ingress:
+      enabled: true
+      className: nginx
+      host: auth.tmlmobilidade.pt
+      path: /
+      annotations: {}
+    sharedSecrets:
+      - auth-shared-secrets
+    env: []

@@ -23,8 +23,8 @@ spec:
     namespace: auth-prd
     replicas: 1
     image:
-      repository: ghcr.io/tmlmobilidade/go/auth-api
-      tag: production
+      repository: ghcr.io/tmlmobilidade/go-auth-api
+      tag: staging
       pullPolicy: IfNotPresent
     service:
       port: 80

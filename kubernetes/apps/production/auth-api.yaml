@@ -5,6 +5,8 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
+  dependsOn:
+    - name: onepassword-connect
   targetNamespace: auth-prd
   install:
     createNamespace: true

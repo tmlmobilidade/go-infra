@@ -4,10 +4,11 @@ metadata:
   name: apps-production
   namespace: flux-system
 spec:
-  interval: 5m
+  # How often the kustomization should be reconciled.
+  # The default is 5m0s (5 minutes).
+  interval: 10s
   sourceRef:
     kind: GitRepository
     name: flux-system
   path: ./kubernetes/apps/production
   prune: true
-  targetNamespace: auth-prd

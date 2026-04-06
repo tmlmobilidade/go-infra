@@ -2,9 +2,12 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: auth-api
-  namespace: auth-prd
+  namespace: flux-system
 spec:
   interval: 5m
+  targetNamespace: auth-prd
+  install:
+    createNamespace: true
   chart:
     spec:
       chart: kubernetes/charts/auth-api

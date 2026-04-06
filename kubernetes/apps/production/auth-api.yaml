@@ -10,7 +10,7 @@ spec:
       chart: kubernetes/charts/auth-api
       sourceRef:
         kind: GitRepository
-        name: go-infra
+        name: flux-system
         namespace: flux-system
       reconcileStrategy: Revision
   values:

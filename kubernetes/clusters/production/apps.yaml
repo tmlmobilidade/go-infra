@@ -5,11 +5,9 @@ metadata:
   namespace: flux-system
 spec:
   interval: 5m
-  dependsOn:
-    - name: infrastructure
   sourceRef:
     kind: GitRepository
-    name: go-infra
+    name: flux-system
   path: ./kubernetes/apps/production
   prune: true
   targetNamespace: auth-prd

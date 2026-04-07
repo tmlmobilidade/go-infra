@@ -21,14 +21,14 @@ flux bootstrap github \
   --owner=tmlmobilidade \
   --repository=go-infra \
   --branch=main \
-  --path=compute/kubernetes/clusters/prd \
+  --path=compute/kubernetes/prd/clusters \
   --insecure-skip-tls-verify
 ```
 
 When prompted, enter the GitHub PAT. Flux will:
 - Install its controllers into the `flux-system` namespace
 - Create a `GitRepository` source for this repo
-- Apply everything under `compute/kubernetes/clusters/prd/`, which in turn deploys infrastructure sources and app HelmReleases
+- Apply everything under `compute/kubernetes/prd/clusters/`, which in turn deploys platform baseline and app HelmReleases
 
 
 ### View Flux logs

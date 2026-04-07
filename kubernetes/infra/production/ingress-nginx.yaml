@@ -40,7 +40,7 @@ spec:
         annotations:
           oci.oraclecloud.com/load-balancer-type: "nlb"
           oci-network-load-balancer.oraclecloud.com/internal: "true"
-          oci-network-load-balancer.oraclecloud.com/oci-network-load-balancer-ip-address: "10.91.101.123"
+          oci-network-load-balancer.oraclecloud.com/oci-network-load-balancer-ip-address: "10.91.101.13"
       # Allow the controller to process Ingress resources from all namespaces
       watchIngressWithoutClass: false
       ingressClassResource:

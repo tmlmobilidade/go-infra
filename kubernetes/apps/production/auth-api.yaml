@@ -32,7 +32,7 @@ spec:
     ingress:
       enabled: true
       className: nginx
-      host: go.tmlmobilidade.pt
+      host: go-stg.tmlmobilidade.pt
       path: /auth/api
       annotations: {}
     sharedSecrets:

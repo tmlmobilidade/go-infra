@@ -7,7 +7,7 @@ spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: dates-prd
+  targetNamespace: prd-dates
   install:
     createNamespace: true
   chart:
@@ -21,7 +21,7 @@ spec:
   values:
     name: dates-api
     module: dates
-    namespace: dates-prd
+    namespace: prd-dates
     replicas: 1
     image:
       repository: ghcr.io/tmlmobilidade/go-dates-api

@@ -7,7 +7,7 @@ spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: offer-prd
+  targetNamespace: prd-offer
   install:
     createNamespace: true
   chart:
@@ -21,7 +21,7 @@ spec:
   values:
     name: offer-api
     module: offer
-    namespace: offer-prd
+    namespace: prd-offer
     replicas: 1
     image:
       repository: ghcr.io/tmlmobilidade/go-offer-api

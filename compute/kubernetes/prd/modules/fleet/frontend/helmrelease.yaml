@@ -7,7 +7,7 @@ spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: fleet-prd
+  targetNamespace: prd-fleet
   install:
     createNamespace: true
   chart:
@@ -21,7 +21,7 @@ spec:
   values:
     name: fleet-frontend
     module: fleet
-    namespace: fleet-prd
+    namespace: prd-fleet
     replicas: 1
     image:
       repository: ghcr.io/tmlmobilidade/go-fleet-frontend

@@ -7,7 +7,7 @@ spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: performance-prd
+  targetNamespace: prd-performance
   install:
     createNamespace: true
   chart:
@@ -21,7 +21,7 @@ spec:
   values:
     name: performance-sync-metrics-hourly
     module: performance
-    namespace: performance-prd
+    namespace: prd-performance
     replicas: 1
     image:
       repository: ghcr.io/tmlmobilidade/go-performance-sync-metrics-hourly

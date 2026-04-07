@@ -7,7 +7,7 @@ spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: controller-prd
+  targetNamespace: prd-controller
   install:
     createNamespace: true
   chart:
@@ -21,7 +21,7 @@ spec:
   values:
     name: controller-rides-bridge
     module: controller
-    namespace: controller-prd
+    namespace: prd-controller
     replicas: 1
     image:
       repository: ghcr.io/tmlmobilidade/go-controller-rides-bridge

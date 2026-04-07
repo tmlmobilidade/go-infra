@@ -7,7 +7,7 @@ spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: plans-prd
+  targetNamespace: prd-plans
   install:
     createNamespace: true
   chart:
@@ -21,7 +21,7 @@ spec:
   values:
     name: plans-frontend
     module: plans
-    namespace: plans-prd
+    namespace: prd-plans
     replicas: 1
     image:
       repository: ghcr.io/tmlmobilidade/go-plans-frontend

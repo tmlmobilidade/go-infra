@@ -7,7 +7,7 @@ spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: exporter-prd
+  targetNamespace: prd-exporter
   install:
     createNamespace: true
   chart:
@@ -21,7 +21,7 @@ spec:
   values:
     name: exporter-export-files
     module: exporter
-    namespace: exporter-prd
+    namespace: prd-exporter
     replicas: 1
     image:
       repository: ghcr.io/tmlmobilidade/go-exporter-export-files

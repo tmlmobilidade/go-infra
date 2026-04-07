@@ -8,5 +8,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./kubernetes/infra/prd
+  path: ./compute/kubernetes/infra/prd
   prune: true

@@ -12,7 +12,7 @@ spec:
     createNamespace: true
   chart:
     spec:
-      chart: kubernetes/charts/auth-api
+      chart: compute/kubernetes/charts/auth-api
       sourceRef:
         kind: GitRepository
         name: flux-system

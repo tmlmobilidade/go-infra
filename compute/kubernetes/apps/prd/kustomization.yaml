@@ -4,3 +4,13 @@ resources:
   - alerts
   - apex
   - auth
+  - controller
+  - dates
+  - exporter
+  - fleet
+  - locations
+  - offer
+  - performance
+  - plans
+  - stops
+  - tracker

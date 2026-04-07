@@ -1,0 +1,37 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tracker-ccfl-fetch
+  namespace: flux-system
+spec:
+  interval: 5m
+  dependsOn:
+    - name: onepassword-connect
+  targetNamespace: tracker-stg
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: compute/kubernetes/charts/go-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    name: tracker-ccfl-fetch
+    module: tracker
+    namespace: tracker-stg
+    replicas: 1
+    image:
+      repository: ghcr.io/tmlmobilidade/go-tracker-ccfl-fetch
+      tag: staging
+      pullPolicy: IfNotPresent
+    service:
+      port: 80
+      targetPort: 5050
+    ingress:
+      enabled: false
+    platformSecrets:
+      - stg-platform-storage
+    env: []

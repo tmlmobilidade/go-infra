@@ -26,10 +26,10 @@ spec:
           envFrom:
             # App-specific secret (must exist)
             - secretRef:
-                name: {{ .Values.name }}-{{ index (split "-" .Release.Namespace) 1 }}
+                name: {{ index (split "-" .Release.Namespace) 1 }}-app-{{ .Values.name }}
             # Module-shared secret (must exist)
             - secretRef:
-                name: {{ .Values.module }}-shared-{{ index (split "-" .Release.Namespace) 1 }}
+                name: {{ index (split "-" .Release.Namespace) 1 }}-module-{{ .Values.module }}
             # Platform capability secrets (user-specified, optional)
             {{- range .Values.platformSecrets }}
             - secretRef:

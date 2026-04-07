@@ -22,14 +22,14 @@ ingress:
   annotations: {}
 
 # Secrets strategy:
-# 1. Automatically added: {module}-{app}-{env} and {module}-shared-{env}
-# 2. Opt-in platform capabilities: platform-{capability}-{env}
+# 1. Automatically added: {env}-app-{module}-{app} and {env}-module-{module}
+# 2. Opt-in platform capabilities: {env}-platform-{capability}
 #    (only those listed here are injected into this app)
 platformSecrets: []
 # Examples:
-#   - platform-email-prd
-#   - platform-storage-prd
-#   - platform-logging-prd
+#   - prd-platform-email
+#   - prd-platform-storage
+#   - stg-platform-environment
 
 # App-specific env vars (optional)
 env: []

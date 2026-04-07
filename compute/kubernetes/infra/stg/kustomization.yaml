@@ -4,8 +4,28 @@ resources:
   - alerts-stg-namespace.yaml
   - apex-stg-namespace.yaml
   - auth-stg-namespace.yaml
+  - controller-stg-namespace.yaml
+  - dates-stg-namespace.yaml
+  - exporter-stg-namespace.yaml
+  - fleet-stg-namespace.yaml
+  - locations-stg-namespace.yaml
+  - offer-stg-namespace.yaml
+  - performance-stg-namespace.yaml
+  - plans-stg-namespace.yaml
+  - stops-stg-namespace.yaml
+  - tracker-stg-namespace.yaml
   - platform-secrets-alerts.yaml
   - platform-secrets-apex.yaml
   - platform-secrets-auth.yaml
+  - platform-secrets-controller.yaml
+  - platform-secrets-dates.yaml
+  - platform-secrets-exporter.yaml
+  - platform-secrets-fleet.yaml
+  - platform-secrets-locations.yaml
+  - platform-secrets-offer.yaml
+  - platform-secrets-performance.yaml
+  - platform-secrets-plans.yaml
+  - platform-secrets-stops.yaml
+  - platform-secrets-tracker.yaml
   - ingress-nginx.yaml
   - onepassword-connect.yaml

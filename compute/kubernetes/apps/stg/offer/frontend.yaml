@@ -1,0 +1,45 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: offer-frontend
+  namespace: flux-system
+spec:
+  interval: 5m
+  dependsOn:
+    - name: onepassword-connect
+  targetNamespace: offer-stg
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: compute/kubernetes/charts/go-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    name: offer-frontend
+    module: offer
+    namespace: offer-stg
+    replicas: 1
+    image:
+      repository: ghcr.io/tmlmobilidade/go-offer-frontend
+      tag: staging
+      pullPolicy: IfNotPresent
+    service:
+      port: 80
+      targetPort: 3000
+    ingress:
+      enabled: true
+      className: nginx
+      host: go-stg.tmlmobilidade.pt
+      path: /offer(/|$)(.*)
+      pathType: ImplementationSpecific
+      annotations:
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
+    platformSecrets:
+      - stg-platform-email
+      - stg-platform-storage
+    env: []

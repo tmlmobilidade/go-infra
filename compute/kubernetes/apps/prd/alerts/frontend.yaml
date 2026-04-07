@@ -40,6 +40,6 @@ spec:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     platformSecrets:
-      - platform-email-prd
-      - platform-storage-prd
+      - prd-platform-email
+      - prd-platform-storage
     env: []

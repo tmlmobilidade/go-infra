@@ -1,0 +1,16 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - shared-secrets.1passworditem.yaml
+  - app-secrets.1passworditem.yaml
+  - api.yaml
+  - coordinator.yaml
+  - frontend.yaml
+  - rides-acceptor.yaml
+  - rides-bridge.yaml
+  - rides-cleaner.yaml
+  - rides-examiner.yaml
+  - rides-feeder.yaml
+  - rides-locker.yaml
+  - sams-examiner.yaml
+  - sams-feeder.yaml

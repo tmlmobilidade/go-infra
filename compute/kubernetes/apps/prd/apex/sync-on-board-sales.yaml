@@ -33,5 +33,5 @@ spec:
     ingress:
       enabled: false
     platformSecrets:
-      - platform-storage-prd
+      - prd-platform-storage
     env: []

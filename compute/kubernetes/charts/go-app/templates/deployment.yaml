@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   labels:
     app: {{ .Values.name }}
-    module: auth
+    module: {{ .Values.module }}
 spec:
   replicas: {{ .Values.replicas }}
   selector:
@@ -15,7 +15,7 @@ spec:
     metadata:
       labels:
         app: {{ .Values.name }}
-        module: auth
+        module: {{ .Values.module }}
     spec:
       containers:
         - name: {{ .Values.name }}
@@ -23,13 +23,18 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: {{ .Values.service.targetPort }}
-          {{- if .Values.sharedSecrets }}
           envFrom:
-            {{- range .Values.sharedSecrets }}
+            # App-specific secret (must exist)
+            - secretRef:
+                name: {{ .Values.name }}-{{ index (split "-" .Release.Namespace) 1 }}
+            # Module-shared secret (must exist)
+            - secretRef:
+                name: {{ .Values.module }}-shared-{{ index (split "-" .Release.Namespace) 1 }}
+            # Platform capability secrets (user-specified, optional)
+            {{- range .Values.platformSecrets }}
             - secretRef:
                 name: {{ . }}
             {{- end }}
-          {{- end }}
           {{- if .Values.env }}
           env:
             {{- toYaml .Values.env | nindent 12 }}

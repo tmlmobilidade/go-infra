@@ -1,0 +1,18 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - auth-namespace.yaml
+  - alerts-namespace.yaml
+  - apex-namespace.yaml
+  - auth-api.yaml
+  - auth-frontend.yaml
+  - auth-cleaner.yaml
+  - alerts-api.yaml
+  - alerts-frontend.yaml
+  - alerts-organizer.yaml
+  - apex-organizer.yaml
+  - apex-stream.yaml
+  - apex-sync-locations.yaml
+  - apex-sync-on-board-refunds.yaml
+  - apex-sync-on-board-sales.yaml
+  - apex-sync-validations.yaml

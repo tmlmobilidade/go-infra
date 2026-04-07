@@ -1,9 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - alerts-prd-namespace.yaml
-  - apex-prd-namespace.yaml
-  - auth-prd-namespace.yaml
+  - alerts-stg-namespace.yaml
+  - apex-stg-namespace.yaml
+  - auth-stg-namespace.yaml
   - platform-secrets-alerts.yaml
   - platform-secrets-apex.yaml
   - platform-secrets-auth.yaml

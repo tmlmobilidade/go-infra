@@ -1,6 +1,0 @@
-apiVersion: v2
-name: auth-api
-description: Helm chart for the Auth API app (auth module)
-type: application
-version: 0.1.0
-appVersion: "1.0.0"

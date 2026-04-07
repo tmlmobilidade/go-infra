@@ -1,29 +1,30 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: auth-api
+  name: alerts-api
   namespace: flux-system
 spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: auth-prd
+  targetNamespace: alerts-stg
   install:
     createNamespace: true
   chart:
     spec:
-      chart: compute/kubernetes/charts/auth-api
+      chart: compute/kubernetes/charts/go-app
       sourceRef:
         kind: GitRepository
         name: flux-system
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: auth-api
-    namespace: auth-prd
+    name: alerts-api
+    module: alerts
+    namespace: alerts-stg
     replicas: 1
     image:
-      repository: ghcr.io/tmlmobilidade/go-auth-api
+      repository: ghcr.io/tmlmobilidade/go-alerts-api
       tag: staging
       pullPolicy: IfNotPresent
     service:
@@ -33,11 +34,12 @@ spec:
       enabled: true
       className: nginx
       host: go-stg.tmlmobilidade.pt
-      path: /auth/api(/|$)(.*)
+      path: /alerts/api(/|$)(.*)
       pathType: ImplementationSpecific
       annotations:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/rewrite-target: /$2
-    sharedSecrets:
-      - auth-shared-secrets
+    platformSecrets:
+      - platform-email-stg
+      - platform-storage-stg
     env: []

@@ -5,7 +5,7 @@ metadata:
   namespace: {{ .Values.namespace }}
   labels:
     app: {{ .Values.name }}
-    module: auth
+    module: {{ .Values.module }}
 spec:
   selector:
     app: {{ .Values.name }}

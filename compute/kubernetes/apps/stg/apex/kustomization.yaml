@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - shared-secrets.1passworditem.yaml
+  - app-secrets.1passworditem.yaml
+  - organizer.yaml
+  - stream.yaml
+  - sync-locations.yaml
+  - sync-on-board-refunds.yaml
+  - sync-on-board-sales.yaml
+  - sync-validations.yaml

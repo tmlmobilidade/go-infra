@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infra-stg
+    - name: platform-stg
   # How often the kustomization should be reconciled.
   # Keep this moderate to avoid excessive controller churn.
   interval: 1m

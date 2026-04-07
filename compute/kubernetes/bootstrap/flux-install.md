@@ -21,7 +21,7 @@ flux bootstrap github \
   --owner=tmlmobilidade \
   --repository=go-infra \
   --branch=production \
-  --path=kubernetes/clusters/production \
+  --path=compute/kubernetes/clusters/production \
   --insecure-skip-tls-verify
 #  --personal=false
 #  --token-auth

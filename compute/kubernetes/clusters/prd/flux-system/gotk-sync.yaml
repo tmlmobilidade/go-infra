@@ -24,7 +24,7 @@ spec:
   # How often the kustomization should be reconciled.
   # The default is 10m (10 minutes).
   interval: 10s
-  path: ./kubernetes/clusters/prd
+  path: ./compute/kubernetes/clusters/prd
   prune: true
   sourceRef:
     kind: GitRepository

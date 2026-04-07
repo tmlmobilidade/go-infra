@@ -8,7 +8,7 @@ flux bootstrap github \
   --owner=tmlmobilidade \
   --repository=go-infra \
   --branch=main \
-  --path=kubernetes/clusters/prd \
+  --path=compute/kubernetes/clusters/prd \
   --insecure-skip-tls-verify
 
 

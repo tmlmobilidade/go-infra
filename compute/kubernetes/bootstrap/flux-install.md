@@ -20,8 +20,8 @@ This installs Flux components and sets up the Git connection. Replace `<GITHUB_P
 flux bootstrap github \
   --owner=tmlmobilidade \
   --repository=go-infra \
-  --branch=production \
-  --path=compute/kubernetes/clusters/production \
+  --branch=main \
+  --path=compute/kubernetes/clusters/prd \
   --insecure-skip-tls-verify
 #  --personal=false
 #  --token-auth
@@ -30,7 +30,7 @@ flux bootstrap github \
 When prompted, enter the GitHub PAT. Flux will:
 - Install its controllers into the `flux-system` namespace
 - Create a `GitRepository` source for this repo
-- Apply everything under `kubernetes/clusters/production/`, which in turn deploys infrastructure sources and app HelmReleases
+- Apply everything under `compute/kubernetes/clusters/prd/`, which in turn deploys infrastructure sources and app HelmReleases
 
 ## 4. Create shared module secrets
 
@@ -55,7 +55,7 @@ kubectl get pods -n auth-prd
 
 ```bash
 # Force reconciliation
-flux reconcile kustomization apps-production
+flux reconcile kustomization apps-prd
 
 # View Flux logs
 flux logs

@@ -18,7 +18,7 @@ RUN apk add --no-cache gettext
 # # #
 # BUILD NGINX CONFIGURATION FILE
 
-COPY ./gateway/nginx/nginx.conf /etc/nginx/nginx.conf.template
+COPY ./gateway/nginx/nginx.conf /etc/nginx/nginx.conf
 
 
 # # #

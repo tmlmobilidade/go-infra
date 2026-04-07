@@ -7,8 +7,8 @@ spec:
   dependsOn:
     - name: infra-prd
   # How often the kustomization should be reconciled.
-  # The default is 5m0s (5 minutes).
-  interval: 10s
+  # Keep this moderate to avoid excessive controller churn.
+  interval: 1m
   sourceRef:
     kind: GitRepository
     name: flux-system

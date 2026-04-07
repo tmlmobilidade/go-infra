@@ -6,7 +6,7 @@ metadata:
 spec:
   dependsOn:
     - name: infra-stg
-  interval: 10s
+  interval: 1m
   sourceRef:
     kind: GitRepository
     name: flux-system

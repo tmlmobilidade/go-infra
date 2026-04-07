@@ -4,7 +4,7 @@ metadata:
   name: infra-prd
   namespace: flux-system
 spec:
-  interval: 10s
+  interval: 1m
   sourceRef:
     kind: GitRepository
     name: flux-system

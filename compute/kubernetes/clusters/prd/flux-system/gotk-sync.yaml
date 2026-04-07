@@ -6,9 +6,7 @@ metadata:
   name: flux-system
   namespace: flux-system
 spec:
-  # How often the source should be checked for changes.
-  # The default is 1m (1 minute).
-  interval: 10s
+  interval: 1m0s
   ref:
     branch: main
   secretRef:
@@ -21,9 +19,7 @@ metadata:
   name: flux-system
   namespace: flux-system
 spec:
-  # How often the kustomization should be reconciled.
-  # The default is 10m (10 minutes).
-  interval: 10s
+  interval: 10m0s
   path: ./compute/kubernetes/clusters/prd
   prune: true
   sourceRef:

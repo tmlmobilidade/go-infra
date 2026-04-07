@@ -39,7 +39,7 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
 
   nginx:
-    image: ghcr.io/tmlmobilidade/go-gateway-nginx:production
+    image: ghcr.io/tmlmobilidade/go-infra-gateway:production
     deploy:
       restart_policy:
         condition: any
@@ -57,23 +57,6 @@ services:
     ports:
       - 80:80
       - 443:443
-
-  # # # # # # # # # # # # # # # # # # # # #
-  # # # # # # # # # # # # # # # # # # # # #
-
-  docs:
-    image: ghcr.io/tmlmobilidade/go-docs:production
-    deploy:
-      restart_policy:
-        condition: any
-        delay: 30s
-      resources:
-        limits:
-          memory: 1gb
-    logging:
-      options:
-        max-size: '1m'
-        max-file: '1'
 
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #

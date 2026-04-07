@@ -123,7 +123,7 @@ jobs:
             annotations:
               operator.1password.io/auto-restart: "true"
           spec:
-            itemPath: vaults/k8s/items/${MODULE}-shared-stg
+            itemPath: vaults/go-prd/items/${MODULE}-shared-stg
           EOF
 
             for CAPABILITY in "${PLATFORM_CAPABILITIES[@]}"; do
@@ -136,7 +136,7 @@ jobs:
             annotations:
               operator.1password.io/auto-restart: "true"
           spec:
-            itemPath: vaults/k8s/items/platform-${CAPABILITY}-stg
+            itemPath: vaults/go-prd/items/platform-${CAPABILITY}-stg
           EOF
             done
           done
@@ -163,7 +163,7 @@ jobs:
             annotations:
               operator.1password.io/auto-restart: "true"
           spec:
-            itemPath: vaults/k8s/items/${MODULE}-${APP}-stg
+            itemPath: vaults/go-prd/items/${MODULE}-${APP}-stg
           EOF
 
               PLATFORM_SECRETS="      - platform-environment-stg"

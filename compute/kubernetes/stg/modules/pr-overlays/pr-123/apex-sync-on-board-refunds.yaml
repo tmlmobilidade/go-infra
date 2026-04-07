@@ -7,7 +7,7 @@ spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: apex-stg-pr-123
+  targetNamespace: stg-apex-pr-123
   install:
     createNamespace: true
   chart:
@@ -21,7 +21,7 @@ spec:
   values:
     name: apex-sync-on-board-refunds
     module: apex
-    namespace: apex-stg-pr-123
+    namespace: stg-apex-pr-123
     replicas: 1
     image:
       repository: ghcr.io/tmlmobilidade/go-apex-sync-on-board-refunds

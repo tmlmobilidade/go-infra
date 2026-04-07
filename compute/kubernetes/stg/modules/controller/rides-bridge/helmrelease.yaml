@@ -7,7 +7,7 @@ spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: controller-stg
+  targetNamespace: stg-controller
   install:
     createNamespace: true
   chart:
@@ -21,7 +21,7 @@ spec:
   values:
     name: controller-rides-bridge
     module: controller
-    namespace: controller-stg
+    namespace: stg-controller
     replicas: 1
     image:
       repository: ghcr.io/tmlmobilidade/go-controller-rides-bridge

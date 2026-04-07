@@ -7,7 +7,7 @@ spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: alerts-stg-pr-123
+  targetNamespace: stg-alerts-pr-123
   install:
     createNamespace: true
   chart:
@@ -21,7 +21,7 @@ spec:
   values:
     name: alerts-api
     module: alerts
-    namespace: alerts-stg-pr-123
+    namespace: stg-alerts-pr-123
     replicas: 1
     image:
       repository: ghcr.io/tmlmobilidade/go-alerts-api

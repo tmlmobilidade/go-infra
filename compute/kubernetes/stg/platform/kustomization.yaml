@@ -1,19 +1,19 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - alerts-stg-namespace.yaml
-  - apex-stg-namespace.yaml
-  - auth-stg-namespace.yaml
-  - controller-stg-namespace.yaml
-  - dates-stg-namespace.yaml
-  - exporter-stg-namespace.yaml
-  - fleet-stg-namespace.yaml
-  - locations-stg-namespace.yaml
-  - offer-stg-namespace.yaml
-  - performance-stg-namespace.yaml
-  - plans-stg-namespace.yaml
-  - stops-stg-namespace.yaml
-  - tracker-stg-namespace.yaml
+  - stg-alerts-namespace.yaml
+  - stg-apex-namespace.yaml
+  - stg-auth-namespace.yaml
+  - stg-controller-namespace.yaml
+  - stg-dates-namespace.yaml
+  - stg-exporter-namespace.yaml
+  - stg-fleet-namespace.yaml
+  - stg-locations-namespace.yaml
+  - stg-offer-namespace.yaml
+  - stg-performance-namespace.yaml
+  - stg-plans-namespace.yaml
+  - stg-stops-namespace.yaml
+  - stg-tracker-namespace.yaml
   - platform-secrets-alerts.yaml
   - platform-secrets-apex.yaml
   - platform-secrets-auth.yaml

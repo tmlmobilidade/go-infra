@@ -7,7 +7,7 @@ spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: offer-stg
+  targetNamespace: stg-offer
   install:
     createNamespace: true
   chart:
@@ -21,7 +21,7 @@ spec:
   values:
     name: offer-frontend
     module: offer
-    namespace: offer-stg
+    namespace: stg-offer
     replicas: 1
     image:
       repository: ghcr.io/tmlmobilidade/go-offer-frontend

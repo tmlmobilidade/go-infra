@@ -7,7 +7,7 @@ spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: alerts-stg
+  targetNamespace: stg-alerts
   install:
     createNamespace: true
   chart:
@@ -21,7 +21,7 @@ spec:
   values:
     name: alerts-frontend
     module: alerts
-    namespace: alerts-stg
+    namespace: stg-alerts
     replicas: 1
     image:
       repository: ghcr.io/tmlmobilidade/go-alerts-frontend

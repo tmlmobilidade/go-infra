@@ -7,7 +7,7 @@ spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: locations-stg
+  targetNamespace: stg-locations
   install:
     createNamespace: true
   chart:
@@ -21,7 +21,7 @@ spec:
   values:
     name: locations-frontend
     module: locations
-    namespace: locations-stg
+    namespace: stg-locations
     replicas: 1
     image:
       repository: ghcr.io/tmlmobilidade/go-locations-frontend

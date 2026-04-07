@@ -7,7 +7,7 @@ spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: tracker-stg
+  targetNamespace: stg-tracker
   install:
     createNamespace: true
   chart:
@@ -21,7 +21,7 @@ spec:
   values:
     name: tracker-clickhouse-stream
     module: tracker
-    namespace: tracker-stg
+    namespace: stg-tracker
     replicas: 1
     image:
       repository: ghcr.io/tmlmobilidade/go-tracker-clickhouse-stream

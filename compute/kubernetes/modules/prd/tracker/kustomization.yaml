@@ -1,0 +1,13 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - shared-secrets.1passworditem.yaml
+  - cap-fetch
+  - ccfl-fetch
+  - clickhouse-stream
+  - clickhouse-sync
+  - cm-stream-core
+  - cm-stream-log
+  - cm-sync-core
+  - cm-sync-log
+  - ttsl-fetch

@@ -10,5 +10,5 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
-  path: ./compute/kubernetes/apps/stg/pr-overlays
+  path: ./compute/kubernetes/modules/stg/pr-overlays
   prune: true

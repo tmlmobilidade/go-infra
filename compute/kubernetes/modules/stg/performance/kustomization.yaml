@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - shared-secrets.1passworditem.yaml
+  - api
+  - frontend
+  - sync-metrics-hourly
+  - sync-metrics-daily
+  - sync-metrics-realtime

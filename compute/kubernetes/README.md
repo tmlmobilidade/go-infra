@@ -4,9 +4,11 @@
 1. From VSCode:
 You'll need a Github PAT
 
-flux bootstrap github \  --owner=tmlmobilidade \  --repository=go-infra \
-  --branch=production \
-  --path=kubernetes/clusters/production \
+flux bootstrap github \
+  --owner=tmlmobilidade \
+  --repository=go-infra \
+  --branch=main \
+  --path=kubernetes/clusters/prd \
   --insecure-skip-tls-verify
 
 

@@ -13,7 +13,7 @@ resources:
   - performance-prd-namespace.yaml
   - plans-prd-namespace.yaml
   - stops-prd-namespace.yaml
-  - tracker-prd-namespace.yaml
+  - prd-tracker-namespace.yaml
   - platform-secrets-alerts.yaml
   - platform-secrets-apex.yaml
   - platform-secrets-auth.yaml

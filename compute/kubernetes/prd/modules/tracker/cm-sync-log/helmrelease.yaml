@@ -7,7 +7,7 @@ spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: tracker-prd
+  targetNamespace: prd-tracker
   install:
     createNamespace: true
   chart:
@@ -21,7 +21,7 @@ spec:
   values:
     name: tracker-cm-sync-log
     module: tracker
-    namespace: tracker-prd
+    namespace: prd-tracker
     replicas: 1
     image:
       repository: ghcr.io/tmlmobilidade/go-tracker-cm-sync-log

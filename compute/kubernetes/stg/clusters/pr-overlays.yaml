@@ -5,7 +5,7 @@ metadata:
   namespace: flux-system
 spec:
   dependsOn:
-    - name: infra-stg
+    - name: platform-stg
   interval: 1m
   sourceRef:
     kind: GitRepository

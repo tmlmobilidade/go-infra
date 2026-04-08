@@ -6,7 +6,7 @@ on:
     branches:
       - production
     paths:
-      - 'gateway/**'
+      - 'compute/gateway/**'
       - '.github/workflows/build-gateway.yml'
 
 # # #
@@ -39,5 +39,5 @@ jobs:
         uses: docker/build-push-action@master
         with:
           push: true
-          file: ./gateway/nginx/Dockerfile
+          file: ./compute/gateway/nginx/Dockerfile
           tags: ghcr.io/tmlmobilidade/go-infra-gateway:${{ github.ref_name }}

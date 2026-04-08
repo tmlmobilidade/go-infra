@@ -10,7 +10,7 @@ metadata:
     keel.sh/policy: force
     keel.sh/trigger: poll
     keel.sh/match-tag: "true"
-    keel.sh/pollSchedule: {{ dig "keel" "pollSchedule" "@every 30s" .Values | quote }}
+    keel.sh/pollSchedule: {{ if .Values.keel }}{{ .Values.keel.pollSchedule | default "@every 30s" | quote }}{{ else }}"@every 30s"{{ end }}
 spec:
   replicas: {{ .Values.replicas }}
   selector:

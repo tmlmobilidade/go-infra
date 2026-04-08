@@ -29,7 +29,8 @@ spec:
         kind: HelmRepository
         name: keel-charts
   values:
-    helmProvider: false
+    helmProvider:
+      enabled: false
     polling:
       enabled: true
     basicauth:

@@ -34,11 +34,8 @@ spec:
       enabled: true
       className: nginx
       host: go-stg.tmlmobilidade.pt
-      path: /offer(/|$)(.*)
-      pathType: ImplementationSpecific
-      annotations:
-        nginx.ingress.kubernetes.io/use-regex: "true"
-        nginx.ingress.kubernetes.io/rewrite-target: /$2
+      path: /offer
+      pathType: Prefix
     secrets:
       - stg-platform-email
       - stg-platform-storage

@@ -1,6 +1,6 @@
 # # #
 
-name: tmlmobilidade-go-gateway-production
+name: tmlmobilidade-go-infra-gateway-prd
 
 volumes:
   certbotdata:
@@ -39,7 +39,7 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
 
   nginx:
-    image: ghcr.io/tmlmobilidade/go-infra-gateway:production
+    image: ghcr.io/tmlmobilidade/go-infra-gateway-prd:main
     deploy:
       restart_policy:
         condition: any

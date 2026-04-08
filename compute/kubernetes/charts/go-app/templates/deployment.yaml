@@ -25,8 +25,8 @@ spec:
             - containerPort: {{ .Values.service.targetPort }}
           envFrom:
             # App-specific secret (must exist)
-            - secretRef:
-                name: {{ (split "-" .Release.Namespace)._1 }}-app-{{ .Values.name }}
+            # - secretRef:
+            #     name: {{ (split "-" .Release.Namespace)._1 }}-app-{{ .Values.name }}
             # Module-shared secret (must exist)
             - secretRef:
                 name: {{ (split "-" .Release.Namespace)._1 }}-module-{{ .Values.module }}

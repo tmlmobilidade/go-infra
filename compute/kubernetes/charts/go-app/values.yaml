@@ -7,7 +7,7 @@ replicas: 1
 image:
   repository: ghcr.io/tmlmobilidade/go-app
   tag: latest
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 service:
   port: 80

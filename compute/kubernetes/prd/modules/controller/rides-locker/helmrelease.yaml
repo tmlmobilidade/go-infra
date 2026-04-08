@@ -26,7 +26,7 @@ spec:
     image:
       repository: ghcr.io/tmlmobilidade/go-controller-rides-locker
       tag: staging
-      pullPolicy: IfNotPresent
+      pullPolicy: Always
     secrets:
       - prd-platform-environment
       - prd-module-controller

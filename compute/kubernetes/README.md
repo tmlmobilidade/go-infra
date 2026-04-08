@@ -6,7 +6,7 @@
 
 ```bash
 oci ce cluster create-kubeconfig \
-  --cluster-id ocid1.cluster.oc1.eu-frankfurt-1.aaaaaaaatkl7x6meon3mn5xoqdgyvzylurduot36ndvd3el53czpcnm4cdkq \
+  --cluster-id PASTE_HERE \
   --file $HOME/.kube/config \
   --region eu-frankfurt-1 \
   --token-version 2.0.0
@@ -51,6 +51,14 @@ When prompted, enter the GitHub PAT. Flux will:
 `flux check --insecure-skip-tls-verify`
 
 
-2. Set the 1Password secret
+2. Set the 1Password Connect secrets
 
-`kubectl -n onepassword create secret generic onepassword-service-account-token --from-literal=token=PASTE_HERE`
+```bash
+kubectl -n onepassword create secret generic op-credentials \
+  --from-file=1password-credentials.json=1password-credentials.json
+```
+
+```bash
+kubectl -n onepassword create secret generic onepassword-token \
+  --from-literal=token=<your-connect-token>
+```

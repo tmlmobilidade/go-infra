@@ -25,7 +25,7 @@ spec:
     replicas: 1
     image:
       repository: ghcr.io/tmlmobilidade/go-fleet-frontend
-      tag: latest
+      tag: staging
       pullPolicy: IfNotPresent
     service:
       port: 80

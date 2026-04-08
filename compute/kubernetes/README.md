@@ -1,5 +1,18 @@
 # Bootstrap Flux CD
 
+## 0. Setup kubectl using OCI CLI
+
+`rm $HOME/.kube/config`
+
+```bash
+oci ce cluster create-kubeconfig \
+  --cluster-id ocid1.cluster.oc1.eu-frankfurt-1.aaaaaaaatkl7x6meon3mn5xoqdgyvzylurduot36ndvd3el53czpcnm4cdkq \
+  --file $HOME/.kube/config \
+  --region eu-frankfurt-1 \
+  --token-version 2.0.0
+```
+
+
 ## 1. Install Flux CLI
 
 ```bash

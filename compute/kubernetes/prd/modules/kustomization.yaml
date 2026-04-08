@@ -11,6 +11,6 @@ resources:
   # - locations
   # - offer
   # - performance
-  # - plans
+  - plans
   # - stops
   # - tracker

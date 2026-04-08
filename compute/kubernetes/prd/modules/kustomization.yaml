@@ -4,7 +4,7 @@ resources:
   - alerts
   # - apex
   - auth
-  # - controller
+  - controller
   # - dates
   # - exporter
   # - fleet

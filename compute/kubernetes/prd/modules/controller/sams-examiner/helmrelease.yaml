@@ -27,11 +27,7 @@ spec:
       repository: ghcr.io/tmlmobilidade/go-controller-sams-examiner
       tag: staging
       pullPolicy: IfNotPresent
-    service:
-      port: 80
-      targetPort: 5050
-    ingress:
-      enabled: false
     secrets:
-      - prd-platform-storage
+      - prd-platform-environment
+      - prd-module-controller
     env: []

@@ -4,3 +4,4 @@ resources:
   - namespaces.yaml
   - ingress-nginx.yaml
   - onepassword-connect.yaml
+  - keel.yaml

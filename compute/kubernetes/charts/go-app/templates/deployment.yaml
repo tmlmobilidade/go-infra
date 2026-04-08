@@ -6,6 +6,11 @@ metadata:
   labels:
     app: {{ .Values.name }}
     module: {{ .Values.module }}
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+	 keel.sh/match-tag: "true"
+    keel.sh/pollSchedule: {{ .Values.keel.pollSchedule | default "@every 30s" | quote }}
 spec:
   replicas: {{ .Values.replicas }}
   selector:

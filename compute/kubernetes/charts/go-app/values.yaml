@@ -25,7 +25,7 @@ ingress:
 # 1. Automatically added: {env}-app-{module}-{app} and {env}-module-{module}
 # 2. Opt-in platform capabilities: {env}-platform-{capability}
 #    (only those listed here are injected into this app)
-platformSecrets: []
+secrets: []
 # Examples:
 #   - prd-platform-email
 #   - prd-platform-storage

@@ -32,6 +32,6 @@ spec:
       targetPort: 5050
     ingress:
       enabled: false
-    platformSecrets:
+    secrets:
       - stg-platform-storage
     env: []

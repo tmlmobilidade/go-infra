@@ -24,14 +24,7 @@ spec:
           ports:
             - containerPort: {{ .Values.service.targetPort }}
           envFrom:
-            # App-specific secret (must exist)
-            # - secretRef:
-            #     name: {{ (split "-" .Release.Namespace)._1 }}-app-{{ .Values.name }}
-            # Module-shared secret (must exist)
-            - secretRef:
-                name: {{ (split "-" .Release.Namespace)._1 }}-module-{{ .Values.module }}
-            # Platform capability secrets (user-specified, optional)
-            {{- range .Values.platformSecrets }}
+            {{- range .Values.secrets }}
             - secretRef:
                 name: {{ . }}
             {{- end }}

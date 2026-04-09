@@ -73,11 +73,7 @@ variable "region" {
 
 variable "subnet_ocid" {
 	type = string
-	description = <<-EOT
-	OCID of the existing subnet to attach instances to.
-	Networking is managed externally — this module creates no VCN, subnet,
-	IGW, route table, security list, or NSG.
-	EOT
+	description = "OCID of the existing subnet to attach resources to."
 	default = "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaaqwztdskuufaajsp2wz3htvywxlywkwcj63zof52hr7gywnnssbxa"
 }
 

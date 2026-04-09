@@ -51,7 +51,7 @@ variable "compartment_ocid" {
 
 variable "availability_domain" {
 	type = string
-	description = "The availability domain where worker nodes will be placed (e.g. 'LUDo:EU-FRANKFURT-1-AD-1')."
+	description = "The availability domain where resources will be created (e.g. 'LUDo:EU-FRANKFURT-1-AD-1')."
 	default = "LUDo:EU-FRANKFURT-1-AD-1"
 }
 
@@ -67,26 +67,14 @@ variable "region" {
 
 variable "vcn_ocid" {
 	type = string
-	description = <<-EOT
-	OCID of the existing VCN where the OKE cluster will be created.
-	Networking is managed externally — this module creates no VCN, subnet,
-	IGW, route table, security list, or NSG.
-	EOT
+	description = "OCID of the existing VCN where the OKE cluster will be created."
+	default = "ocid1.vcn.oc1.eu-frankfurt-1.amaaaaaaxpxrpiqaenv7cpf6utbldybfg3fa3kivlu7p7c7t4l3votttzt5q"
 }
 
-variable "api_endpoint_subnet_ocid" {
+variable "subnet_ocid" {
 	type = string
-	description = "OCID of the existing subnet for the Kubernetes API endpoint."
-}
-
-variable "worker_node_subnet_ocid" {
-	type = string
-	description = "OCID of the existing subnet where worker nodes will be placed."
-}
-
-variable "service_lb_subnet_ocid" {
-	type = string
-	description = "OCID of the existing subnet for Kubernetes LoadBalancer services."
+	description = "OCID of the existing subnet to attach resources to."
+	default = "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaaqwztdskuufaajsp2wz3htvywxlywkwcj63zof52hr7gywnnssbxa"
 }
 
 
@@ -95,37 +83,19 @@ variable "service_lb_subnet_ocid" {
 
 variable "kubernetes_version" {
 	type = string
-	description = "Kubernetes version for the cluster and node pool. Leave empty to use the latest available version."
-	default = ""
-}
-
-variable "cluster_type" {
-	type = string
-	description = "OKE cluster type. Use 'BASIC_CLUSTER' (free) or 'ENHANCED_CLUSTER' (paid, adds features like virtual nodes and workload identity)."
-	default = "BASIC_CLUSTER"
-}
-
-variable "cluster_endpoint_is_public" {
-	type = bool
-	description = "Whether the Kubernetes API endpoint should have a public IP address."
-	default = true
-}
-
-variable "pods_cidr" {
-	type = string
-	description = "CIDR block for pod IPs (Flannel overlay network)."
-	default = "10.244.0.0/16"
-}
-
-variable "services_cidr" {
-	type = string
-	description = "CIDR block for Kubernetes service ClusterIPs."
-	default = "10.96.0.0/16"
+	description = "Kubernetes version for the cluster and node pool."
+	default = "v1.35.0"
 }
 
 
 # # #
 # NODE POOL
+
+variable "pool_count" {
+	type = number
+	description = "Number of node pools to create."
+	default = 1
+}
 
 variable "node_count" {
 	type = number
@@ -142,23 +112,23 @@ variable "node_shape" {
 variable "node_ocpus" {
 	type = number
 	description = "Number of OCPUs per worker node."
-	default = 2
+	default = 12
 }
 
 variable "node_memory_in_gbs" {
 	type = number
 	description = "Memory in GBs per worker node."
-	default = 16
+	default = 24
 }
 
 variable "boot_volume_size_in_gbs" {
 	type = number
 	description = "Boot volume size in GBs per worker node."
-	default = 100
+	default = 512
 }
 
 variable "node_image_ocid" {
 	type = string
 	description = "OCID of the node image. Leave empty to auto-discover the latest OKE-optimized Oracle Linux image for the selected shape."
-	default = ""
+	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaakody3skel6vnm7jufupaf6tm5zkq7slcl2fblbe23omjks6ytr5q"
 }

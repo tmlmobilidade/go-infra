@@ -13,5 +13,5 @@ output "cluster_endpoints" {
 
 output "kubeconfig_command" {
 	description = "OCI CLI command to generate the kubeconfig for this cluster."
-	value = "oci ce cluster create-kubeconfig --cluster-id ${oci_containerengine_cluster.cluster.id} --region ${var.region} --token-version 2.0.0 --kube-endpoint PUBLIC_ENDPOINT"
+	value = "oci ce cluster create-kubeconfig --cluster-id ${oci_containerengine_cluster.cluster.id} --region ${var.region}"
 }

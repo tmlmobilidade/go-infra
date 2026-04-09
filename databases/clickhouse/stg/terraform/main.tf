@@ -14,7 +14,7 @@ terraform {
 # # #
 # OCI AUTHENTICATION
 # Variables defined in `variables.tf`
-# Values come from `{environment}.tfvars`
+# Values come from `terraform.tfvars`
 
 provider "oci" {
 	tenancy_ocid = var.tenancy_ocid

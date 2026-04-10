@@ -19,21 +19,14 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: exporter-frontend
+    environment: prd
     module: exporter
-    namespace: prd-exporter
+    app: frontend
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-exporter-frontend
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 3000
     ingress:
       enabled: true
-      className: nginx
-      host: go-stg.tmlmobilidade.pt
       path: /exporter
       pathType: Prefix
     secrets:

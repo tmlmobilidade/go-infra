@@ -19,21 +19,14 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: dates-frontend
+    environment: prd
     module: dates
-    namespace: prd-dates
+    app: frontend
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-dates-frontend
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 3000
     ingress:
       enabled: true
-      className: nginx
-      host: go-stg.tmlmobilidade.pt
       path: /dates
       pathType: Prefix
     secrets:

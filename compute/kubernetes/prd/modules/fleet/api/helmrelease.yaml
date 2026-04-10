@@ -19,21 +19,14 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: fleet-api
+    environment: prd
     module: fleet
-    namespace: prd-fleet
+    app: api
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-fleet-api
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: true
-      className: nginx
-      host: go-stg.tmlmobilidade.pt
       path: /fleet/api(/|$)(.*)
       pathType: ImplementationSpecific
       annotations:

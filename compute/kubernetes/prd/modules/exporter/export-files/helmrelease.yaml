@@ -19,16 +19,11 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: exporter-export-files
+    environment: prd
     module: exporter
-    namespace: prd-exporter
+    app: export-files
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-exporter-export-files
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: false

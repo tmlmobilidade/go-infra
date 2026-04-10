@@ -19,21 +19,14 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: locations-api
+    environment: prd
     module: locations
-    namespace: prd-locations
+    app: api
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-locations-api
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: true
-      className: nginx
-      host: go-stg.tmlmobilidade.pt
       path: /locations/api(/|$)(.*)
       pathType: ImplementationSpecific
       annotations:

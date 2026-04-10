@@ -7,7 +7,7 @@
 email="iso@tmlmobilidade.pt"
 staging=0 # Set to 1 if you're testing your setup to avoid hitting request limits
 
-primary_domain=go-stg.tmlmobilidade.pt
+primary_domain="*.go-stg.tmlmobilidade.pt"
 
 
 # # #

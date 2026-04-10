@@ -1,7 +1,5 @@
 # # #
 
-name: tmlmobilidade-go-infra-gateway-stg
-
 volumes:
   certbotdata:
 
@@ -38,8 +36,20 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # # #
 
+  certbot:
+    image: certbot/certbot
+    restart: unless-stopped
+    mem_limit: 2g
+    volumes:
+      - ./letsencrypt:/etc/letsencrypt
+      - certbotdata:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+  # # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # # #
+
   nginx:
-    image: ghcr.io/tmlmobilidade/go-infra-gateway-stg:main
+    image: ghcr.io/tmlmobilidade/go-infra-stg-gateway:main
     deploy:
       restart_policy:
         condition: any
@@ -57,15 +67,3 @@ services:
     ports:
       - 80:80
       - 443:443
-
-  # # # # # # # # # # # # # # # # # # # # #
-  # # # # # # # # # # # # # # # # # # # # #
-
-  certbot:
-    image: certbot/certbot
-    restart: unless-stopped
-    mem_limit: 2g
-    volumes:
-      - ./letsencrypt:/etc/letsencrypt
-      - certbotdata:/var/www/certbot
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"

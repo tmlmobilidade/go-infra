@@ -90,8 +90,9 @@ variable "base_image_ocid" {
 	The OCID of the base image to use for the VM.
 	It is recommended to use a *minimal* Ubuntu image to reduce the final image size.
 	This should be regularly updated to the latest available minimal Ubuntu image.
+	Current image is set to: Canonical-Ubuntu-24.04-Minimal-aarch64-2026.02.28-0"
 	EOT
-	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa7vyrjtu2nqpzkcbsp5pnv7rn62voqgph32ab6yd7sinkeyorruma"
+	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaav7j5fmkuvwreezyn7pkyyzgexm4uaobnceclctrmkj2urjvo6e5a"
 }
 
 variable "vm_shape" {

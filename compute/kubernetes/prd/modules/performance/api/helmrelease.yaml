@@ -19,21 +19,14 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: performance-api
+    environment: prd
     module: performance
-    namespace: prd-performance
+    app: api
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-performance-api
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: true
-      className: nginx
-      host: go-stg.tmlmobilidade.pt
       path: /performance/api(/|$)(.*)
       pathType: ImplementationSpecific
       annotations:

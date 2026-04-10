@@ -10,12 +10,6 @@ WORKDIR /app
 
 
 # # #
-# Install envsubst for variable substitution
-
-RUN apk add --no-cache gettext
-
-
-# # #
 # BUILD NGINX CONFIGURATION FILE
 
 COPY ./compute/gateway/prd/nginx/nginx.conf /etc/nginx/nginx.conf

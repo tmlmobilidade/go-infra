@@ -5,7 +5,7 @@ metadata:
   name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
   namespace: "{{ .Values.environment }}-{{ .Values.module }}"
   labels:
-   environment: {{ .Values.environment }}
+    environment: {{ .Values.environment }}
     module: {{ .Values.module }}
     app: {{ .Values.app }}
   annotations:

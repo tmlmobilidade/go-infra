@@ -19,16 +19,11 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: controller-coordinator
+    environment: prd
     module: controller
-    namespace: prd-controller
+    app: coordinator
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-controller-coordinator
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: false

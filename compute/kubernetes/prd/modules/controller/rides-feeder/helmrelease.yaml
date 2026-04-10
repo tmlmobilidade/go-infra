@@ -19,14 +19,12 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: controller-rides-feeder
+    environment: prd
     module: controller
-    namespace: prd-controller
+    app: rides-feeder
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-controller-rides-feeder
-      tag: staging
-      pullPolicy: Always
+    ingress:
+      enabled: false
     secrets:
       - prd-platform-environment
       - prd-module-controller

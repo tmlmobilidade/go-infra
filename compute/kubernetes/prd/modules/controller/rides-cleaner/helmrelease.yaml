@@ -19,14 +19,12 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: controller-rides-cleaner
+    environment: prd
     module: controller
-    namespace: prd-controller
+    app: rides-cleaner
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-controller-rides-cleaner
-      tag: staging
-      pullPolicy: Always
+    ingress:
+      enabled: false
     secrets:
       - prd-platform-environment
       - prd-module-controller

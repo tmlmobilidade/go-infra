@@ -51,7 +51,7 @@ When prompted, enter the GitHub PAT. Flux will:
 `flux check --insecure-skip-tls-verify`
 
 
-2. Set the 1Password Connect secrets
+2. Set the 1Password Connect secrets, using the jumpserver
 
 ```bash
 kubectl -n onepassword create secret generic op-credentials \

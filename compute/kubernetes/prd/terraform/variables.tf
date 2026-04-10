@@ -129,6 +129,6 @@ variable "boot_volume_size_in_gbs" {
 
 variable "node_image_ocid" {
 	type = string
-	description = "OCID of the node image. Leave empty to auto-discover the latest OKE-optimized Oracle Linux image for the selected shape."
+	description = "OCID of the node image."
 	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaakody3skel6vnm7jufupaf6tm5zkq7slcl2fblbe23omjks6ytr5q"
 }

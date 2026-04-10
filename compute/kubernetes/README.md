@@ -12,6 +12,12 @@ oci ce cluster create-kubeconfig \
   --token-version 2.0.0
 ```
 
+To setup the tunnel:
+
+```bash
+ssh -N -L 6443:K8S_API_ENDPOINT:6443 ubuntu@go-prd-jumpserver.tmlmobilidade.pt
+```
+
 
 ## 1. Install Flux CLI
 
@@ -55,10 +61,12 @@ When prompted, enter the GitHub PAT. Flux will:
 
 ```bash
 kubectl -n onepassword create secret generic op-credentials \
+  --insecure-skip-tls-verify=true \
   --from-file=1password-credentials.json=1password-credentials.json
 ```
 
 ```bash
 kubectl -n onepassword create secret generic onepassword-token \
+  --insecure-skip-tls-verify=true \
   --from-literal=token=<your-connect-token>
 ```

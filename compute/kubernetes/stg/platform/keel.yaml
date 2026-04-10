@@ -1,0 +1,39 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: keel-charts
+  namespace: flux-system
+spec:
+  interval: 1h
+  url: https://charts.keel.sh
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: keel
+  namespace: flux-system
+spec:
+  interval: 5m
+  targetNamespace: kube-system
+  install:
+    createNamespace: false
+    remediation:
+      retries: 3
+  upgrade:
+    remediation:
+      retries: 3
+  chart:
+    spec:
+      chart: keel
+      sourceRef:
+        kind: HelmRepository
+        name: keel-charts
+  values:
+    helmProvider:
+      enabled: false
+    polling:
+      enabled: true
+    basicauth:
+      enabled: false
+    service:
+      enabled: false

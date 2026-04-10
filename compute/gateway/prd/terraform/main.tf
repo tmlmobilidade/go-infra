@@ -37,9 +37,9 @@ locals {
 
 # # #
 # COMPUTE
-# Deploy a JumpServer VM.
+# Deploy a Gateway VM.
 
-resource "oci_core_instance" "jumpserver" {
+resource "oci_core_instance" "gateway" {
 
 	display_name = var.display_name
 

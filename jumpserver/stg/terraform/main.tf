@@ -66,15 +66,6 @@ resource "oci_core_instance" "jumpserver" {
 		assign_public_ip = true
 	}
 
-	agent_config {
-		is_monitoring_disabled = false
-		is_management_disabled = false
-		plugins_config {
-			desired_state = "ENABLED"
-			name = "Bastion"
-		}
-	}
-
 	metadata = {
 		ssh_authorized_keys = local.ssh_authorized_keys
 	}

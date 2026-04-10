@@ -1,0 +1,15 @@
+#cloud-config
+
+packages:
+  - xfsprogs
+
+runcmd:
+
+  # 2.
+  # Configure the firewall to allow Gateway traffic
+  # using the script pre-packed by Packer
+
+  - /opt/app/firewall.sh
+  - rm /opt/app/firewall.sh
+
+final_message: "Gateway configuration complete."

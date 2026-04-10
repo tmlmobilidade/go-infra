@@ -1,0 +1,45 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: apex-sync-locations
+  namespace: flux-system
+spec:
+  interval: 5m
+  dependsOn:
+    - name: onepassword-connect
+  targetNamespace: apex-stg-pr-304
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: compute/kubernetes/charts/go-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    name: apex-sync-locations
+    module: apex
+    namespace: apex-stg-pr-304
+    replicas: 1
+    image:
+      repository: ghcr.io/tmlmobilidade/go-apex-sync-locations
+      tag: pr-304
+      pullPolicy: Always
+    service:
+      port: 80
+      targetPort: 5050
+    ingress:
+      enabled: false
+      className: nginx
+      host: pr-304.go-stg.tmlmobilidade.pt
+      path: /apex(/|2299)(.*)
+      pathType: ImplementationSpecific
+      annotations:
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/rewrite-target: /22992
+    secrets:
+      - platform-environment-stg
+      - platform-storage-stg
+    env: []

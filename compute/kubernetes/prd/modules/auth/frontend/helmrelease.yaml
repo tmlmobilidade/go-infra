@@ -27,7 +27,6 @@ spec:
       targetPort: 3000
     ingress:
       enabled: true
-      subdomain: go
       path: /auth
       pathType: Prefix
     secrets:

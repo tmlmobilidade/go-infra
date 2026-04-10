@@ -19,21 +19,14 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: alerts-api
+    environment: prd
     module: alerts
-    namespace: prd-alerts
+    app: api
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-alerts-api
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: true
-      className: nginx
-      host: go-stg.tmlmobilidade.pt
       path: /alerts/api(/|$)(.*)
       pathType: ImplementationSpecific
       annotations:

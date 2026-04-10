@@ -19,16 +19,11 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: apex-organizer
+    environment: prd
     module: apex
-    namespace: prd-apex
+    app: organizer
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-apex-organizer
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: false

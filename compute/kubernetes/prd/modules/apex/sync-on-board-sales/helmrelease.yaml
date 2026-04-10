@@ -19,16 +19,11 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: apex-sync-on-board-sales
+    environment: prd
     module: apex
-    namespace: prd-apex
+    app: sync-on-board-sales
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-apex-sync-on-board-sales
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: false

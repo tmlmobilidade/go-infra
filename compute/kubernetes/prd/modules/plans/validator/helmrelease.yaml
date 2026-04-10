@@ -19,16 +19,11 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: plans-validator
+    environment: prd
     module: plans
-    namespace: prd-plans
+    app: validator
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-plans-validator
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: false

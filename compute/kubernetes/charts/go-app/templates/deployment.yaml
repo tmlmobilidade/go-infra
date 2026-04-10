@@ -1,31 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Values.name }}
-  namespace: {{ .Values.namespace }}
+  name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
+  namespace: "{{ .Values.environment }}-{{ .Values.module }}"
   labels:
-    app: {{ .Values.name }}
+    environment: {{ .Values.environment }}
     module: {{ .Values.module }}
+    app: {{ .Values.app }}
   annotations:
     keel.sh/policy: force
     keel.sh/trigger: poll
     keel.sh/match-tag: "true"
-    keel.sh/pollSchedule: {{ if .Values.keel }}{{ .Values.keel.pollSchedule | default "@every 30s" | quote }}{{ else }}"@every 30s"{{ end }}
+    keel.sh/pollSchedule: "@every 30s"
 spec:
   replicas: {{ .Values.replicas }}
   selector:
     matchLabels:
-      app: {{ .Values.name }}
+      environment: {{ .Values.environment }}
+      module: {{ .Values.module }}
+      app: {{ .Values.app }}
   template:
     metadata:
       labels:
-        app: {{ .Values.name }}
+        environment: {{ .Values.environment }}
         module: {{ .Values.module }}
+        app: {{ .Values.app }}
     spec:
       containers:
-        - name: {{ .Values.name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
+          image: "ghcr.io/tmlmobilidade/go-{{ .Values.module }}-{{ .Values.app }}:{{ .Values.environment }}"
+          imagePullPolicy: Always
           ports:
             - containerPort: {{ .Values.service.targetPort }}
           envFrom:

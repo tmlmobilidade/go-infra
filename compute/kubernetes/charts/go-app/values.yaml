@@ -1,6 +1,6 @@
 name: app
 module: module
-namespace: default
+environment: environment
 
 replicas: 1
 

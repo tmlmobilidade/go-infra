@@ -19,16 +19,11 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: auth-api
+    environment: prd
     module: auth
-    namespace: prd-auth
+    app: api
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-auth-api
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: true

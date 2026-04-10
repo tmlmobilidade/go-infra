@@ -39,7 +39,7 @@ jobs:
         with:
           push: true
           file: ./compute/gateway/prd/nginx/Dockerfile
-          tags: ghcr.io/tmlmobilidade/go-infra-gateway-prd:${{ github.ref_name }}
+          tags: ghcr.io/tmlmobilidade/go-infra-prd-gateway:${{ github.ref_name }}
 
   # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # #
@@ -67,4 +67,4 @@ jobs:
         with:
           push: true
           file: ./compute/gateway/stg/nginx/Dockerfile
-          tags: ghcr.io/tmlmobilidade/go-infra-gateway-stg:${{ github.ref_name }}
+          tags: ghcr.io/tmlmobilidade/go-infra-stg-gateway:${{ github.ref_name }}

@@ -1,7 +1,0 @@
-apiVersion: kustomize.config.k8s.io/v1beta1
-kind: Kustomization
-# This directory holds PR-specific overlays.
-# Each PR gets a subdirectory (pr-{number}/) with its own namespaces and HelmReleases.
-# The GitHub Action creates/updates these directories when PRs are opened or updated.
-# Flux watches this directory and reconciles all PR overlays.
-resources: []

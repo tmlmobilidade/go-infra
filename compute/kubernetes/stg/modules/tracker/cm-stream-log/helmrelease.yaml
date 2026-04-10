@@ -19,19 +19,14 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: tracker-cm-stream-log
     module: tracker
-    namespace: stg-tracker
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-tracker-cm-stream-log
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: false
     secrets:
       - stg-platform-storage
     env: []
+    environment: stg
+    app: cm-stream-log

@@ -19,19 +19,14 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: performance-sync-metrics-hourly
     module: performance
-    namespace: stg-performance
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-performance-sync-metrics-hourly
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: false
     secrets:
       - stg-platform-storage
     env: []
+    environment: stg
+    app: sync-metrics-hourly

@@ -19,19 +19,14 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: stops-organizer
     module: stops
-    namespace: stg-stops
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-stops-organizer
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: false
     secrets:
       - stg-platform-storage
     env: []
+    environment: stg
+    app: organizer

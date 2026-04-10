@@ -19,19 +19,14 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: controller-rides-bridge
     module: controller
-    namespace: stg-controller
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-controller-rides-bridge
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: false
     secrets:
       - stg-platform-storage
     env: []
+    environment: stg
+    app: rides-bridge

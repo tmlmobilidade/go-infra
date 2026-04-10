@@ -19,24 +19,17 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: dates-frontend
     module: dates
-    namespace: stg-dates
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-dates-frontend
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 3000
     ingress:
       enabled: true
-      className: nginx
-      host: go-stg.tmlmobilidade.pt
       path: /dates
       pathType: Prefix
     secrets:
       - stg-platform-email
       - stg-platform-storage
     env: []
+    environment: stg
+    app: frontend

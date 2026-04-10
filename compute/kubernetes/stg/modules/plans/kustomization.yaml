@@ -1,9 +1,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - shared-secrets.1passworditem.yaml
+  - module-secrets.1passworditem.yaml
   - platform-secrets.1passworditem.yaml
-  - api
-  - cleaner
-  - frontend
-  - validator
+  - api/helmrelease.yaml
+  - cleaner/helmrelease.yaml
+  - frontend/helmrelease.yaml
+  - validator/helmrelease.yaml

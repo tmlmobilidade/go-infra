@@ -1,227 +1,166 @@
 # # #
 
-name: Create Preview Environment
+name: Preview Environment
 
 on:
   repository_dispatch:
     types: [preview-pr]
 
 concurrency:
-  group: pr-${{ github.event.client_payload.pr }}
-  cancel-in-progress: true
+  group: pr-overlays
+  cancel-in-progress: false
 
 jobs:
 
-  generate-k8s-manifests:
-    if: github.event.action != 'closed'
+  create-preview:
+    if: github.event.client_payload.pr_state == 'open'
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
 
       - name: Checkout repository
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
+
+      - name: Install yq
+        uses: mikefarah/yq@master
 
       - name: Generate PR overlay manifests
+        env:
+          PR_NUMBER: ${{ github.event.client_payload.pr_number }}
         run: |
           set -euo pipefail
 
-          PR_DIR="compute/kubernetes/stg/modules/pr-overlays/pr-${{ github.event.client_payload.pr }}"
+          PR_DIR="compute/kubernetes/stg/pr-overlays/pr-${PR_NUMBER}"
+          STG_MODULES="compute/kubernetes/stg/modules"
           mkdir -p "$PR_DIR"
 
-          # Define apps per module
-          declare -A APPS=(
-            [alerts]="api frontend organizer"
-            [apex]="organizer stream sync-locations sync-on-board-refunds sync-on-board-sales sync-validations"
-            [auth]="api cleaner frontend"
-          )
-
-          # Define ports (default 5050, 3000 for frontends)
-          declare -A PORTS=(
-            [alerts_frontend]=3000
-            [auth_frontend]=3000
-          )
-
-          # Shared platform capabilities available in stg.
-          PLATFORM_CAPABILITIES=(
-            environment
-            storage
-            email
-            pcgi-legacy
-            pcgi-validations
-            pcgi-ticketing
-            pcgi-file-manager
-          )
-
-          # Generate namespace + module/platform OnePasswordItem manifests
-          for MODULE in alerts apex auth; do
-            cat > "$PR_DIR/${MODULE}-namespace.yaml" <<EOF
+          # --- 1. Namespaces: pr-{N}-{module} ---
+          FIRST=true
+          for MODULE_DIR in "$STG_MODULES"/*/; do
+            MODULE=$(basename "$MODULE_DIR")
+            [[ ! -f "$MODULE_DIR/module-secrets.1passworditem.yaml" ]] && continue
+            if [ "$FIRST" = true ]; then FIRST=false; else echo "---" >> "$PR_DIR/namespaces.yaml"; fi
+            cat >> "$PR_DIR/namespaces.yaml" <<EOF
           apiVersion: v1
           kind: Namespace
           metadata:
-            name: ${MODULE}-stg-pr-${{ github.event.client_payload.pr }}
-          EOF
-
-            cat > "$PR_DIR/${MODULE}-module-shared.1passworditem.yaml" <<EOF
-          apiVersion: onepassword.com/v1
-          kind: OnePasswordItem
-          metadata:
-            name: ${MODULE}-shared-stg
-            namespace: ${MODULE}-stg-pr-${{ github.event.client_payload.pr }}
+            name: pr-${PR_NUMBER}-${MODULE}
             annotations:
               operator.1password.io/auto-restart: "true"
-          spec:
-            itemPath: vaults/go-prd/items/${MODULE}-shared-stg
           EOF
+          done
 
-            for CAPABILITY in "${PLATFORM_CAPABILITIES[@]}"; do
-              cat > "$PR_DIR/${MODULE}-platform-${CAPABILITY}.1passworditem.yaml" <<EOF
-          apiVersion: onepassword.com/v1
-          kind: OnePasswordItem
-          metadata:
-            name: platform-${CAPABILITY}-stg
-            namespace: ${MODULE}-stg-pr-${{ github.event.client_payload.pr }}
-            annotations:
-              operator.1password.io/auto-restart: "true"
-          spec:
-            itemPath: vaults/go-prd/items/platform-${CAPABILITY}-stg
-          EOF
+          # --- 2. Secrets: copy from STG templates, update namespace ---
+          for MODULE_DIR in "$STG_MODULES"/*/; do
+            MODULE=$(basename "$MODULE_DIR")
+            for SECRET_FILE in "$MODULE_DIR"/module-secrets.1passworditem.yaml "$MODULE_DIR"/platform-secrets.1passworditem.yaml; do
+              [[ ! -f "$SECRET_FILE" ]] && continue
+              BASENAME=$(basename "$SECRET_FILE")
+              yq eval-all ".metadata.namespace = \"pr-${PR_NUMBER}-${MODULE}\"" "$SECRET_FILE" \
+                > "$PR_DIR/${MODULE}-${BASENAME}"
             done
           done
 
-          # Generate app OnePasswordItem + HelmRelease for each app
-          for MODULE in alerts apex auth; do
-            for APP in ${APPS[$MODULE]}; do
-              # Determine port
-              PORT=${PORTS[${MODULE}_${APP}]:-5050}
-              # Determine if ingress should be enabled
-              if [[ $APP == "api" ]] || [[ $APP == "frontend" ]]; then
-                INGRESS_ENABLED="true"
-              else
-                INGRESS_ENABLED="false"
-              fi
+          # --- 3. HelmReleases: transform STG templates for this PR ---
+          for MODULE_DIR in "$STG_MODULES"/*/; do
+            MODULE=$(basename "$MODULE_DIR")
+            for APP_DIR in "$MODULE_DIR"/*/; do
+              [[ ! -f "$APP_DIR/helmrelease.yaml" ]] && continue
+              APP=$(basename "$APP_DIR")
 
-              # App-specific secret for this PR namespace
-              cat > "$PR_DIR/${MODULE}-${APP}.1passworditem.yaml" <<EOF
-          apiVersion: onepassword.com/v1
-          kind: OnePasswordItem
-          metadata:
-            name: ${MODULE}-${APP}-stg
-            namespace: ${MODULE}-stg-pr-${{ github.event.client_payload.pr }}
-            annotations:
-              operator.1password.io/auto-restart: "true"
-          spec:
-            itemPath: vaults/go-prd/items/${MODULE}-${APP}-stg
-          EOF
-
-              PLATFORM_SECRETS="      - platform-environment-stg"
-              if [[ $APP == "api" ]] || [[ $APP == "frontend" ]]; then
-                PLATFORM_SECRETS="$PLATFORM_SECRETS\n      - platform-email-stg\n      - platform-storage-stg"
-              else
-                PLATFORM_SECRETS="$PLATFORM_SECRETS\n      - platform-storage-stg"
-              fi
-
-              cat > "$PR_DIR/${MODULE}-${APP}.yaml" <<EOF
-          apiVersion: helm.toolkit.fluxcd.io/v2
-          kind: HelmRelease
-          metadata:
-            name: ${MODULE}-${APP}
-            namespace: flux-system
-          spec:
-            interval: 5m
-            dependsOn:
-              - name: onepassword-connect
-            targetNamespace: ${MODULE}-stg-pr-${{ github.event.client_payload.pr }}
-            install:
-              createNamespace: true
-            chart:
-              spec:
-                chart: compute/kubernetes/charts/go-app
-                sourceRef:
-                  kind: GitRepository
-                  name: flux-system
-                  namespace: flux-system
-                reconcileStrategy: Revision
-            values:
-              name: ${MODULE}-${APP}
-              module: ${MODULE}
-              namespace: ${MODULE}-stg-pr-${{ github.event.client_payload.pr }}
-              replicas: 1
-              image:
-                repository: ghcr.io/tmlmobilidade/go-${MODULE}-${APP}
-                tag: pr-${{ github.event.client_payload.pr }}
-                pullPolicy: Always
-              service:
-                port: 80
-                targetPort: ${PORT}
-              ingress:
-                enabled: ${INGRESS_ENABLED}
-                className: nginx
-                host: pr-${{ github.event.client_payload.pr }}.go-stg.tmlmobilidade.pt
-                path: /${MODULE}$([[ $APP == api ]] && echo "/api" || echo "")(/|$$)(.*)
-                pathType: ImplementationSpecific
-                annotations:
-                  nginx.ingress.kubernetes.io/use-regex: "true"
-                  nginx.ingress.kubernetes.io/rewrite-target: /$$2
-              secrets:
-          $(echo -e "$PLATFORM_SECRETS")
-              env: []
-          EOF
+              yq eval '
+                .metadata.name = "pr-'"${PR_NUMBER}"'-" + .spec.values.module + "-" + .spec.values.app |
+                .spec.targetNamespace = "pr-'"${PR_NUMBER}"'-" + .spec.values.module |
+                .spec.values.environment = "pr-'"${PR_NUMBER}"'" |
+                .spec.values.ingress.host = "pr-'"${PR_NUMBER}"'.go-stg.tmlmobilidade.pt"
+              ' "$APP_DIR/helmrelease.yaml" > "$PR_DIR/${MODULE}-${APP}.yaml"
             done
           done
 
-          # Generate kustomization.yaml
-          RESOURCES=""
-          for MODULE in alerts apex auth; do
-            RESOURCES="$RESOURCES  - ${MODULE}-namespace.yaml\n"
-            RESOURCES="$RESOURCES  - ${MODULE}-module-shared.1passworditem.yaml\n"
-            for CAPABILITY in "${PLATFORM_CAPABILITIES[@]}"; do
-              RESOURCES="$RESOURCES  - ${MODULE}-platform-${CAPABILITY}.1passworditem.yaml\n"
+          # --- 4. Kustomization for this PR directory ---
+          {
+            echo "apiVersion: kustomize.config.k8s.io/v1beta1"
+            echo "kind: Kustomization"
+            echo "resources:"
+            echo "  - namespaces.yaml"
+            for f in "$PR_DIR"/*.1passworditem.yaml; do
+              [[ -f "$f" ]] && echo "  - $(basename "$f")"
             done
-            for APP in ${APPS[$MODULE]}; do
-              RESOURCES="$RESOURCES  - ${MODULE}-${APP}.1passworditem.yaml\n"
-              RESOURCES="$RESOURCES  - ${MODULE}-${APP}.yaml\n"
+            for f in "$PR_DIR"/*.yaml; do
+              BASENAME=$(basename "$f")
+              [[ "$BASENAME" == "kustomization.yaml" || "$BASENAME" == "namespaces.yaml" || "$BASENAME" == *.1passworditem.yaml ]] && continue
+              echo "  - $BASENAME"
             done
-          done
+          } > "$PR_DIR/kustomization.yaml"
 
-          cat > "$PR_DIR/kustomization.yaml" <<EOF
-          apiVersion: kustomize.config.k8s.io/v1beta1
-          kind: Kustomization
-          resources:
-          $(echo -e "$RESOURCES")
-          EOF
+          # --- 5. Update parent kustomization ---
+          {
+            echo "apiVersion: kustomize.config.k8s.io/v1beta1"
+            echo "kind: Kustomization"
+            echo "resources:"
+            HAS_DIRS=false
+            for d in compute/kubernetes/stg/pr-overlays/pr-*/; do
+              [[ ! -d "$d" ]] && continue
+              echo "  - $(basename "$d")"
+              HAS_DIRS=true
+            done
+            if [ "$HAS_DIRS" = false ]; then echo "  []"; fi
+          } > compute/kubernetes/stg/pr-overlays/kustomization.yaml
 
-          echo "Generated manifests in $PR_DIR"
-          ls -la "$PR_DIR"
+          echo "Generated PR overlay in $PR_DIR"
+          ls "$PR_DIR"
 
-      - name: Commit manifest changes
+      - name: Commit and push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add compute/kubernetes/stg/modules/pr-overlays/pr-${{ github.event.client_payload.pr }}/
-          git commit -m "chore: generate k8s manifests for PR #${{ github.event.client_payload.pr }}" || echo "No changes to commit"
+          git add compute/kubernetes/stg/pr-overlays/
+          git commit -m "chore: create preview environment for PR #${PR_NUMBER}"
+          git pull --rebase
           git push
 
-  cleanup-closed-pr:
-    if: github.event.action == 'closed'
+  cleanup-preview:
+    if: github.event.client_payload.pr_state == 'closed'
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - name: Checkout infra repo
-        uses: actions/checkout@v4
-        with:
-          repository: tmlmobilidade/go-infra
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Remove PR overlay on close
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Remove PR overlay
+        env:
+          PR_NUMBER: ${{ github.event.client_payload.pr_number }}
         run: |
-          PR_DIR="compute/kubernetes/stg/modules/pr-overlays/pr-${{ github.event.client_payload.pr }}"
-          if [ -d "$PR_DIR" ]; then
-            rm -rf "$PR_DIR"
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add compute/kubernetes/stg/modules/pr-overlays/
-            git commit -m "chore: remove k8s manifests for closed PR #${{ github.event.client_payload.pr }}"
-            git push
+          set -euo pipefail
+
+          PR_DIR="compute/kubernetes/stg/pr-overlays/pr-${PR_NUMBER}"
+          if [ ! -d "$PR_DIR" ]; then
+            echo "PR directory $PR_DIR does not exist, nothing to clean up"
+            exit 0
           fi
+
+          rm -rf "$PR_DIR"
+
+          # Regenerate parent kustomization
+          {
+            echo "apiVersion: kustomize.config.k8s.io/v1beta1"
+            echo "kind: Kustomization"
+            echo "resources:"
+            HAS_DIRS=false
+            for d in compute/kubernetes/stg/pr-overlays/pr-*/; do
+              [[ ! -d "$d" ]] && continue
+              echo "  - $(basename "$d")"
+              HAS_DIRS=true
+            done
+            if [ "$HAS_DIRS" = false ]; then echo "  []"; fi
+          } > compute/kubernetes/stg/pr-overlays/kustomization.yaml
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add compute/kubernetes/stg/pr-overlays/
+          git commit -m "chore: remove preview environment for PR #${PR_NUMBER}"
+          git pull --rebase
+          git push

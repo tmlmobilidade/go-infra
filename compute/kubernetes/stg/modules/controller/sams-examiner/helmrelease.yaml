@@ -19,19 +19,14 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: controller-sams-examiner
     module: controller
-    namespace: stg-controller
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-controller-sams-examiner
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: false
     secrets:
       - stg-platform-storage
     env: []
+    environment: stg
+    app: sams-examiner

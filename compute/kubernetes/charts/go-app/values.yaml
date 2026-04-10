@@ -1,35 +1,18 @@
-name: app
-module: module
 environment: environment
+module: module
+app: app
 
 replicas: 1
 
-image:
-  repository: ghcr.io/tmlmobilidade/go-app
-  tag: latest
-  pullPolicy: Always
-
 service:
-  port: 80
   targetPort: 5050
 
 ingress:
   enabled: false
-  className: nginx
-  host: go.tmlmobilidade.pt
   path: /
   pathType: Prefix
   annotations: {}
 
-# Secrets strategy:
-# 1. Automatically added: {env}-app-{module}-{app} and {env}-module-{module}
-# 2. Opt-in platform capabilities: {env}-platform-{capability}
-#    (only those listed here are injected into this app)
 secrets: []
-# Examples:
-#   - prd-platform-email
-#   - prd-platform-storage
-#   - stg-platform-environment
 
-# App-specific env vars (optional)
 env: []

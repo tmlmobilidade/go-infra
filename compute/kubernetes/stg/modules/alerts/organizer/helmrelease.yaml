@@ -19,16 +19,11 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: alerts-organizer
+    environment: stg
+    app: organizer
     module: alerts
-    namespace: stg-alerts
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-alerts-organizer
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: false

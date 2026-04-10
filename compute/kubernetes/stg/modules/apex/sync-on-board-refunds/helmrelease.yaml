@@ -19,19 +19,14 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: apex-sync-on-board-refunds
     module: apex
-    namespace: stg-apex
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-apex-sync-on-board-refunds
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: false
     secrets:
       - stg-platform-storage
     env: []
+    environment: stg
+    app: sync-on-board-refunds

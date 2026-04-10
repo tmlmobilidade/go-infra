@@ -19,19 +19,14 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: exporter-export-drt
     module: exporter
-    namespace: stg-exporter
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-exporter-export-drt
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: false
     secrets:
       - stg-platform-storage
     env: []
+    environment: stg
+    app: export-drt

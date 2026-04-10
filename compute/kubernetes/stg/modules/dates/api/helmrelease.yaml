@@ -19,21 +19,12 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: dates-api
     module: dates
-    namespace: stg-dates
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-dates-api
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: true
-      className: nginx
-      host: go-stg.tmlmobilidade.pt
       path: /dates/api(/|$)(.*)
       pathType: ImplementationSpecific
       annotations:
@@ -43,3 +34,5 @@ spec:
       - stg-platform-email
       - stg-platform-storage
     env: []
+    environment: stg
+    app: api

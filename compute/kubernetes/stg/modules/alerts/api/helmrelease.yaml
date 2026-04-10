@@ -19,21 +19,12 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: alerts-api
     module: alerts
-    namespace: stg-alerts
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-alerts-api
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: true
-      className: nginx
-      host: go-stg.tmlmobilidade.pt
       path: /alerts/api(/|$)(.*)
       pathType: ImplementationSpecific
       annotations:
@@ -43,3 +34,5 @@ spec:
       - stg-platform-email
       - stg-platform-storage
     env: []
+    environment: stg
+    app: api

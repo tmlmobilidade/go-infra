@@ -19,16 +19,11 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: auth-cleaner
+    environment: prd
     module: auth
-    namespace: prd-auth
+    app: cleaner
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-auth-cleaner
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: false

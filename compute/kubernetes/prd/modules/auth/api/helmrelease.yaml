@@ -27,8 +27,7 @@ spec:
       targetPort: 5050
     ingress:
       enabled: true
-      className: nginx
-      host: go-stg.tmlmobilidade.pt
+      subdomain: go
       path: /auth/api(/|$)(.*)
       pathType: ImplementationSpecific
       annotations:

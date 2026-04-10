@@ -70,7 +70,7 @@ resource "oci_core_instance" "gateway" {
 		ssh_authorized_keys = local.ssh_authorized_keys
 		# cloud-init runs on first boot and configures Gateway.
 		# All node IPs are known at plan time (static assignment) so they are injected here.
-		user_data = base64encode(templatefile("${path.module}/templates/cloud-init.yaml"))
+		user_data = base64encode(file("${path.module}/templates/cloud-init.yaml"))
 	}
 
 	freeform_tags = {

@@ -8,5 +8,5 @@ output "instance_private_ip" {
 
 output "ssh_command" {
 	description = "SSH command to connect to the JumpServer instance."
-	value = "ssh -i <private-key-path> ubuntu@${oci_core_instance.gateway.public_ip}"
+	value = "ssh ubuntu@${oci_core_instance.gateway.public_ip}"
 }

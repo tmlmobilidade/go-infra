@@ -19,16 +19,11 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: tracker-clickhouse-sync
+    environment: prd
     module: tracker
-    namespace: prd-tracker
+    app: clickhouse-sync
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-tracker-clickhouse-sync
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: false

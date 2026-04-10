@@ -19,16 +19,11 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: stops-organizer
+    environment: prd
     module: stops
-    namespace: prd-stops
+    app: organizer
     replicas: 1
-    image:
-      repository: ghcr.io/tmlmobilidade/go-stops-organizer
-      tag: staging
-      pullPolicy: Always
     service:
-      port: 80
       targetPort: 5050
     ingress:
       enabled: false

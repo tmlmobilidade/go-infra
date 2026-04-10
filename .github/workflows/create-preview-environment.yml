@@ -18,11 +18,9 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout infra repo
-        uses: actions/checkout@v4
-        with:
-          repository: tmlmobilidade/go-infra
-          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v5
 
       - name: Generate PR overlay manifests
         run: |

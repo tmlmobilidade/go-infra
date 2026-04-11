@@ -5,7 +5,7 @@ volumes:
 
 secrets:
   cloudflaretoken:
-    file: ./secrets/cloudflare-token.ini
+    file: ./secrets/cloudflare.token
 
 services:
 

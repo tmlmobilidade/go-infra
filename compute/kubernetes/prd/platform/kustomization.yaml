@@ -5,3 +5,4 @@ resources:
   - ingress-nginx.yaml
   - onepassword-connect.yaml
   - keel.yaml
+  - evicted-pod-cleanup.yaml

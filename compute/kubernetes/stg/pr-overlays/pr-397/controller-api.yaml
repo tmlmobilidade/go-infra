@@ -1,0 +1,39 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pr-397-controller-api
+  namespace: flux-system
+spec:
+  interval: 5m
+  dependsOn:
+    - name: onepassword-connect
+  targetNamespace: pr-397-controller
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: compute/kubernetes/charts/go-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    module: controller
+    replicas: 1
+    service:
+      targetPort: 5050
+    ingress:
+      enabled: true
+      path: /controller/api(/|$)(.*)
+      pathType: ImplementationSpecific
+      annotations:
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
+      host: pr-397.go-stg.tmlmobilidade.pt
+    secrets:
+      - stg-platform-email
+      - stg-platform-storage
+    env: []
+    environment: pr-397
+    app: api

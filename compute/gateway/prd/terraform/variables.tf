@@ -91,7 +91,7 @@ variable "base_image_ocid" {
 	It is recommended to use a *minimal* Ubuntu image to reduce the final image size.
 	This should be regularly updated to the latest available minimal Ubuntu image.
 	EOT
-	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa7vyrjtu2nqpzkcbsp5pnv7rn62voqgph32ab6yd7sinkeyorruma"
+	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaacdnlkdr7yezgqqk2osp4zd6mwfvlfvrnnodoectekyvgnlf57aeq"
 }
 
 variable "vm_shape" {

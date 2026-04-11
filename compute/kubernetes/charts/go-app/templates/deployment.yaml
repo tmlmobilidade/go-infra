@@ -32,6 +32,15 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: {{ .Values.service.targetPort }}
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+              ephemeral-storage: "200Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+              ephemeral-storage: "1Gi"
           envFrom:
             {{- range .Values.secrets }}
             - secretRef:

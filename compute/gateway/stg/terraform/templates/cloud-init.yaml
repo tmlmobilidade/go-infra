@@ -17,6 +17,7 @@ runcmd:
   # This is needed for Certbot to obtain and renew SSL certificates for the Gateway.
   # The token is injected via Terraform as a base64-encoded string.
 
+  - mkdir -p /opt/app/secrets
   - echo "${base64encode(cloudflare_token_file)}" | base64 -d > /opt/app/secrets/cloudflare.token
   - chmod 400 /opt/app/secrets/cloudflare.token
   - chown 999:999 /opt/app/secrets/cloudflare.token

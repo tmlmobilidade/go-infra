@@ -92,7 +92,7 @@ variable "base_image_ocid" {
 	This should be regularly updated to the latest available minimal Ubuntu image.
 	Current image is set to: Canonical-Ubuntu-24.04-Minimal-aarch64-2026.02.28-0"
 	EOT
-	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaabqpkovk5ormrsmgww4fk4thhvkijpqxdcvgmyoqednkiehe6eroq"
+	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaa4wr7dui3ov6lbumw7kfs6tdftfgagbvmvcaraipvk6jm72tailpq"
 }
 
 variable "vm_shape" {

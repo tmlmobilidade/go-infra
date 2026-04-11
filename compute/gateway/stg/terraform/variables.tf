@@ -4,7 +4,7 @@
 variable "display_name" {
 	type = string
 	description = "The name of the deployment. Used as the display name for resource names and tags."
-	default = "iso-go-prd-gateway"
+	default = "iso-go-stg-gateway"
 }
 
 
@@ -44,9 +44,9 @@ variable "compartment_ocid" {
 	type = string
 	description = <<-EOT
 	The OCID of the compartment where resources will be created in.
-	Current compartment is set to: go-prd
+	Current compartment is set to: go-stg
 	EOT
-	default = "ocid1.compartment.oc1..aaaaaaaade3kztlncv2ydpnbb5jl5hl6yqxyhkmezxhtj5dfjzsv27i3wf5a"
+	default = "ocid1.compartment.oc1..aaaaaaaanljo4qhg4wnwjpul5seazrticeyswmx5zt7f64ekfewpr6y6mbva"
 }
 
 variable "availability_domain" {
@@ -68,7 +68,7 @@ variable "region" {
 variable "subnet_ocid" {
 	type = string
 	description = "OCID of the existing subnet to attach instances to."
-	default = "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaap4iuqtem64qsbejvu73u7ssm5n3eaa7ggds76zsokytka24q5pna"
+	default = "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaabxgcifumk7or4z5kbdj6l6tkox3xqzpnmvhmq3l5hruveil4ze3q"
 }
 
 variable "private_ip" {
@@ -77,7 +77,7 @@ variable "private_ip" {
 	Static private IP address to assign to the instance.
 	Must be free within the existing subnet — verify in OCI Console > Networking before applying.
 	EOT
-	default = "10.81.101.2"
+	default = "10.91.101.2"
 }
 
 

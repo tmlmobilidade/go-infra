@@ -41,7 +41,7 @@ services:
   # # # # # # # # # # # # # # # # # # # # #
 
   certbot:
-    image: certbot/certbot
+    image: ghcr.io/tmlmobilidade/go-infra-stg-certbot:production
     restart: unless-stopped
     mem_limit: 2g
     volumes:

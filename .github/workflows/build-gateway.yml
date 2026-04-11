@@ -16,7 +16,7 @@ jobs:
   # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # #
 
-  prd:
+  prd-gateway:
     runs-on: ubuntu-24.04-arm
     permissions:
       contents: read
@@ -44,7 +44,7 @@ jobs:
   # # # # # # # # # # # # # # # # # # # #
   # # # # # # # # # # # # # # # # # # # #
 
-  stg:
+  stg-gateway:
     runs-on: ubuntu-24.04-arm
     permissions:
       contents: read
@@ -68,3 +68,31 @@ jobs:
           push: true
           file: ./compute/gateway/stg/nginx/Dockerfile
           tags: ghcr.io/tmlmobilidade/go-infra-stg-gateway:${{ github.ref_name }}
+
+  # # # # # # # # # # # # # # # # # # # #
+  # # # # # # # # # # # # # # # # # # # #
+
+  stg-certbot:
+    runs-on: ubuntu-24.04-arm
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@master
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@master
+        with:
+          push: true
+          file: ./compute/gateway/stg/certbot/Dockerfile
+          tags: ghcr.io/tmlmobilidade/go-infra-stg-certbot:${{ github.ref_name }}

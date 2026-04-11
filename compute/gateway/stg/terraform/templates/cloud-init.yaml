@@ -19,6 +19,9 @@ runcmd:
 
   - cd /opt/app
   - docker compose up -d --build --force-recreate --remove-orphans --pull=always
-  - sh init-letsencrypt.sh
+
+  # This is intentionally disabled because wildcard certificates (*.sub.domain.com)
+  # must be obtained manually via DNS validation, which requires Cloudflare Dashboard access.
+  # - sh init-letsencrypt.sh
 
 final_message: "Gateway configuration complete."

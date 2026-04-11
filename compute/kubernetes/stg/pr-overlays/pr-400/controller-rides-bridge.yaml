@@ -1,0 +1,33 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pr-400-controller-rides-bridge
+  namespace: flux-system
+spec:
+  interval: 5m
+  dependsOn:
+    - name: onepassword-connect
+  targetNamespace: pr-400-controller
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: compute/kubernetes/charts/go-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    module: controller
+    replicas: 1
+    service:
+      targetPort: 5050
+    ingress:
+      enabled: false
+      host: pr-400.go-stg.tmlmobilidade.pt
+    secrets:
+      - stg-platform-storage
+    env: []
+    environment: pr-400
+    app: rides-bridge

@@ -1,0 +1,90 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-400-alerts
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-400-apex
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-400-auth
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-400-controller
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-400-dates
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-400-exporter
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-400-fleet
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-400-locations
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-400-offer
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-400-performance
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-400-plans
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-400-stops
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-400-tracker
+  annotations:
+    operator.1password.io/auto-restart: "true"

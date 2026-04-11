@@ -13,7 +13,7 @@ concurrency:
 jobs:
 
   create-preview:
-    if: github.event.client_payload.pr_action == 'opened'
+    if: github.event.client_payload.pr_action == 'opened' || github.event.client_payload.pr_action == 'reopened'
     runs-on: ubuntu-latest
     permissions:
       contents: write

@@ -118,3 +118,13 @@ variable "boot_volume_size_in_gbs" {
 	description = "Boot volume size in GBs."
 	default = 50
 }
+
+
+# # #
+# SECRETS
+
+variable "cloudflare_token_file" {
+	type = string
+	sensitive = true
+	description = "Cloudflare API token used by Certbot."
+}

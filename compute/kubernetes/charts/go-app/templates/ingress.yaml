@@ -16,7 +16,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: {{ if eq .Values.environment "prd" }}"go.tmlmobilidade.pt"{{ else }}"{{ .Values.ingress.environment }}.go-stg.tmlmobilidade.pt"{{ end }}
+    - host: {{ if eq .Values.environment "prd" }}"go.tmlmobilidade.pt"{{ else }}"{{ .Values.environment }}.go-stg.tmlmobilidade.pt"{{ end }}
       http:
         paths:
           - path: {{ .Values.ingress.path }}

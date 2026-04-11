@@ -14,6 +14,8 @@ WORKDIR /app
 
 COPY ./compute/gateway/stg/nginx/nginx.conf /etc/nginx/nginx.conf
 
+COPY ./compute/gateway/prd/nginx/errors /var/www/html
+
 
 # # #
 # RUN NGINX WITH AUTO RELOAD

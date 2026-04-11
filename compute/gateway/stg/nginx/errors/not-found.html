@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+	<meta charset="UTF-8">
+	<title>GO | 404 Not Found</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Jersey+25&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+	<style>
+		* {
+			box-sizing: border-box;
+			margin: 0;
+			padding: 0;
+			color: white;
+			text-decoration: none;
+			letter-spacing: 0.5px;
+			font-family: "Work Sans", sans-serif;
+		}
+		body {
+			font-style: normal;
+			line-height: 1.8;
+			background-color: rgb(45, 15, 115);
+		}
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 30px;
+			text-align: center;
+			height: 100vh;
+			width: 100%;
+			max-width: 500px;
+			margin: auto;
+		}
+		.title {
+			font-family: "Jersey 25", sans-serif;
+			font-weight: 400;
+			font-size: 70px;
+			line-height: 1;
+			letter-spacing: 0;
+			text-transform: uppercase;
+			opacity: 0.5;
+		}
+		.text {
+			font-weight: 500;
+			font-size: 18px;
+		}
+		.status-link {
+			text-transform: uppercase;
+			font-weight: 600;
+			font-size: 14px;
+			opacity: 0.5;
+		}
+		.status-link:hover {
+			text-decoration: underline;
+			opacity: 0.75;
+		}
+		.retry {
+			font-weight: 600;
+			font-size: 20px;
+			opacity: 0;
+			transition: opacity 0.3s ease;
+		}
+	</style>
+
+	<div class="container">
+		<h1 class="title">404</h1>
+		<p class="text">O recurso que procura não está disponível nesta página. A equipa está a ser notificada neste exato momento para corrigir a situação.</p>
+		<p class="text" style="font-size:14px;text-transform: uppercase;">Notificações enviadas até agora: <span id="counter">0</span></p>
+		<a id="link" class="status-link" href="https://status.carrismetropolitana.pt/status/go" target="_blank" rel="noopener noreferrer">Ver Estado</a>
+		<p id="retry" class="retry">A tentar novamente...</p>
+	</div>
+
+
+	<script>
+
+		/**
+		 * Increases the notification counter
+		 * displayed on the page.
+		 */
+		function increaseCounter() {
+			const counterElem = document.getElementById("counter");
+			let counterValue = parseInt(counterElem.innerText);
+			counterElem.innerText = counterValue + 1;
+		}
+
+		/**
+		 * Sends a ping to the status API
+		 * to notify about the error.
+		 */
+		function ping() {
+			// Generic ping URL
+			let pingUrl = "https://status.carrismetropolitana.pt/api/push/6Y8qbM6kz52yK5JnYZfbAOS8RN11FINr?status=down&msg=NOK&ping=";
+			// Customize ping URL based on the current path
+			if (window.location.pathname.startsWith("/alerts")) pingUrl = "https://status.carrismetropolitana.pt/api/push/PTgVOXKYmTNMDdFKhJhowOCZuz5BFr58?status=down&msg=NOK&ping=";
+			if (window.location.pathname.startsWith("/auth")) pingUrl = "https://status.carrismetropolitana.pt/api/push/HneRxxJeybvRYe83p8WaS0Q5S4UHSSyq?status=down&msg=NOK&ping=";
+			if (window.location.pathname.startsWith("/controller")) pingUrl = "https://status.carrismetropolitana.pt/api/push/A97Y1RYRjy0lH4pOTwW3qmPDjhiDnqW5?status=down&msg=NOK&ping=";
+			if (window.location.pathname.startsWith("/exporter")) pingUrl = "https://status.carrismetropolitana.pt/api/push/Z8bUQNRaTEF1QeXhuuuI9UkuT7qORYgX?status=down&msg=NOK&ping=";
+			if (window.location.pathname.startsWith("/locations")) pingUrl = "https://status.carrismetropolitana.pt/api/push/9kyxYSUTrPa8NviJExD9taiCCV5ROnFu?status=down&msg=NOK&ping=";
+			if (window.location.pathname.startsWith("/performance")) pingUrl = "https://status.carrismetropolitana.pt/api/push/3jIWuUV43OXgSdv1cmV4G4G3Fs6xNt2G?status=down&msg=NOK&ping=";
+			if (window.location.pathname.startsWith("/plans")) pingUrl = "https://status.carrismetropolitana.pt/api/push/87StVYwQPvQd78uEh1db2nLuOaPDhnLo?status=down&msg=NOK&ping=";
+			if (window.location.pathname.startsWith("/stops")) pingUrl = "https://status.carrismetropolitana.pt/api/push/zKnHYH5pgnpkKzCLu4eP4zvLDFHmYwJV?status=down&msg=NOK&ping=";
+			// Actually send the ping request
+			fetch(pingUrl).then(increaseCounter).catch(err => console.error("Request failed:", err));
+		}
+
+		/**
+		 * Reloads the page after a timeout
+		 * to try again.
+		 */
+		function reloadPage() {
+			document.getElementById("retry").style.opacity = 1;
+			setTimeout(() => window.location.reload(), 3_000);
+		}
+
+		//
+		// Send the first ping immediately
+		// and then every 5 seconds.
+
+		ping();
+		setInterval(ping, 1_000);
+
+		//
+		// After 15 seconds elapsed,
+		// reload the page to try again.
+
+		setTimeout(reloadPage, 15_000);
+
+	</script>
+
+</body>
+</html>

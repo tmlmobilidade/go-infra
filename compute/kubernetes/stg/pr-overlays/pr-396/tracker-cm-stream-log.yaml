@@ -1,0 +1,33 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pr-396-tracker-cm-stream-log
+  namespace: flux-system
+spec:
+  interval: 5m
+  dependsOn:
+    - name: onepassword-connect
+  targetNamespace: pr-396-tracker
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: compute/kubernetes/charts/go-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    module: tracker
+    replicas: 1
+    service:
+      targetPort: 5050
+    ingress:
+      enabled: false
+      host: pr-396.go-stg.tmlmobilidade.pt
+    secrets:
+      - stg-platform-storage
+    env: []
+    environment: pr-396
+    app: cm-stream-log

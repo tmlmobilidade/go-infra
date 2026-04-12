@@ -31,12 +31,6 @@ variable "private_key_path" {
 	description = "The file path to the private key for OCI API authentication."
 }
 
-variable "ssh_authorized_keys_path" {
-	type = string
-	description = "The file path to the SSH authorized keys to allow node access."
-}
-
-
 # # #
 # OCI PLACEMENT
 
@@ -99,36 +93,12 @@ variable "pool_count" {
 
 variable "node_count" {
 	type = number
-	description = "Number of worker nodes in the node pool."
+	description = "Number of virtual nodes in the node pool."
 	default = 3
 }
 
-variable "node_shape" {
+variable "pod_shape" {
 	type = string
-	description = "The shape of the worker node VMs."
-	default = "VM.Standard.E4.Flex"
-}
-
-variable "node_ocpus" {
-	type = number
-	description = "Number of OCPUs per worker node."
-	default = 12
-}
-
-variable "node_memory_in_gbs" {
-	type = number
-	description = "Memory in GBs per worker node."
-	default = 24
-}
-
-variable "boot_volume_size_in_gbs" {
-	type = number
-	description = "Boot volume size in GBs per worker node."
-	default = 512
-}
-
-variable "node_image_ocid" {
-	type = string
-	description = "OCID of the node image."
-	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaakody3skel6vnm7jufupaf6tm5zkq7slcl2fblbe23omjks6ytr5q"
+	description = "The shape of the virtual node pods."
+	default = "Pod.Standard.A1.Flex"
 }

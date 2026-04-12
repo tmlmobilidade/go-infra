@@ -36,11 +36,9 @@ spec:
             requests:
               cpu: "100m"
               memory: "128Mi"
-              ephemeral-storage: "50Mi"
             limits:
               cpu: "500m"
               memory: "512Mi"
-              ephemeral-storage: "256Mi"
           envFrom:
             {{- range .Values.secrets }}
             - secretRef:

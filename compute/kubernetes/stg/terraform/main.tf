@@ -48,6 +48,7 @@ resource "oci_containerengine_cluster" "cluster" {
 	compartment_id = var.compartment_ocid
 	vcn_id = var.vcn_ocid
 	kubernetes_version = var.kubernetes_version
+	type = "ENHANCED_CLUSTER"
 
 	endpoint_config {
 		is_public_ip_enabled = false
@@ -105,6 +106,23 @@ resource "oci_containerengine_node_pool" "node_pool" {
 		source_type = "IMAGE"
 		image_id = var.node_image_ocid
 		boot_volume_size_in_gbs = var.boot_volume_size_in_gbs
+	}
+
+	node_pool_cycling_details {
+		maximum_surge = 1
+	}
+
+	node_metadata = {
+		# Extend the root filesystem to use the full boot volume size.
+		# OCI provisions the boot volume at the requested size but Oracle Linux
+		# images ship with a small root partition (~36 GB). oci-growfs extends
+		# the last partition and resizes the filesystem to fill the disk.
+		user_data = base64encode(<<-EOF
+			#cloud-config
+			runcmd:
+			  - /usr/libexec/oci-growfs -y
+			EOF
+		)
 	}
 
 	freeform_tags = {

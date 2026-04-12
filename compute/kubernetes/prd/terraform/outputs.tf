@@ -16,7 +16,7 @@ output "kubeconfig_command" {
 	value = "oci ce cluster create-kubeconfig --cluster-id ${oci_containerengine_cluster.cluster.id} --region ${var.region}"
 }
 
-output "ssh_tunnel_command" {
-	description = "SSH command to create a tunnel to the API endpoint of the cluster."
-	value = "ssh -N -L 6443:${oci_containerengine_cluster.cluster.endpoints[0]}:6443 ubuntu@go-prd-jumpserver.tmlmobilidade.pt"
-}
+# output "ssh_tunnel_command" {
+# 	description = "SSH command to create a tunnel to the API endpoint of the cluster."
+# 	value = "ssh -N -L 6443:${oci_containerengine_cluster.cluster.endpoints[0]}:6443 ubuntu@go-prd-jumpserver.tmlmobilidade.pt"
+# }

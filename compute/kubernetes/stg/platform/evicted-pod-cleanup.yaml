@@ -43,6 +43,13 @@ spec:
         spec:
           serviceAccountName: evicted-pod-cleanup
           restartPolicy: Never
+          tolerations:
+            - key: node.kubernetes.io/disk-pressure
+              operator: Exists
+              effect: NoSchedule
+            - key: node.kubernetes.io/memory-pressure
+              operator: Exists
+              effect: NoSchedule
           containers:
             - name: cleanup
               image: bitnami/kubectl:latest

@@ -26,16 +26,6 @@ provider "oci" {
 
 
 # # #
-# LOCALS
-# Local values are computed at plan time
-# and can be used throughout the module.
-
-locals {
-	ssh_authorized_keys = file(var.ssh_authorized_keys_path)
-}
-
-
-# # #
 # OKE CLUSTER
 # Deploy an OCI Kubernetes Engine (OKE) managed cluster.
 # This module creates zero networking resources. The cluster
@@ -56,7 +46,7 @@ resource "oci_containerengine_cluster" "cluster" {
 	}
 
 	cluster_pod_network_options {
-		cni_type = "FLANNEL_OVERLAY"
+		cni_type = "OCI_VCN_IP_NATIVE"
 	}
 
 	freeform_tags = {
@@ -68,61 +58,30 @@ resource "oci_containerengine_cluster" "cluster" {
 
 
 # # #
-# NODE POOL
-# Deploy a pool of worker nodes for the OKE cluster.
-# Uses OKE-optimized Oracle Linux images discovered
-# automatically, or a custom image if specified.
+# VIRTUAL NODE POOL
+# Deploy a pool of virtual (serverless) nodes for the OKE cluster.
+# No node shape, SSH keys, or custom images are required.
 
-resource "oci_containerengine_node_pool" "node_pool" {
+resource "oci_containerengine_virtual_node_pool" "virtual_node_pool" {
 
 	count = var.pool_count
 
-	name = "${var.display_name}-pool-${count.index + 1}"
+	display_name = "${var.display_name}-pool-${count.index + 1}"
 
 	cluster_id = oci_containerengine_cluster.cluster.id
 	compartment_id = var.compartment_ocid
 
-	node_shape = var.node_shape
+	size = var.node_count
 
-	ssh_public_key = local.ssh_authorized_keys
-
-	node_shape_config {
-		ocpus = var.node_ocpus
-		memory_in_gbs = var.node_memory_in_gbs
+	placement_configurations {
+		availability_domain = var.availability_domain
+		subnet_id = var.subnet_ocid
+		fault_domain = ["FAULT-DOMAIN-1"]
 	}
 
-	node_config_details {
-
-		size = var.node_count
-
-		placement_configs {
-			availability_domain = var.availability_domain
-			subnet_id = var.subnet_ocid
-		}
-
-	}
-
-	node_source_details {
-		source_type = "IMAGE"
-		image_id = var.node_image_ocid
-		boot_volume_size_in_gbs = var.boot_volume_size_in_gbs
-	}
-
-	node_pool_cycling_details {
-		maximum_surge = 1
-	}
-
-	node_metadata = {
-		# Extend the root filesystem to use the full boot volume size.
-		# OCI provisions the boot volume at the requested size but Oracle Linux
-		# images ship with a small root partition (~36 GB). oci-growfs extends
-		# the last partition and resizes the filesystem to fill the disk.
-		user_data = base64encode(<<-EOF
-			#cloud-config
-			runcmd:
-			  - /usr/libexec/oci-growfs -y
-			EOF
-		)
+	pod_configuration {
+		shape = var.pod_shape
+		subnet_id = var.subnet_ocid
 	}
 
 	freeform_tags = {

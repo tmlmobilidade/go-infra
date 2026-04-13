@@ -12,5 +12,5 @@ resources:
   # - offer
   # - performance
   - plans
-  # - stops
+  - stops
   # - tracker

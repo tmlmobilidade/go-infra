@@ -33,6 +33,5 @@ spec:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     secrets:
-      - prd-platform-environment
       - prd-module-fleet
     env: []

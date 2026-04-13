@@ -29,4 +29,5 @@ spec:
       enabled: false
     secrets:
       - prd-platform-storage
+      - prd-module-exporter
     env: []

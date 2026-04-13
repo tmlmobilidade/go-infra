@@ -28,5 +28,6 @@ spec:
     ingress:
       enabled: false
     secrets:
+      - prd-module-exporter
       - prd-platform-storage
     env: []

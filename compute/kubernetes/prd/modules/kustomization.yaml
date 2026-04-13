@@ -9,7 +9,7 @@ resources:
   - exporter
   - fleet
   - locations
-  # - offer
+  - offer
   # - performance
   - plans
   - stops

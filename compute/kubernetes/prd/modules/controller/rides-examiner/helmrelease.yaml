@@ -22,7 +22,7 @@ spec:
     environment: prd
     module: controller
     app: rides-examiner
-    replicas: 1
+    replicas: 3
     ingress:
       enabled: false
     secrets:

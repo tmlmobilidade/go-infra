@@ -39,12 +39,16 @@ spec:
             limits:
               cpu: {{ .Values.resources.cpu_max | default "0.5" }}
               memory: {{ .Values.resources.memory_max | default "512Mi" }}
+          {{- if .Values.secrets }}
           envFrom:
             {{- range .Values.secrets }}
             - secretRef:
                 name: {{ . }}
             {{- end }}
-          {{- if .Values.env }}
-          env:
-            {{- toYaml .Values.env | nindent 12 }}
           {{- end }}
+          env:
+            - name: ENVIRONMENT
+              value: {{ .Values.environment }}
+            {{- if .Values.env }}
+            {{- toYaml .Values.env | nindent 12 }}
+            {{- end }}

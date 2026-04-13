@@ -25,6 +25,8 @@ spec:
     replicas: 1
     service:
       targetPort: 5050
+    resources:
+      memory_max: "4Gi"
     ingress:
       enabled: true
       path: /plans/api(/|$)(.*)

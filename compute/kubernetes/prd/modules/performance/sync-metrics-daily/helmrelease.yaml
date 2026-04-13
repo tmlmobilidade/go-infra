@@ -23,6 +23,8 @@ spec:
     module: performance
     app: sync-metrics-daily
     replicas: 1
+    resources:
+      memory_max: "2Gi"
     service:
       targetPort: 5050
     ingress:

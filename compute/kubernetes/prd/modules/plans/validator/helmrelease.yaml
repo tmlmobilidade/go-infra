@@ -25,6 +25,9 @@ spec:
     replicas: 1
     service:
       targetPort: 5050
+    resources:
+      cpu_max: 2
+      memory_max: "4Gi"
     ingress:
       enabled: false
     secrets:

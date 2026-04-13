@@ -5,3 +5,5 @@ resources:
   - platform-secrets.1passworditem.yaml
   - api
   - frontend
+  - gtfs-exporter
+  # - gtfs-importer

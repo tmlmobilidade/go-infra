@@ -5,3 +5,5 @@ resources:
   - platform-secrets.1passworditem.yaml
   - api/helmrelease.yaml
   - frontend/helmrelease.yaml
+  - gtfs-exporter/helmrelease.yaml
+  # - gtfs-importer/helmrelease.yaml

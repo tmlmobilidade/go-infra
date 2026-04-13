@@ -29,6 +29,4 @@ spec:
       enabled: true
       path: /fleet
       pathType: Prefix
-    secrets:
-      - prd-platform-environment
     env: []

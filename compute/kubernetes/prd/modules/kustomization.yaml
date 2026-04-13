@@ -5,7 +5,7 @@ resources:
   # - apex
   - auth
   - controller
-  # - dates
+  - dates
   # - exporter
   - fleet
   # - locations

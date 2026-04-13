@@ -49,6 +49,8 @@ spec:
           env:
             - name: ENVIRONMENT
               value: {{ .Values.environment }}
+            - name: HOSTNAME
+              value: "0.0.0.0"
             {{- if .Values.env }}
             {{- toYaml .Values.env | nindent 12 }}
             {{- end }}

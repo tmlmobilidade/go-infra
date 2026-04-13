@@ -28,6 +28,5 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - prd-platform-environment
       - prd-module-apex
     env: []

@@ -7,6 +7,12 @@ replicas: 1
 service:
   targetPort: 5050
 
+resources:
+  cpu_min: "100m"
+  cpu_max: "500m"
+  memory_min: "128Mi"
+  memory_max: "512Mi"
+
 ingress:
   enabled: false
   path: /

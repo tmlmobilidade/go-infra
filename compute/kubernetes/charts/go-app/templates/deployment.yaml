@@ -34,11 +34,11 @@ spec:
             - containerPort: {{ .Values.service.targetPort }}
           resources:
             requests:
-              cpu: "100m"
-              memory: "128Mi"
+              cpu: {{ .Values.resources.cpu_min | default "100m" }}
+              memory: {{ .Values.resources.memory_min | default "128Mi" }}
             limits:
-              cpu: "500m"
-              memory: "512Mi"
+              cpu: {{ .Values.resources.cpu_max | default "500m" }}
+              memory: {{ .Values.resources.memory_max | default "512Mi" }}
           envFrom:
             {{- range .Values.secrets }}
             - secretRef:

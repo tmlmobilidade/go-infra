@@ -6,8 +6,8 @@ resources:
   - auth
   - controller
   # - dates
-  - exporter
-  # - fleet
+  # - exporter
+  - fleet
   # - locations
   # - offer
   # - performance

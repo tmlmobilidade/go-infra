@@ -28,5 +28,5 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - prd-platform-storage
+      - prd-module-apex
     env: []

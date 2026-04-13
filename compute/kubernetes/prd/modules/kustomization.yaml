@@ -10,7 +10,7 @@ resources:
   - fleet
   - locations
   - offer
-  # - performance
+  - performance
   - plans
   - stops
   # - tracker

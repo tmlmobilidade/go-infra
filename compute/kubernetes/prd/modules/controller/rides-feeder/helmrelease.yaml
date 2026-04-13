@@ -29,6 +29,6 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - prd-platform-environment
+      - prd-platform-storage
       - prd-module-controller
     env: []

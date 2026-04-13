@@ -23,6 +23,9 @@ spec:
     module: controller
     app: rides-feeder
     replicas: 1
+    resources:
+      cpu_max: "1"
+      memory_max: "4Gi"
     ingress:
       enabled: false
     secrets:

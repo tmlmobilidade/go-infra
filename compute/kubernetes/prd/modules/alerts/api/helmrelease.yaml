@@ -35,6 +35,5 @@ spec:
     secrets:
       - prd-platform-environment
       - prd-platform-storage
-      - prd-platform-email
       - prd-module-alerts
     env: []

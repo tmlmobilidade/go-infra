@@ -29,4 +29,6 @@ spec:
       enabled: false
     secrets:
       - prd-platform-storage
+      - prd-module-plans
+      - prd-platform-email
     env: []

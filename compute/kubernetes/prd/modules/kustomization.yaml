@@ -8,7 +8,7 @@ resources:
   - dates
   - exporter
   - fleet
-  # - locations
+  - locations
   # - offer
   # - performance
   - plans

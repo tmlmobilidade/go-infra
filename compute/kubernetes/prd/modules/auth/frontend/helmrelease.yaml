@@ -31,4 +31,6 @@ spec:
       pathType: Prefix
     secrets:
       - prd-platform-environment
-    env: []
+    env:
+      - name: HOSTNAME
+        value: "0.0.0.0"

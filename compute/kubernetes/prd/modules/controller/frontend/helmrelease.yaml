@@ -30,6 +30,5 @@ spec:
       path: /controller
       pathType: Prefix
     secrets:
-      - prd-platform-email
-      - prd-platform-storage
+      - prd-platform-environment
     env: []

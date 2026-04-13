@@ -30,6 +30,5 @@ spec:
       path: /stops
       pathType: Prefix
     secrets:
-      - prd-platform-email
-      - prd-platform-storage
+      - prd-platform-environment
     env: []

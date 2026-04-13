@@ -22,6 +22,8 @@ spec:
     environment: prd
     module: exporter
     app: export-drt
+    resources:
+      memory_max: "2Gi"
     replicas: 1
     service:
       targetPort: 5050

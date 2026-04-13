@@ -35,4 +35,5 @@ spec:
     secrets:
       - prd-platform-email
       - prd-platform-storage
+      - prd-module-exporter
     env: []

@@ -36,6 +36,9 @@ spec:
             requests:
               cpu: {{ .Values.resources.cpu | default "0.1" }}
               memory: {{ .Values.resources.memory | default "128Mi" }}
+            limits:
+              cpu: {{ .Values.resources.cpu | default "0.1" }}
+              memory: {{ .Values.resources.memory | default "128Mi" }}
           {{- if .Values.secrets }}
           envFrom:
             {{- range .Values.secrets }}

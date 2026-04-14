@@ -25,7 +25,7 @@ spec:
     replicas: 1
     resources:
       cpu: 1
-      memory: "1Gi"
+      memory: "4Gi"
     service:
       targetPort: 5050
     ingress:

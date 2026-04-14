@@ -23,6 +23,9 @@ spec:
     module: controller
     app: rides-examiner
     replicas: 3
+    resources:
+      cpu: 1
+      memory: "3Gi"
     ingress:
       enabled: false
     secrets:

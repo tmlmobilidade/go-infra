@@ -34,11 +34,8 @@ spec:
             - containerPort: {{ .Values.service.targetPort }}
           resources:
             requests:
-              cpu: {{ .Values.resources.cpu_min | default "0.1" }}
-              memory: {{ .Values.resources.memory_min | default "128Mi" }}
-            limits:
-              cpu: {{ .Values.resources.cpu_max | default 1 }}
-              memory: {{ .Values.resources.memory_max | default "512Mi" }}
+              cpu: {{ .Values.resources.cpu | default "0.1" }}
+              memory: {{ .Values.resources.memory | default "128Mi" }}
           {{- if .Values.secrets }}
           envFrom:
             {{- range .Values.secrets }}

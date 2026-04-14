@@ -26,8 +26,8 @@ spec:
     service:
       targetPort: 5050
     resources:
-      cpu_max: 2
-      memory_max: "4Gi"
+      cpu: 2
+      memory: "4Gi"
     ingress:
       enabled: false
     secrets:

@@ -24,7 +24,6 @@ spec:
     app: export-gtfs-merged
     replicas: 1
     resources:
-      cpu: 1
       memory: 4Gi
     service:
       targetPort: 5050

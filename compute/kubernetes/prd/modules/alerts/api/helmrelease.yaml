@@ -24,7 +24,6 @@ spec:
     app: api
     replicas: 1
     resources:
-      cpu: 1
       memory: 1Gi
     service:
       targetPort: 5050

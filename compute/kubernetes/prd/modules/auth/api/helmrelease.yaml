@@ -23,8 +23,6 @@ spec:
     module: auth
     app: api
     replicas: 1
-    resources:
-      cpu: 1
     service:
       targetPort: 5050
     ingress:

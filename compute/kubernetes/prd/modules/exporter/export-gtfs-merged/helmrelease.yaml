@@ -23,6 +23,9 @@ spec:
     module: exporter
     app: export-gtfs-merged
     replicas: 1
+    resources:
+      cpu: 1
+      memory: "1Gi"
     service:
       targetPort: 5050
     ingress:

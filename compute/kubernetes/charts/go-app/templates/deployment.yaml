@@ -35,10 +35,10 @@ spec:
           resources:
             requests:
               cpu: {{ .Values.resources.cpu | default 0.1 }}
-              memory: {{ .Values.resources.memory | default "128Mi" }}
+              memory: {{ .Values.resources.memory | default "512Mi" }}
             limits:
               cpu: {{ .Values.resources.cpu | default 0.1 }}
-              memory: {{ .Values.resources.memory | default "128Mi" }}
+              memory: {{ .Values.resources.memory | default "512Mi" }}
           {{- if .Values.secrets }}
           envFrom:
             {{- range .Values.secrets }}

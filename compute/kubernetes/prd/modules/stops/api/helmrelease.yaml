@@ -26,7 +26,6 @@ spec:
     resources:
       limits:
         cpu: 0.5
-        memory: 512Mi
     service:
       targetPort: 5050
     ingress:

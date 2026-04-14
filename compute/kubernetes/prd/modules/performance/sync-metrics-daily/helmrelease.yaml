@@ -24,7 +24,7 @@ spec:
     app: sync-metrics-daily
     replicas: 1
     resources:
-      memory: "2Gi"
+      memory: 2Gi
     service:
       targetPort: 5050
     ingress:

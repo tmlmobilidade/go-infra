@@ -9,7 +9,7 @@ service:
 
 resources:
   cpu: 0.1
-  memory: "128Mi"
+  memory: 128Mi
 
 ingress:
   enabled: false

@@ -23,7 +23,7 @@ spec:
     module: exporter
     app: export-drt
     resources:
-      memory: "2Gi"
+      memory: 2Gi
     replicas: 1
     service:
       targetPort: 5050

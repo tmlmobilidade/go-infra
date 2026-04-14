@@ -23,11 +23,11 @@ spec:
     module: performance
     app: sync-metrics-realtime
     replicas: 1
-    service:
-      targetPort: 5050
     resources:
       cpu: 1
       memory: 2Gi
+    service:
+      targetPort: 5050
     ingress:
       enabled: false
     secrets:

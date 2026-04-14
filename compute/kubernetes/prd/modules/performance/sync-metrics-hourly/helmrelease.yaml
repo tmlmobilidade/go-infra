@@ -23,6 +23,9 @@ spec:
     module: performance
     app: sync-metrics-hourly
     replicas: 1
+    resources:
+      cpu: 1
+      memory: 2Gi
     service:
       targetPort: 5050
     ingress:

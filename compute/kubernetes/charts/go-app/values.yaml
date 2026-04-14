@@ -8,8 +8,8 @@ service:
   targetPort: 5050
 
 resources:
-  cpu: "1000m"
-  memory: "512Mi"
+  cpu: 1000m
+  memory: 512Mi
 
 ingress:
   enabled: false

@@ -23,9 +23,6 @@ spec:
     module: stops
     app: api
     replicas: 1
-    resources:
-      limits:
-        cpu: 0.5
     service:
       targetPort: 5050
     ingress:

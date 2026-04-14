@@ -23,6 +23,9 @@ spec:
     module: controller
     app: api
     replicas: 1
+    resources:
+      cpu: 1
+      memory: 512Mi
     service:
       targetPort: 5050
     ingress:

@@ -27,7 +27,7 @@ spec:
       targetPort: 5050
     resources:
       cpu: 2000m
-      memory: 4Gi
+      memory: 6Gi
     ingress:
       enabled: false
     secrets:

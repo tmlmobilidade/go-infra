@@ -4,7 +4,7 @@ metadata:
   name: performance-sync-metrics-hourly
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 30s
   dependsOn:
     - name: onepassword-connect
   targetNamespace: prd-performance

@@ -11,4 +11,6 @@ set -euo pipefail
 
 echo "[firewall] Clearing restrictive iptables rules..."
 sudo iptables -I INPUT 1 -p tcp --dport 27017 -j ACCEPT
-echo "[firewall] iptables rules cleared."
+echo "[firewall] Saving iptables rules to /etc/iptables/rules.v4..."
+sudo iptables-save | sudo tee /etc/iptables/rules.v4 >/dev/null
+echo "[firewall] iptables rules updated and persisted."

@@ -26,7 +26,7 @@ spec:
     service:
       targetPort: 5050
     resources:
-      memory: 6Gi
+      memory: 3Gid
     ingress:
       enabled: true
       path: /offer/gtfs-exporter(/|$)(.*)

@@ -25,6 +25,8 @@ spec:
     replicas: 1
     service:
       targetPort: 5050
+    resources:
+      memory: 6Gi
     ingress:
       enabled: true
       path: /offer/gtfs-exporter(/|$)(.*)

@@ -23,6 +23,8 @@ spec:
     module: controller
     app: sams-examiner
     replicas: 1
+    resources:
+      memory: 2Gi
     ingress:
       enabled: false
     secrets:

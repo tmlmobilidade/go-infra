@@ -26,7 +26,7 @@ spec:
     service:
       targetPort: 5050
     resources:
-      cpu: 2000m
+      cpu: 4000m
       memory: 6Gi
     ingress:
       enabled: false

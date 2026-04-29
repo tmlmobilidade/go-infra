@@ -1,0 +1,14 @@
+#cloud-config
+
+packages:
+  - xfsprogs
+
+runcmd:
+
+  # 1.
+  # Init the Docker compose configuration
+
+  - cd /opt/app
+  - docker compose up -d --build --force-recreate --remove-orphans --pull=always
+
+final_message: "Tracker configuration complete."

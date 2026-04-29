@@ -25,8 +25,11 @@ spec:
     replicas: 1
     service:
       targetPort: 5050
+    resources:
+      memory: 4Gi
     ingress:
       enabled: false
     secrets:
       - prd-platform-storage
+      - prd-module-tracker
     env: []

@@ -10,7 +10,7 @@ variable "display_name" {
 variable "instance_count" {
 	type = number
 	description = "Number of ClickHouse replica nodes to provision."
-	default = 3
+	default = 1
 }
 
 

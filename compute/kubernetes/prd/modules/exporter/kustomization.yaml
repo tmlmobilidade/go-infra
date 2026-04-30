@@ -5,7 +5,7 @@ resources:
   - platform-secrets.1passworditem.yaml
   - api
   - cleaner
-  - export-drt
+  # - export-drt
   - export-files
   - export-gtfs-merged
   # - export-posters

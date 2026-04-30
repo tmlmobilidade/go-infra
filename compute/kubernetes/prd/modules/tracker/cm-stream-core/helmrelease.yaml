@@ -30,6 +30,7 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - prd-platform-storage
+      - prd-platform-pcgi-raw
+      - prd-platform-pcgi-legacy
       - prd-module-tracker
     env: []

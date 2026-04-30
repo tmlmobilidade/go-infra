@@ -32,4 +32,5 @@ spec:
     secrets:
       - prd-platform-pcgi-raw
       - prd-module-tracker
+      - prd-app-tracker-cap-fetch
     env: []

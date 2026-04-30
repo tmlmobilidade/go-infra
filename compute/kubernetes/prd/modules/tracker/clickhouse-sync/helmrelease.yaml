@@ -31,5 +31,6 @@ spec:
       enabled: false
     secrets:
       - prd-platform-clickhouse
+      - prd-platform-pcgi-raw
       - prd-module-tracker
     env: []

@@ -8,7 +8,7 @@ resources:
   - clickhouse-stream
   - clickhouse-sync
   - cm-stream-core
-  - cm-stream-log
+  # - cm-stream-log
   - cm-sync-core
-  - cm-sync-log
+  # - cm-sync-log
   - ttsl-fetch

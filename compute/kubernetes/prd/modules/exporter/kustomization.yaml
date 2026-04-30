@@ -8,5 +8,5 @@ resources:
   - export-drt
   - export-files
   - export-gtfs-merged
-  - export-posters
+  # - export-posters
   - frontend

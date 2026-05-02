@@ -61,12 +61,12 @@ When prompted, enter the GitHub PAT. Flux will:
 
 ```bash
 kubectl -n onepassword create secret generic op-credentials \
-  --insecure-skip-tls-verify=true \
-  --from-file=1password-credentials.json=1password-credentials.json
+  --from-file=1password-credentials.json=1password-credentials.json \
+  --dry-run=client -o yaml | kubectl apply -f -
 ```
 
 ```bash
 kubectl -n onepassword create secret generic onepassword-token \
-  --insecure-skip-tls-verify=true \
-  --from-literal=token=<your-connect-token>
+  --from-literal=token=<your-connect-token> \
+  --dry-run=client -o yaml | kubectl apply -f -
 ```

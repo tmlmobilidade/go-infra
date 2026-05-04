@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - pr-417
   - pr-422
+  - pr-423

@@ -28,6 +28,7 @@ spec:
     ingress:
       enabled: false
     secrets:
+      - prd-platform-go-redis
       - prd-platform-storage
       - prd-module-alerts
     env: []

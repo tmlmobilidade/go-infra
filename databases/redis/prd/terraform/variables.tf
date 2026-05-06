@@ -10,7 +10,7 @@ variable "display_name" {
 variable "instance_count" {
 	type = number
 	description = "Number of Redis nodes to provision."
-	default = 3
+	default = 1
 }
 
 
@@ -100,7 +100,7 @@ variable "private_ips" {
 variable "base_image_ocid" {
 	type = string
 	description = "OCID of the Packer-built image."
-	default = ""
+	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaldyfggx6of5ob6mueogm7dpvar3iinc3yix5zhgqhtr7zlpiwgbq"
 }
 
 variable "vm_shape" {

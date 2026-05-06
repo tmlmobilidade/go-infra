@@ -23,6 +23,8 @@ spec:
     module: controller
     app: rides-cleaner
     replicas: 1
+    resources:
+      memory: 1Gi
     ingress:
       enabled: false
     secrets:

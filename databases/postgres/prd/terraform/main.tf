@@ -86,3 +86,26 @@ resource "oci_core_instance" "postgres" {
 	}
 
 }
+
+# # #
+# BLOCK VOLUMES ATTACHMENT
+# Each replica node has a dedicated data volume
+# attached for Postgres data storage. These volumes
+# are created separately to prevent accidental deletion
+# when running Terraform commands.
+
+resource "oci_core_volume_attachment" "postgres_data" {
+
+	count = var.instance_count
+
+	instance_id = oci_core_instance.postgres[count.index].id
+
+	volume_id = var.block_volume_ocids[count.index]
+
+	# Paravirtualized is easier to manage
+	# in cloud-init than iSCSI
+	attachment_type = "paravirtualized"
+
+	is_pv_encryption_in_transit_enabled = false
+
+}

@@ -126,3 +126,17 @@ variable "boot_volume_size_in_gbs" {
 	description = "Boot volume size in GBs."
 	default = 50
 }
+
+# # #
+# STORAGE
+
+variable "block_volume_ocids" {
+	type = list(string)
+	description = <<-EOT
+	List of OCIDs for existing block volumes to attach as data disks to the replica nodes.
+	Each volume must be pre-created and match the count of replica nodes.
+	EOT
+	default = [
+		"ocid1.volume.oc1.eu-frankfurt-1.abtheljt33scbjc77bmflqlu2omjug7pwdef6pjvfsx2qswf5vstrrduhcxq",
+	]
+}

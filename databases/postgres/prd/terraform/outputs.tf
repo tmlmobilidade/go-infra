@@ -2,7 +2,7 @@
 # OUTPUTS
 
 output "instance_private_ips" {
-	description = "Private IP addresses of the 3 postgres instances."
+	description = "Private IP addresses of the Postgres Instance."
 	value = oci_core_instance.postgres[*].private_ip
 }
 

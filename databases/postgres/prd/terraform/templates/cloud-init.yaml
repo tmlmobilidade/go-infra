@@ -21,7 +21,14 @@ packages:
 runcmd:
 
   # 1.
-  # Configure the firewall to allow postgres traffic
+  # Attach and mount the block volume
+  # using the script pre-packed by Packer
+
+  - /opt/app/attach-volume.sh
+  - rm /opt/app/attach-volume.sh
+
+  # 2.
+  # Configure the firewall to allow ClickHouse traffic
   # using the script pre-packed by Packer
 
   - /opt/app/firewall.sh

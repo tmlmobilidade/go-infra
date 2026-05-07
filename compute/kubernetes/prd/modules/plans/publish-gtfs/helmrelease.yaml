@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: exporter-export-gtfs-merged
+  name: plans-publish-gtfs
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: prd-exporter
+  targetNamespace: prd-plans
   install:
     createNamespace: true
   chart:
@@ -20,8 +20,8 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: prd
-    module: exporter
-    app: export-gtfs-merged
+    module: plans
+    app: publish-gtfs
     replicas: 1
     resources:
       memory: 4Gi
@@ -31,5 +31,5 @@ spec:
       enabled: false
     secrets:
       - prd-platform-storage
-      - prd-module-exporter
+      - prd-module-plans
     env: []

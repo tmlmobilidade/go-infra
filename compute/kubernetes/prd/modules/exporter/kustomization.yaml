@@ -7,6 +7,5 @@ resources:
   - cleaner
   # - export-drt
   - export-files
-  - export-gtfs-merged
   # - export-posters
   - frontend

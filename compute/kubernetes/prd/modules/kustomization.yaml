@@ -8,6 +8,7 @@ resources:
   - dates
   - exporter
   - fleet
+  - hub
   - locations
   - offer
   - performance

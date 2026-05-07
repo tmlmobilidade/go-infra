@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: plans-cleaner
+  name: plans-organizer
   namespace: flux-system
 spec:
   interval: 30s
@@ -21,7 +21,7 @@ spec:
   values:
     environment: prd
     module: plans
-    app: cleaner
+    app: organizer
     replicas: 1
     service:
       targetPort: 5050
@@ -29,4 +29,5 @@ spec:
       enabled: false
     secrets:
       - prd-platform-storage
+      - prd-module-plans
     env: []

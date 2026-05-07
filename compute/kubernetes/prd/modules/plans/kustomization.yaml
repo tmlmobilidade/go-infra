@@ -4,6 +4,6 @@ resources:
   - module-secrets.1passworditem.yaml
   - platform-secrets.1passworditem.yaml
   - api
-  - cleaner
   - frontend
+  - organizer
   - validator

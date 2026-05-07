@@ -50,6 +50,13 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
+  name: prd-hub
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
   name: prd-locations
   annotations:
     operator.1password.io/auto-restart: "true"

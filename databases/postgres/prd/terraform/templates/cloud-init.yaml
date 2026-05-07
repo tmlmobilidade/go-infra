@@ -1,0 +1,35 @@
+#cloud-config
+
+# -----------------------------------------------------------------------
+# cloud-init.yaml — postgres Node (node_index = ${node_index})
+#
+# Docker and OS tuning are pre-baked into the Packer image.
+# This file handles runtime concerns only:
+#   - Attaches and mounts the block volume
+#   - Writes the shared replica set keyfile (same content on all nodes)
+#   - Writes Docker Compose and starts postgres with --replSet
+#   - Node 0 (primary) waits for postgres to be ready and runs rs.initiate()
+#     with all 3 node IPs, so the replica set is self-initializing on first boot.
+#
+# Note: postgres_port are hardcoded in packer/templates/compose.yaml
+#   and only referenced here for rs.initiate().
+# -----------------------------------------------------------------------
+
+packages:
+  - xfsprogs
+
+runcmd:
+
+  # 1.
+  # Configure the firewall to allow postgres traffic
+  # using the script pre-packed by Packer
+
+  - /opt/app/firewall.sh
+  - rm /opt/app/firewall.sh
+
+  # 2.
+  # Start postgres
+
+  - cd /opt/app && docker compose up -d --build --force-recreate --remove-orphans --pull=always
+
+final_message: "postgres node ${node_index + 1} of ${length(all_private_ips)} configuration complete."

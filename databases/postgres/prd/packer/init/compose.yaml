@@ -1,0 +1,20 @@
+# # #
+
+services:
+
+  postgres:
+    image: postgres:latest
+    restart: unless-stopped
+    network_mode: host
+    deploy:
+      resources:
+        limits:
+          memory: 10gb
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    volumes:
+      - /opt/app/data/data:/data
+    environment:
+      - postgres_ARGS=--save 5 1

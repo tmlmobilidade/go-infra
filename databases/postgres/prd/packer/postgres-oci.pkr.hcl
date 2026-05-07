@@ -113,6 +113,20 @@ build {
 		]
 	}
 
+	# The attach-volume.sh script is responsible for
+	# mounting the persistent block volume at boot time.
+
+	provisioner "file" {
+		source = "${path.root}/init/attach-volume.sh"
+		destination = "/opt/app/attach-volume.sh"
+	}
+
+	provisioner "shell" {
+		inline = [
+			"sudo chmod +x /opt/app/attach-volume.sh"
+		]
+	}
+
 	# The firewall.sh script is responsible for
 	# configuring the firewall to allow postgres traffic.
 
@@ -124,6 +138,20 @@ build {
 	provisioner "shell" {
 		inline = [
 			"sudo chmod +x /opt/app/firewall.sh"
+		]
+	}
+
+	# The setup-postgres.sh script prepares data directory
+	# permissions for the postgres container runtime user.
+
+	provisioner "file" {
+		source = "${path.root}/init/setup-postgres.sh"
+		destination = "/opt/app/setup-postgres.sh"
+	}
+
+	provisioner "shell" {
+		inline = [
+			"sudo chmod +x /opt/app/setup-postgres.sh"
 		]
 	}
 

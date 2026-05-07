@@ -34,3 +34,9 @@ ssh_authorized_keys_path = "/path/to/authorized_keys"
 # e.g. ["10.0.1.20", "10.0.1.21", "10.0.1.22"]
 
 subnet_ocid = ""
+
+# # #
+# CLICKHOUSE
+# Generate 64 character random password for ClickHouse admin user.
+
+postgres_admin_password = ""

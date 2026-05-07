@@ -6,13 +6,10 @@
 # Docker and OS tuning are pre-baked into the Packer image.
 # This file handles runtime concerns only:
 #   - Attaches and mounts the block volume
-#   - Writes the shared replica set keyfile (same content on all nodes)
-#   - Writes Docker Compose and starts postgres with --replSet
-#   - Node 0 (primary) waits for postgres to be ready and runs rs.initiate()
-#     with all 3 node IPs, so the replica set is self-initializing on first boot.
+#   - Configures firewall and Postgres data directory permissions
+#   - Writes runtime secrets and starts Postgres container
 #
-# Note: postgres_port are hardcoded in packer/templates/compose.yaml
-#   and only referenced here for rs.initiate().
+# Note: compose ports are hardcoded in packer/init/compose.yaml.
 # -----------------------------------------------------------------------
 
 packages:
@@ -28,15 +25,34 @@ runcmd:
   - rm /opt/app/attach-volume.sh
 
   # 2.
-  # Configure the firewall to allow ClickHouse traffic
+  # Configure firewall to allow Postgres traffic
   # using the script pre-packed by Packer
 
   - /opt/app/firewall.sh
   - rm /opt/app/firewall.sh
 
-  # 2.
-  # Start postgres
+  # 3.
+  # Setup Postgres data directory permissions
+  # using the script pre-packed by Packer
+
+  - /opt/app/setup-postgres.sh
+  - rm /opt/app/setup-postgres.sh
+
+  # 4.
+  # Write runtime secrets
+
+  - |
+    mkdir -p /opt/app/secrets
+    cat > /opt/app/secrets/.env <<ENVEOF
+    POSTGRES_PASSWORD=${postgres_admin_password}
+    POSTGRES_USER=admin
+    POSTGRES_DB=production
+    ENVEOF
+    chmod 600 /opt/app/secrets/.env
+
+  # 5.
+  # Start Postgres
 
   - cd /opt/app && docker compose up -d --build --force-recreate --remove-orphans --pull=always
 
-final_message: "postgres node ${node_index + 1} of ${length(all_private_ips)} configuration complete."
+final_message: "Postgres node ${node_index + 1} of ${length(all_private_ips)} configuration complete."

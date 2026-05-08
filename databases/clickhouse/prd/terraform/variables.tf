@@ -85,8 +85,6 @@ variable "private_ips" {
 	EOT
 	default = [
 		"10.81.101.141",
-		"10.81.101.142",
-		"10.81.101.143"
 	]
 }
 
@@ -97,7 +95,7 @@ variable "private_ips" {
 variable "base_image_ocid" {
 	type = string
 	description = "OCID of the Packer-built image."
-	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaay56x43vfdzpgyo6tfltfv7dqghyhtsrfsjmlpm2haiutt3qunigq"
+	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaj5y5wxpheurowxjtdwxg5hlfm52nxpkuyief43kn4rfwznzqbkiq"
 }
 
 variable "vm_shape" {
@@ -109,13 +107,13 @@ variable "vm_shape" {
 variable "vm_ocpus" {
 	type = number
 	description = "Number of OCPUs per replica VM."
-	default = 2
+	default = 6
 }
 
 variable "vm_memory_in_gbs" {
 	type = number
 	description = "Memory in GBs per replica VM."
-	default = 12
+	default = 24
 }
 
 variable "boot_volume_size_in_gbs" {
@@ -136,8 +134,6 @@ variable "block_volume_ocids" {
 	EOT
 	default = [
 		"ocid1.volume.oc1.eu-frankfurt-1.abtheljtupqpydik3vogm4pxjbeorlrnm4fgex4evl6y7rh74uf62lkr25va",
-		"ocid1.volume.oc1.eu-frankfurt-1.abtheljtmfu5sqxgnri3nyzvur5iye54lbz4kucrdcszakhgp6oesjndolga",
-		"ocid1.volume.oc1.eu-frankfurt-1.abtheljtauzqt6a5owzs3tbxuhhmf5cd223wz6bd62ftpa4ju44lm4igtkea"
 	]
 }
 

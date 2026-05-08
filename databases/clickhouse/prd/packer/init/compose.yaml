@@ -9,7 +9,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 10gb
+          memory: 24gb
     ulimits:
       nofile:
         soft: 262144
@@ -20,8 +20,6 @@ services:
         max-file: '1'
     extra_hosts:
       - "go-prd-clickhouse-1.tmlmobilidade.pt:10.81.101.141"
-      - "go-prd-clickhouse-2.tmlmobilidade.pt:10.81.101.142"
-      - "go-prd-clickhouse-3.tmlmobilidade.pt:10.81.101.143"
     volumes:
       - /opt/app/persistent-data/data:/var/lib/clickhouse
       - /opt/app/persistent-data/logs:/var/log/clickhouse-server

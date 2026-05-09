@@ -37,4 +37,5 @@ spec:
     secrets:
       - prd-platform-go-redis
       - prd-platform-storage
+      - prd-module-hub
     env: []

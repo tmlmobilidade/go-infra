@@ -5,4 +5,4 @@ resources:
   # - platform-secrets.1passworditem.yaml
   - api
   - loader
-  # - cleaner
+  - cleaner

@@ -35,7 +35,7 @@ spec:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     secrets:
+      - prd-module-hub
       - prd-platform-go-redis
       - prd-platform-storage
-      - prd-module-hub
     env: []

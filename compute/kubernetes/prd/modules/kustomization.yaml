@@ -6,7 +6,7 @@ resources:
   - auth
   - controller
   - dates
-  # - eta
+  - eta
   - exporter
   - fleet
   - hub

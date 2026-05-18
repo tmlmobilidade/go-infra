@@ -24,7 +24,7 @@ spec:
     app: api
     replicas: 1
     resources:
-      memory: 4Gi
+      memory: 6Gi
     service:
       targetPort: 5050
     ingress:

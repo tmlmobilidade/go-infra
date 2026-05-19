@@ -30,7 +30,7 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - prd-platform-pcgi-raw
+      - prd-platform-pcgi-raw #! ONLY USING 2nd replica - check 1Password #! ONLY USING 2nd replica - check 1Password
       - prd-module-tracker
       - prd-app-tracker-cap-fetch
     env: []

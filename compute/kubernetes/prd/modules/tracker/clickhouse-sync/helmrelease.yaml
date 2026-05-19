@@ -31,6 +31,6 @@ spec:
       enabled: false
     secrets:
       - prd-platform-clickhouse
-      - prd-platform-pcgi-raw
+      - prd-platform-pcgi-raw #! ONLY USING 2nd replica - check 1Password
       - prd-module-tracker
     env: []

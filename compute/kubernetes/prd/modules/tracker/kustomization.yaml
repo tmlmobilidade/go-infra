@@ -11,4 +11,5 @@ resources:
   # - cm-stream-log
   - cm-sync-core
   # - cm-sync-log
+  - cp-fetch
   - ttsl-fetch

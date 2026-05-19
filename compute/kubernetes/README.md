@@ -1,5 +1,32 @@
 # Bootstrap Flux CD
 
+This module contains the pieces needed to deploy a full cluster configuration and application workloads.. It includes the cluster resources, platform baseline, and application HelmReleases.
+
+Uses 1Password Connect to manage secrets, and the configuration for that is included in this module as well. The cluster is deployed in OCI, and the configuration files are customized to that environment.
+
+This Terraform project provisions an Oracle Cloud Infrastructure (OCI) Kubernetes environment using:
+- oci_containerengine_cluster
+- oci_containerengine_virtual_node_pool
+
+The deployment creates an Oracle Kubernetes Engine (OKE) cluster and attaches a Virtual Node Pool that provides serverless-style Kubernetes worker capacity managed by OCI.
+
+This environment uses Flux CD to monitors Git repository and synchronizes Kubernetes manifests into the Oracle Kubernetes Engine (OKE) cluster.
+
+```bash
+Terraform
+   │
+   ▼
+OKE Cluster
+   │
+   ├── Flux CD
+   │      │
+   │      ▼
+   │   Helm Charts
+   │
+   └── Running Applications
+```
+
+
 ## 0. Setup kubectl using OCI CLI
 
 `rm $HOME/.kube/config`

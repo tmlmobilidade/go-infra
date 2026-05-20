@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: tracker-cap-fetch
+  name: tracker-mobi-fetch
   namespace: flux-system
 spec:
   interval: 30s
@@ -21,7 +21,7 @@ spec:
   values:
     environment: prd
     module: tracker
-    app: cap-fetch
+    app: mobi-fetch
     replicas: 1
     service:
       targetPort: 5050
@@ -32,5 +32,5 @@ spec:
     secrets:
       - prd-platform-pcgi-raw #! ONLY USING 2nd replica - check 1Password #! ONLY USING 2nd replica - check 1Password
       - prd-module-tracker
-      - prd-app-tracker-cap-fetch
+      - prd-app-tracker-mobi-fetch
     env: []

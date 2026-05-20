@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - module-secrets.1passworditem.yaml
   - platform-secrets.1passworditem.yaml
-  - cap-fetch/helmrelease.yaml
+  - mobi-fetch/helmrelease.yaml
   - ccfl-fetch/helmrelease.yaml
   - clickhouse-stream/helmrelease.yaml
   - clickhouse-sync/helmrelease.yaml

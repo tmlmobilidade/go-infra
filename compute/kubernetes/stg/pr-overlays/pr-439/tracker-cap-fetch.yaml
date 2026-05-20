@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: pr-439-tracker-cap-fetch
+  name: pr-439-tracker-mobi-fetch
   namespace: flux-system
 spec:
   interval: 5m
@@ -30,4 +30,4 @@ spec:
       - stg-platform-storage
     env: []
     environment: pr-439
-    app: cap-fetch
+    app: mobi-fetch

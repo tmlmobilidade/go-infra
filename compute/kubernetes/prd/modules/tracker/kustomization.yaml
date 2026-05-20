@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - module-secrets.1passworditem.yaml
   - platform-secrets.1passworditem.yaml
-  - mobi-fetch
   - ccfl-fetch
   - clickhouse-stream
   - clickhouse-sync
@@ -12,4 +11,5 @@ resources:
   - cm-sync-core
   # - cm-sync-log
   - cp-fetch
+  - mobi-fetch
   - ttsl-fetch

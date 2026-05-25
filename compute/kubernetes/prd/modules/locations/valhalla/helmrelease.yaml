@@ -1,0 +1,39 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: locations-valhalla
+  namespace: flux-system
+spec:
+  interval: 30s
+  dependsOn:
+    - name: onepassword-connect
+  targetNamespace: prd-locations
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: compute/kubernetes/charts/valhalla
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    name: valhalla
+    pbfUrl: https://download.geofabrik.de/europe/portugal-latest.osm.pbf
+    minReplicas: 1
+    maxReplicas: 2
+    persistence:
+      storage: 20Gi
+      accessMode: ReadWriteMany
+      # Requires a ReadWriteMany storage class (e.g. OCI FSS CSI).
+      storageClassName: fss-dyn-storage
+    resources:
+      requests:
+        cpu: "2000m"
+        memory: "4Gi"
+      limits:
+        cpu: "4000m"
+        memory: "8Gi"
+    service:
+      type: ClusterIP

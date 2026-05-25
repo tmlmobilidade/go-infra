@@ -6,6 +6,4 @@ resources:
   - api
   - frontend
   - organizer
-  - publish-gtfs
-  - publish-gtfs-cm
   - validator

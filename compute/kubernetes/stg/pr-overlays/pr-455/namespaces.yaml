@@ -1,0 +1,90 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-455-alerts
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-455-apex
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-455-auth
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-455-controller
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-455-dates
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-455-exporter
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-455-fleet
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-455-locations
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-455-offer
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-455-performance
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-455-plans
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-455-stops
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-455-tracker
+  annotations:
+    operator.1password.io/auto-restart: "true"

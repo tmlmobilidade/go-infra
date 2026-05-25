@@ -4,4 +4,4 @@ resources:
   - secrets.yaml
   - api
   - frontend
-  - valhalla
+  # - valhalla

@@ -5,6 +5,7 @@ resources:
   - api
   - frontend-navegante-app
   - publish-alerts
+  - publish-alerts-cm
   - publish-gtfs
   - publish-gtfs-cm
   - publish-schedules

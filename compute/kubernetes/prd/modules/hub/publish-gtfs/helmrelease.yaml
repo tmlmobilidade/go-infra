@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: plans-publish-gtfs
+  name: hub-publish-gtfs
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: prd-plans
+  targetNamespace: prd-hub
   install:
     createNamespace: true
   chart:
@@ -20,7 +20,7 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: prd
-    module: plans
+    module: hub
     app: publish-gtfs
     replicas: 1
     resources:
@@ -31,5 +31,5 @@ spec:
       enabled: false
     secrets:
       - prd-platform-storage
-      - prd-module-plans
+      - prd-module-hub
     env: []

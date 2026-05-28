@@ -13,3 +13,4 @@ resources:
   - mobi-fetch
   - ttsl-fetch
   - tcb-fetch
+  - crtm-aisa-fetch

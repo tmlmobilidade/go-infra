@@ -12,3 +12,4 @@ resources:
   - cp-fetch
   - mobi-fetch
   - ttsl-fetch
+  - tcb-fetch

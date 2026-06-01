@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: hub-publish-schedules
+  name: hub-publish-network
   namespace: flux-system
 spec:
   interval: 30s
@@ -21,7 +21,7 @@ spec:
   values:
     environment: prd
     module: hub
-    app: publish-schedules
+    app: publish-network
     replicas: 1
     resources:
       memory: 4Gi

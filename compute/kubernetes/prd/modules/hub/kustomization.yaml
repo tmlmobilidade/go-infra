@@ -8,4 +8,4 @@ resources:
   - publish-alerts-cm
   - publish-gtfs
   - publish-gtfs-cm
-  - publish-schedules
+  - publish-network

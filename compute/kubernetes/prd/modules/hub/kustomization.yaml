@@ -9,3 +9,4 @@ resources:
   - publish-gtfs
   - publish-gtfs-cm
   - publish-network
+  - publish-realtime

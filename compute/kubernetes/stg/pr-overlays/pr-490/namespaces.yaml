@@ -1,0 +1,90 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-490-alerts
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-490-apex
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-490-auth
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-490-controller
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-490-dates
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-490-exporter
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-490-fleet
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-490-locations
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-490-offer
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-490-performance
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-490-plans
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-490-stops
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-490-tracker
+  annotations:
+    operator.1password.io/auto-restart: "true"

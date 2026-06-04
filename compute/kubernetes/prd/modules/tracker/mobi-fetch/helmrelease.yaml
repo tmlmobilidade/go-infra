@@ -32,5 +32,5 @@ spec:
     secrets:
       - prd-platform-pcgi-raw
       - prd-module-tracker
-      - prd-app-tracker-mobi-fetch
+      - prd-platform-external-app-secrets
     env: []

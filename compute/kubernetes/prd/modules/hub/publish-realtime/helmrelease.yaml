@@ -30,5 +30,6 @@ spec:
     secrets:
       - prd-platform-clickhouse
       - prd-platform-go-redis
+      - prd-platform-external-app-secrets
       - prd-module-hub
     env: []

@@ -4,7 +4,7 @@ resources:
   - secrets.yaml
   - ccfl-fetch
   - clickhouse-stream
-  - clickhouse-sync
+  # - clickhouse-sync
   - cm-stream-core
   # - cm-stream-log
   - cm-sync-core

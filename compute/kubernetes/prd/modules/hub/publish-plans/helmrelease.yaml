@@ -22,7 +22,6 @@ spec:
     environment: prd
     module: hub
     app: publish-plans
-    replicas: 1
     service:
       targetPort: 5050
     ingress:

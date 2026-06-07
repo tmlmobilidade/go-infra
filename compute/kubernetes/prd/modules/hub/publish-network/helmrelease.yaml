@@ -24,7 +24,8 @@ spec:
     app: publish-network
     replicas: 1
     resources:
-      memory: 4Gi
+      memory: 6Gi
+      cpu: 4000m
     service:
       targetPort: 5050
     ingress:

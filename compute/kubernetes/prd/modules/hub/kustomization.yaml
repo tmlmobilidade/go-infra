@@ -10,4 +10,4 @@ resources:
   - publish-gtfs-cm
   - publish-network
   - publish-plans
-  - publish-realtime
+  # - publish-realtime

@@ -7,7 +7,7 @@ resources:
   # - clickhouse-sync
   - cm-stream-core
   # - cm-stream-log
-  - cm-sync-core
+  # - cm-sync-core
   # - cm-sync-log
   - cp-fetch
   - mobi-fetch

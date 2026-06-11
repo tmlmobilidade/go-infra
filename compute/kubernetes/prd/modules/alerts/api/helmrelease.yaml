@@ -38,4 +38,7 @@ spec:
       - prd-platform-ai
       - prd-platform-storage
       - prd-module-alerts
+    probes:
+      startup:
+        enabled: true
     env: []

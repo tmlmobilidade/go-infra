@@ -34,4 +34,7 @@ spec:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     secrets:
       - prd-module-performance
+    probes:
+      startup:
+        enabled: true
     env: []

@@ -35,4 +35,7 @@ spec:
     secrets:
       - prd-platform-storage
       - prd-module-exporter
+    probes:
+      startup:
+        enabled: true
     env: []

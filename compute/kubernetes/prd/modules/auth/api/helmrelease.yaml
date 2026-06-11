@@ -36,4 +36,7 @@ spec:
       - prd-platform-email
       - prd-platform-storage
       - prd-module-auth
+    probes:
+      startup:
+        enabled: true
     env: []

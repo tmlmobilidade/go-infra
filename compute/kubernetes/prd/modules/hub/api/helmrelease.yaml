@@ -38,4 +38,7 @@ spec:
       - prd-module-hub
       - prd-platform-go-redis
       - prd-platform-storage
+    probes:
+      startup:
+        enabled: true
     env: []

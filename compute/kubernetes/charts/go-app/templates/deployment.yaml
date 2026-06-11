@@ -60,17 +60,16 @@ spec:
             {{- toYaml .Values.env | nindent 12 }}
             {{- end }}
           {{- if .Values.probes.startup.enabled }}
-          {{- $probePath := .Values.probes.startup.path | default (ternary "/health" (printf "%s/api/health" .Values.ingress.path) (eq .Values.app "api")) }}
           startupProbe:
             httpGet:
-              path: {{ $probePath }}
+              path: {{ .Values.probes.startup.path }}
               port: {{ .Values.service.targetPort }}
             failureThreshold: {{ .Values.probes.startup.failureThreshold }}
             periodSeconds: {{ .Values.probes.startup.periodSeconds }}
           readinessProbe:
             httpGet:
-              path: {{ $probePath }}
+              path: {{ .Values.probes.startup.path }}
               port: {{ .Values.service.targetPort }}
             periodSeconds: {{ .Values.probes.startup.periodSeconds }}
-            failureThreshold: 3
+            failureThreshold: {{ .Values.probes.startup.failureThreshold }}
           {{- end }}

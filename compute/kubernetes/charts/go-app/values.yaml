@@ -29,6 +29,6 @@ env: []
 probes:
   startup:
     enabled: false
-    path: ""
-    failureThreshold: 30
+    path: /health
+    failureThreshold: 5
     periodSeconds: 10

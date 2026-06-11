@@ -4,6 +4,11 @@ app: app
 
 replicas: 1
 
+deployment:
+  strategy:
+    maxSurge: 1
+    maxUnavailable: 0
+
 service:
   targetPort: 5050
 
@@ -20,3 +25,10 @@ ingress:
 secrets: []
 
 env: []
+
+probes:
+  startup:
+    enabled: false
+    path: /health
+    failureThreshold: 5
+    periodSeconds: 10

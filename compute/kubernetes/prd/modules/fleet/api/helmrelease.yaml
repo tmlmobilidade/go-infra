@@ -35,4 +35,7 @@ spec:
     secrets:
       - prd-module-fleet
       - prd-platform-clickhouse
+    probes:
+      startup:
+        enabled: true
     env: []

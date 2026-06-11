@@ -4,6 +4,11 @@ app: app
 
 replicas: 1
 
+deployment:
+  strategy:
+    maxSurge: 1
+    maxUnavailable: 0
+
 service:
   targetPort: 5050
 
@@ -22,8 +27,8 @@ secrets: []
 env: []
 
 probes:
-  waitForApi:
+  startup:
     enabled: false
-    port: 5050
-    path: /api/health
-    periodSeconds: 5
+    path: ""
+    failureThreshold: 30
+    periodSeconds: 10

@@ -22,7 +22,8 @@ secrets: []
 env: []
 
 probes:
-  startup:
+  waitForApi:
     enabled: false
-    failureThreshold: 30
-    periodSeconds: 10
+    port: 5050
+    path: /api/health
+    periodSeconds: 5

@@ -30,6 +30,8 @@ spec:
       path: /fleet
       pathType: Prefix
     probes:
-      startup:
+      waitForApi:
         enabled: true
+        port: 5050
+        path: /api/health
     env: []

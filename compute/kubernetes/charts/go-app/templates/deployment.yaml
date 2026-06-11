@@ -26,6 +26,19 @@ spec:
         module: {{ .Values.module }}
         app: {{ .Values.app }}
     spec:
+      {{- if .Values.probes.waitForApi.enabled }}
+      initContainers:
+        - name: wait-for-api
+          image: curlimages/curl:8.8.0
+          command:
+            - sh
+            - -c
+            - |
+              until curl -fsS "http://{{ .Values.environment }}-{{ .Values.module }}-api:{{ .Values.probes.waitForApi.port }}{{ .Values.probes.waitForApi.path }}"; do
+                echo "Waiting for API..."
+                sleep {{ .Values.probes.waitForApi.periodSeconds }}
+              done
+      {{- end }}
       containers:
         - name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
           image: "ghcr.io/tmlmobilidade/go-{{ .Values.module }}-{{ .Values.app }}:{{ .Values.environment }}"
@@ -54,11 +67,3 @@ spec:
             {{- if .Values.env }}
             {{- toYaml .Values.env | nindent 12 }}
             {{- end }}
-          {{- if .Values.probes.startup.enabled }}
-          startupProbe:
-            httpGet:
-              path: {{ .Values.ingress.path }}/api/health
-              port: {{ .Values.service.targetPort }}
-            failureThreshold: {{ .Values.probes.startup.failureThreshold }}
-            periodSeconds: {{ .Values.probes.startup.periodSeconds }}
-          {{- end }}

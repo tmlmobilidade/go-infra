@@ -20,3 +20,9 @@ ingress:
 secrets: []
 
 env: []
+
+probes:
+  startup:
+    enabled: false
+    failureThreshold: 30
+    periodSeconds: 10

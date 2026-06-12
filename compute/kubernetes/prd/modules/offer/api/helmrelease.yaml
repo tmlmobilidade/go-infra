@@ -22,6 +22,8 @@ spec:
     environment: prd
     module: offer
     app: api
+    resources:
+      memory: 2Gi
     replicas: 1
     service:
       targetPort: 5050

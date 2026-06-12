@@ -32,4 +32,5 @@ spec:
     probes:
       startup:
         enabled: true
+        path: /auth/health
     env: []

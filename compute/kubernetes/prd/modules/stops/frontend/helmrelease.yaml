@@ -29,4 +29,7 @@ spec:
       enabled: true
       path: /stops
       pathType: Prefix
+    probes:
+      startup:
+        enabled: true
     env: []

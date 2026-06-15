@@ -5,7 +5,7 @@ resources:
   # - organizer
   - pcgi-stream
   # - pcgi-sync
-  # - raw-stream
+  - raw-stream
   # - raw-sync-banking-taps
   # - raw-sync-inspection-decisions
   # - raw-sync-inspections

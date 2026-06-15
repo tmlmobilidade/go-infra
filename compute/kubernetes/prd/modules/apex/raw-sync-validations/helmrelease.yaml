@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: apex-sync-on-board-sales
+  name: apex-raw-sync-validations
   namespace: flux-system
 spec:
   interval: 30s
@@ -21,12 +21,13 @@ spec:
   values:
     environment: prd
     module: apex
-    app: sync-on-board-sales
+    app: raw-sync-validations
     replicas: 1
     service:
       targetPort: 5050
     ingress:
       enabled: false
     secrets:
-      - prd-module-apex
+      - prd-platform-pcgi-raw
+      - prd-platform-clickhouse
     env: []

@@ -24,7 +24,7 @@ spec:
     app: rides-cleaner
     replicas: 1
     resources:
-      memory: 2Gi
+      memory: 3Gi
     ingress:
       enabled: false
     secrets:

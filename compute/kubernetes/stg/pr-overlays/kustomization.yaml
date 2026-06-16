@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - pr-417
   - pr-426
-  - pr-432
   - pr-448
   - pr-453
   - pr-456

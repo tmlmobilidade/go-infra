@@ -1,168 +1,168 @@
-# # #
+# # # #
 
-name: Preview Environment
+# name: Preview Environment
 
-on:
-  repository_dispatch:
-    types: [preview-pr]
+# on:
+#   repository_dispatch:
+#     types: [preview-pr]
 
-concurrency:
-  group: pr-overlays
-  cancel-in-progress: false
+# concurrency:
+#   group: pr-overlays
+#   cancel-in-progress: false
 
-jobs:
+# jobs:
 
-  create-preview:
-    if: github.event.client_payload.pr_action == 'opened' || github.event.client_payload.pr_action == 'reopened'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
+#   create-preview:
+#     if: github.event.client_payload.pr_action == 'opened' || github.event.client_payload.pr_action == 'reopened'
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write
+#     steps:
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
 
-      - name: Install yq
-        run: |
-          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
-          sudo chmod +x /usr/local/bin/yq
+#       - name: Install yq
+#         run: |
+#           sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+#           sudo chmod +x /usr/local/bin/yq
 
-      - name: Generate PR overlay manifests
-        env:
-          PR_NUMBER: ${{ github.event.client_payload.pr_number }}
-        run: |
-          set -euo pipefail
+#       - name: Generate PR overlay manifests
+#         env:
+#           PR_NUMBER: ${{ github.event.client_payload.pr_number }}
+#         run: |
+#           set -euo pipefail
 
-          PR_DIR="compute/kubernetes/stg/pr-overlays/pr-${PR_NUMBER}"
-          STG_MODULES="compute/kubernetes/stg/modules"
-          mkdir -p "$PR_DIR"
+#           PR_DIR="compute/kubernetes/stg/pr-overlays/pr-${PR_NUMBER}"
+#           STG_MODULES="compute/kubernetes/stg/modules"
+#           mkdir -p "$PR_DIR"
 
-          # --- 1. Namespaces: pr-{N}-{module} ---
-          FIRST=true
-          for MODULE_DIR in "$STG_MODULES"/*/; do
-            MODULE=$(basename "$MODULE_DIR")
-            [[ ! -f "$MODULE_DIR/module-secrets.1passworditem.yaml" ]] && continue
-            if [ "$FIRST" = true ]; then FIRST=false; else echo "---" >> "$PR_DIR/namespaces.yaml"; fi
-            cat >> "$PR_DIR/namespaces.yaml" <<EOF
-          apiVersion: v1
-          kind: Namespace
-          metadata:
-            name: pr-${PR_NUMBER}-${MODULE}
-            annotations:
-              operator.1password.io/auto-restart: "true"
-          EOF
-          done
+#           # --- 1. Namespaces: pr-{N}-{module} ---
+#           FIRST=true
+#           for MODULE_DIR in "$STG_MODULES"/*/; do
+#             MODULE=$(basename "$MODULE_DIR")
+#             [[ ! -f "$MODULE_DIR/module-secrets.1passworditem.yaml" ]] && continue
+#             if [ "$FIRST" = true ]; then FIRST=false; else echo "---" >> "$PR_DIR/namespaces.yaml"; fi
+#             cat >> "$PR_DIR/namespaces.yaml" <<EOF
+#           apiVersion: v1
+#           kind: Namespace
+#           metadata:
+#             name: pr-${PR_NUMBER}-${MODULE}
+#             annotations:
+#               operator.1password.io/auto-restart: "true"
+#           EOF
+#           done
 
-          # --- 2. Secrets: copy from STG templates, update namespace ---
-          for MODULE_DIR in "$STG_MODULES"/*/; do
-            MODULE=$(basename "$MODULE_DIR")
-            for SECRET_FILE in "$MODULE_DIR"/module-secrets.1passworditem.yaml "$MODULE_DIR"/platform-secrets.1passworditem.yaml; do
-              [[ ! -f "$SECRET_FILE" ]] && continue
-              BASENAME=$(basename "$SECRET_FILE")
-              yq eval-all ".metadata.namespace = \"pr-${PR_NUMBER}-${MODULE}\"" "$SECRET_FILE" \
-                > "$PR_DIR/${MODULE}-${BASENAME}"
-            done
-          done
+#           # --- 2. Secrets: copy from STG templates, update namespace ---
+#           for MODULE_DIR in "$STG_MODULES"/*/; do
+#             MODULE=$(basename "$MODULE_DIR")
+#             for SECRET_FILE in "$MODULE_DIR"/module-secrets.1passworditem.yaml "$MODULE_DIR"/platform-secrets.1passworditem.yaml; do
+#               [[ ! -f "$SECRET_FILE" ]] && continue
+#               BASENAME=$(basename "$SECRET_FILE")
+#               yq eval-all ".metadata.namespace = \"pr-${PR_NUMBER}-${MODULE}\"" "$SECRET_FILE" \
+#                 > "$PR_DIR/${MODULE}-${BASENAME}"
+#             done
+#           done
 
-          # --- 3. HelmReleases: transform STG templates for this PR ---
-          for MODULE_DIR in "$STG_MODULES"/*/; do
-            MODULE=$(basename "$MODULE_DIR")
-            for APP_DIR in "$MODULE_DIR"/*/; do
-              [[ ! -f "$APP_DIR/helmrelease.yaml" ]] && continue
-              APP=$(basename "$APP_DIR")
+#           # --- 3. HelmReleases: transform STG templates for this PR ---
+#           for MODULE_DIR in "$STG_MODULES"/*/; do
+#             MODULE=$(basename "$MODULE_DIR")
+#             for APP_DIR in "$MODULE_DIR"/*/; do
+#               [[ ! -f "$APP_DIR/helmrelease.yaml" ]] && continue
+#               APP=$(basename "$APP_DIR")
 
-              yq eval '
-                .metadata.name = "pr-'"${PR_NUMBER}"'-" + .spec.values.module + "-" + .spec.values.app |
-                .spec.targetNamespace = "pr-'"${PR_NUMBER}"'-" + .spec.values.module |
-                .spec.values.environment = "pr-'"${PR_NUMBER}"'" |
-                .spec.values.ingress.host = "pr-'"${PR_NUMBER}"'.go-stg.tmlmobilidade.pt"
-              ' "$APP_DIR/helmrelease.yaml" > "$PR_DIR/${MODULE}-${APP}.yaml"
-            done
-          done
+#               yq eval '
+#                 .metadata.name = "pr-'"${PR_NUMBER}"'-" + .spec.values.module + "-" + .spec.values.app |
+#                 .spec.targetNamespace = "pr-'"${PR_NUMBER}"'-" + .spec.values.module |
+#                 .spec.values.environment = "pr-'"${PR_NUMBER}"'" |
+#                 .spec.values.ingress.host = "pr-'"${PR_NUMBER}"'.go-stg.tmlmobilidade.pt"
+#               ' "$APP_DIR/helmrelease.yaml" > "$PR_DIR/${MODULE}-${APP}.yaml"
+#             done
+#           done
 
-          # --- 4. Kustomization for this PR directory ---
-          {
-            echo "apiVersion: kustomize.config.k8s.io/v1beta1"
-            echo "kind: Kustomization"
-            echo "resources:"
-            echo "  - namespaces.yaml"
-            for f in "$PR_DIR"/*.1passworditem.yaml; do
-              [[ -f "$f" ]] && echo "  - $(basename "$f")"
-            done
-            for f in "$PR_DIR"/*.yaml; do
-              BASENAME=$(basename "$f")
-              [[ "$BASENAME" == "kustomization.yaml" || "$BASENAME" == "namespaces.yaml" || "$BASENAME" == *.1passworditem.yaml ]] && continue
-              echo "  - $BASENAME"
-            done
-          } > "$PR_DIR/kustomization.yaml"
+#           # --- 4. Kustomization for this PR directory ---
+#           {
+#             echo "apiVersion: kustomize.config.k8s.io/v1beta1"
+#             echo "kind: Kustomization"
+#             echo "resources:"
+#             echo "  - namespaces.yaml"
+#             for f in "$PR_DIR"/*.1passworditem.yaml; do
+#               [[ -f "$f" ]] && echo "  - $(basename "$f")"
+#             done
+#             for f in "$PR_DIR"/*.yaml; do
+#               BASENAME=$(basename "$f")
+#               [[ "$BASENAME" == "kustomization.yaml" || "$BASENAME" == "namespaces.yaml" || "$BASENAME" == *.1passworditem.yaml ]] && continue
+#               echo "  - $BASENAME"
+#             done
+#           } > "$PR_DIR/kustomization.yaml"
 
-          # --- 5. Update parent kustomization ---
-          {
-            echo "apiVersion: kustomize.config.k8s.io/v1beta1"
-            echo "kind: Kustomization"
-            echo "resources:"
-            HAS_DIRS=false
-            for d in compute/kubernetes/stg/pr-overlays/pr-*/; do
-              [[ ! -d "$d" ]] && continue
-              echo "  - $(basename "$d")"
-              HAS_DIRS=true
-            done
-            if [ "$HAS_DIRS" = false ]; then echo "  []"; fi
-          } > compute/kubernetes/stg/pr-overlays/kustomization.yaml
+#           # --- 5. Update parent kustomization ---
+#           {
+#             echo "apiVersion: kustomize.config.k8s.io/v1beta1"
+#             echo "kind: Kustomization"
+#             echo "resources:"
+#             HAS_DIRS=false
+#             for d in compute/kubernetes/stg/pr-overlays/pr-*/; do
+#               [[ ! -d "$d" ]] && continue
+#               echo "  - $(basename "$d")"
+#               HAS_DIRS=true
+#             done
+#             if [ "$HAS_DIRS" = false ]; then echo "  []"; fi
+#           } > compute/kubernetes/stg/pr-overlays/kustomization.yaml
 
-          echo "Generated PR overlay in $PR_DIR"
-          ls "$PR_DIR"
+#           echo "Generated PR overlay in $PR_DIR"
+#           ls "$PR_DIR"
 
-      - name: Commit and push
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add compute/kubernetes/stg/pr-overlays/
-          git commit -m "chore: create preview environment for PR #${PR_NUMBER}"
-          git pull --rebase
-          git push
+#       - name: Commit and push
+#         run: |
+#           git config user.name "github-actions[bot]"
+#           git config user.email "github-actions[bot]@users.noreply.github.com"
+#           git add compute/kubernetes/stg/pr-overlays/
+#           git commit -m "chore: create preview environment for PR #${PR_NUMBER}"
+#           git pull --rebase
+#           git push
 
-  cleanup-preview:
-    if: github.event.client_payload.pr_action == 'closed'
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
+#   cleanup-preview:
+#     if: github.event.client_payload.pr_action == 'closed'
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write
+#     steps:
 
-      - name: Checkout repository
-        uses: actions/checkout@v4
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
 
-      - name: Remove PR overlay
-        env:
-          PR_NUMBER: ${{ github.event.client_payload.pr_number }}
-        run: |
-          set -euo pipefail
+#       - name: Remove PR overlay
+#         env:
+#           PR_NUMBER: ${{ github.event.client_payload.pr_number }}
+#         run: |
+#           set -euo pipefail
 
-          PR_DIR="compute/kubernetes/stg/pr-overlays/pr-${PR_NUMBER}"
-          if [ ! -d "$PR_DIR" ]; then
-            echo "PR directory $PR_DIR does not exist, nothing to clean up"
-            exit 0
-          fi
+#           PR_DIR="compute/kubernetes/stg/pr-overlays/pr-${PR_NUMBER}"
+#           if [ ! -d "$PR_DIR" ]; then
+#             echo "PR directory $PR_DIR does not exist, nothing to clean up"
+#             exit 0
+#           fi
 
-          rm -rf "$PR_DIR"
+#           rm -rf "$PR_DIR"
 
-          # Regenerate parent kustomization
-          {
-            echo "apiVersion: kustomize.config.k8s.io/v1beta1"
-            echo "kind: Kustomization"
-            echo "resources:"
-            HAS_DIRS=false
-            for d in compute/kubernetes/stg/pr-overlays/pr-*/; do
-              [[ ! -d "$d" ]] && continue
-              echo "  - $(basename "$d")"
-              HAS_DIRS=true
-            done
-            if [ "$HAS_DIRS" = false ]; then echo "  []"; fi
-          } > compute/kubernetes/stg/pr-overlays/kustomization.yaml
+#           # Regenerate parent kustomization
+#           {
+#             echo "apiVersion: kustomize.config.k8s.io/v1beta1"
+#             echo "kind: Kustomization"
+#             echo "resources:"
+#             HAS_DIRS=false
+#             for d in compute/kubernetes/stg/pr-overlays/pr-*/; do
+#               [[ ! -d "$d" ]] && continue
+#               echo "  - $(basename "$d")"
+#               HAS_DIRS=true
+#             done
+#             if [ "$HAS_DIRS" = false ]; then echo "  []"; fi
+#           } > compute/kubernetes/stg/pr-overlays/kustomization.yaml
 
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add compute/kubernetes/stg/pr-overlays/
-          git commit -m "chore: remove preview environment for PR #${PR_NUMBER}"
-          git pull --rebase
-          git push
+#           git config user.name "github-actions[bot]"
+#           git config user.email "github-actions[bot]@users.noreply.github.com"
+#           git add compute/kubernetes/stg/pr-overlays/
+#           git commit -m "chore: remove preview environment for PR #${PR_NUMBER}"
+#           git pull --rebase
+#           git push

@@ -1,25 +1,4 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - pr-417
-  - pr-426
-  - pr-448
-  - pr-453
-  - pr-456
-  - pr-471
-  - pr-472
-  - pr-477
-  - pr-478
-  - pr-496
-  - pr-497
-  - pr-499
-  - pr-504
-  - pr-505
-  - pr-509
-  - pr-510
-  - pr-513
-  - pr-515
-  - pr-516
-  - pr-517
-  - pr-519
   - pr-520

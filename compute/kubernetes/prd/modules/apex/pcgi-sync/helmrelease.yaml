@@ -23,6 +23,8 @@ spec:
     module: apex
     app: pcgi-sync
     replicas: 1
+    resources:
+      memory: 4Gi
     service:
       targetPort: 5050
     ingress:

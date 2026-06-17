@@ -37,3 +37,5 @@ spec:
         memory: "8Gi"
     service:
       type: ClusterIP
+    secrets:
+      - prd-platform-sentry

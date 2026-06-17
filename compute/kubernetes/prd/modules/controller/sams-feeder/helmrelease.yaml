@@ -27,4 +27,5 @@ spec:
       enabled: false
     secrets:
       - prd-module-controller
+      - prd-platform-sentry
     env: []

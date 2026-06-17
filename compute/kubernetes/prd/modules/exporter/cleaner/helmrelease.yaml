@@ -30,4 +30,5 @@ spec:
     secrets:
       - prd-module-exporter
       - prd-platform-storage
+      - prd-platform-sentry
     env: []

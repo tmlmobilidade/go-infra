@@ -35,6 +35,7 @@ spec:
     secrets:
       - prd-module-fleet
       - prd-platform-clickhouse
+      - prd-platform-sentry
     probes:
       startup:
         enabled: true

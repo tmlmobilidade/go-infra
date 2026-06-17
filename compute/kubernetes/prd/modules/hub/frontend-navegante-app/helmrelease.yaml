@@ -29,4 +29,6 @@ spec:
       enabled: true
       path: /hub/navegante-app
       pathType: Prefix
+    secrets:
+      - prd-platform-sentry
     env: []

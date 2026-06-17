@@ -34,4 +34,5 @@ spec:
       - prd-platform-storage
       - prd-module-plans
       - prd-platform-email
+      - prd-platform-sentry
     env: []

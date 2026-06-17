@@ -29,4 +29,5 @@ spec:
       enabled: false
     secrets:
       - prd-module-auth
+      - prd-platform-sentry
     env: []

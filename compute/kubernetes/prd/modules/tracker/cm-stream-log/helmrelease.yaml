@@ -33,4 +33,5 @@ spec:
       - prd-platform-pcgi-raw
       - prd-platform-pcgi-legacy
       - prd-module-tracker
+      - prd-platform-sentry
     env: []

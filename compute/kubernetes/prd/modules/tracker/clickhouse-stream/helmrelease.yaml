@@ -33,4 +33,5 @@ spec:
       - prd-platform-clickhouse
       - prd-platform-pcgi-raw
       - prd-module-tracker
+      - prd-platform-sentry
     env: []

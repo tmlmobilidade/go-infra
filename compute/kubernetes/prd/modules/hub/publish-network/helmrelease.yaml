@@ -34,4 +34,5 @@ spec:
       - prd-platform-go-redis
       - prd-platform-storage
       - prd-module-hub
+      - prd-platform-sentry
     env: []

@@ -30,4 +30,5 @@ spec:
     secrets:
       - prd-platform-storage
       - prd-module-controller
+      - prd-platform-sentry
     env: []

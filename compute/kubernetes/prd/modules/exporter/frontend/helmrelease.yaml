@@ -33,4 +33,6 @@ spec:
       startup:
         enabled: true
         path: /exporter/health
+    secrets:
+      - prd-platform-sentry
     env: []

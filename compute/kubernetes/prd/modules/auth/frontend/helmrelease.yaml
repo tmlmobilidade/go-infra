@@ -29,6 +29,8 @@ spec:
       enabled: true
       path: /auth
       pathType: Prefix
+    secrets:
+      - prd-platform-sentry
     probes:
       startup:
         enabled: true

@@ -32,4 +32,5 @@ spec:
       enabled: false
     secrets:
       - prd-module-eta
+      - prd-platform-sentry
     env: []

@@ -37,6 +37,7 @@ spec:
     secrets:
       - prd-platform-storage
       - prd-module-stops
+      - prd-platform-sentry
     probes:
       startup:
         enabled: true

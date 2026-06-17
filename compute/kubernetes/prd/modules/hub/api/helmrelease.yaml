@@ -38,6 +38,7 @@ spec:
       - prd-module-hub
       - prd-platform-go-redis
       - prd-platform-storage
+      - prd-platform-sentry
     probes:
       startup:
         enabled: true

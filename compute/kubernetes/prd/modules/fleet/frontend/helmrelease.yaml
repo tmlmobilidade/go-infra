@@ -33,4 +33,6 @@ spec:
       startup:
         enabled: true
         path: /fleet/health
+    secrets:
+      - prd-platform-sentry
     env: []

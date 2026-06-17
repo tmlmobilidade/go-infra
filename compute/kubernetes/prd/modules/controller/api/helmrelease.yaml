@@ -37,6 +37,7 @@ spec:
     secrets:
       - prd-platform-email
       - prd-module-controller
+      - prd-platform-sentry
     probes:
       startup:
         enabled: true

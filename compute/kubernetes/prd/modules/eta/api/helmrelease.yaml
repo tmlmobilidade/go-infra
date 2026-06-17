@@ -36,6 +36,7 @@ spec:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     secrets:
       - prd-module-eta
+      - prd-platform-sentry
     probes:
       startup:
         enabled: true

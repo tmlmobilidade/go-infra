@@ -29,6 +29,8 @@ spec:
       enabled: true
       path: /controller
       pathType: Prefix
+    secrets:
+      - prd-platform-sentry
     probes:
       startup:
         enabled: true

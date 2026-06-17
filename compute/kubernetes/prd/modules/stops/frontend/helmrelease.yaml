@@ -33,4 +33,6 @@ spec:
       startup:
         enabled: true
         path: /stops/health
+    secrets:
+      - prd-platform-sentry
     env: []

@@ -32,4 +32,5 @@ spec:
       - prd-platform-go-redis
       - prd-platform-external-app-secrets
       - prd-module-hub
+      - prd-platform-sentry
     env: []

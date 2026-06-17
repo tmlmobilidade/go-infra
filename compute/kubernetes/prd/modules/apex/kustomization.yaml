@@ -4,7 +4,7 @@ resources:
   - secrets.yaml
   # - organizer
   # - pcgi-stream
-  # - pcgi-sync
+  - pcgi-sync
   # - raw-stream
   # - raw-sync-banking-taps
   # - raw-sync-inspection-decisions

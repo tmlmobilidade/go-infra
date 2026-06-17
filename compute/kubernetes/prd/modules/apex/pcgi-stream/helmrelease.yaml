@@ -30,4 +30,5 @@ spec:
     secrets:
       - prd-platform-pcgi-file-manager
       - prd-platform-pcgi-raw
+      - prd-platform-sentry
     env: []

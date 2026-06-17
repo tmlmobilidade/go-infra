@@ -30,4 +30,5 @@ spec:
     secrets:
       - prd-platform-pcgi-raw
       - prd-platform-clickhouse
+      - prd-platform-sentry
     env: []

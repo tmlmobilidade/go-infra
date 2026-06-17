@@ -3,13 +3,13 @@ kind: Kustomization
 resources:
   - secrets.yaml
   # - organizer
-  # - pcgi-stream
+  - pcgi-stream
   - pcgi-sync
-  # - raw-stream
-  # - raw-sync-banking-taps
-  # - raw-sync-inspection-decisions
-  # - raw-sync-inspections
-  # - raw-sync-locations
-  # - raw-sync-refunds
-  # - raw-sync-sales
-  # - raw-sync-validations
+  - raw-stream
+  - raw-sync-banking-taps
+  - raw-sync-inspection-decisions
+  - raw-sync-inspections
+  - raw-sync-locations
+  - raw-sync-refunds
+  - raw-sync-sales
+  - raw-sync-validations

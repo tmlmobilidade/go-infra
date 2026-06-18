@@ -12,4 +12,4 @@ resources:
   # - raw-sync-locations
   # - raw-sync-refunds
   # - raw-sync-sales
-  - raw-sync-validations
+  # - raw-sync-validations

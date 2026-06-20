@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: hub-frontend
+  name: hub-frontend-navegante-app
   namespace: flux-system
 spec:
   interval: 30s

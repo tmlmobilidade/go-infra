@@ -8,6 +8,7 @@ resources:
   - publish-alerts-cm
   - publish-gtfs
   - publish-gtfs-cm
+  - publish-metrics
   - publish-network
   - publish-plans
   - publish-realtime

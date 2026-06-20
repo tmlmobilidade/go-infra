@@ -4,6 +4,7 @@ resources:
   - secrets.yaml
   - api
   - frontend-navegante-app
+  - frontend-videowall
   - publish-alerts
   - publish-alerts-cm
   - publish-gtfs

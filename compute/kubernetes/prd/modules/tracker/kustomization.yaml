@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - secrets.yaml
   - ccfl-fetch
-  - clickhouse-stream
+  # - clickhouse-stream
   # - clickhouse-sync
   - cm-stream-core
   # - cm-stream-log

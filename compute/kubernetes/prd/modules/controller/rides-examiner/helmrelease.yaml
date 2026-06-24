@@ -22,12 +22,13 @@ spec:
     environment: prd
     module: controller
     app: rides-examiner
-    replicas: 3
+    replicas: 2
     resources:
       memory: 3Gi
     ingress:
       enabled: false
     secrets:
       - prd-module-controller
+      - prd-platform-clickhouse
       - prd-platform-sentry
     env: []

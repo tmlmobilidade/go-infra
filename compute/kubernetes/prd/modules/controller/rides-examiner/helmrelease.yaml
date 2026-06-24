@@ -22,7 +22,7 @@ spec:
     environment: prd
     module: controller
     app: rides-examiner
-    replicas: 2
+    replicas: 4
     resources:
       memory: 3Gi
     ingress:

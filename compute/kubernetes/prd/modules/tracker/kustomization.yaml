@@ -15,4 +15,5 @@ resources:
   - ttsl-fetch
   - tcb-fetch
   - crtm-aisa-fetch
+  - crtm-laveloz-fetch
   - fertagus-fetch

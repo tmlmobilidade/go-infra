@@ -14,8 +14,8 @@ resources:
   # - dates-platform-secrets.1passworditem.yaml
   # - exporter-module-secrets.1passworditem.yaml
   # - exporter-platform-secrets.1passworditem.yaml
-  # - fleet-module-secrets.1passworditem.yaml
-  # - fleet-platform-secrets.1passworditem.yaml
+  - fleet-module-secrets.1passworditem.yaml
+  - fleet-platform-secrets.1passworditem.yaml
   # - locations-module-secrets.1passworditem.yaml
   # - locations-platform-secrets.1passworditem.yaml
   # - offer-module-secrets.1passworditem.yaml
@@ -60,8 +60,8 @@ resources:
   # - exporter-export-gtfs-merged.yaml
   # - exporter-export-posters.yaml
   # - exporter-frontend.yaml
-  # - fleet-api.yaml
-  # - fleet-frontend.yaml
+  - fleet-api.yaml
+  - fleet-frontend.yaml
   # - locations-api.yaml
   # - locations-frontend.yaml
   # - offer-api.yaml

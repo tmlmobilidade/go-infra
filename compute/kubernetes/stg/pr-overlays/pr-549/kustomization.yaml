@@ -5,3 +5,4 @@ resources:
   - auth-api.yaml
   - auth-cleaner.yaml
   - auth-frontend.yaml
+  - auth-secrets.yaml

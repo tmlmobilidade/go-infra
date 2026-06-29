@@ -6,3 +6,6 @@ resources:
   - auth-cleaner.yaml
   - auth-frontend.yaml
   - auth-secrets.yaml
+  - fleet-api.yaml
+  - fleet-frontend.yaml
+  - fleet-secrets.yaml

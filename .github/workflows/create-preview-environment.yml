@@ -117,6 +117,14 @@ jobs:
           ensure_module_secrets() {
             local module="$1"
             local module_dir="${STG_MODULES}/${module}"
+
+            if [[ -f "$module_dir/secrets.yaml" ]]; then
+              out="$PR_DIR/${module}-secrets.yaml"
+              if [[ ! -f "$out" ]]; then
+                yq eval-all ".metadata.namespace = \"pr-${PR_NUMBER}-${module}\"" "$module_dir/secrets.yaml" > "$out"
+              fi
+            fi
+
             for secret_file in "$module_dir"/module-secrets.1passworditem.yaml "$module_dir"/platform-secrets.1passworditem.yaml; do
               [[ ! -f "$secret_file" ]] && continue
               basename=$(basename "$secret_file")
@@ -159,12 +167,9 @@ jobs:
             echo "kind: Kustomization"
             echo "resources:"
             echo "  - namespaces.yaml"
-            for f in "$PR_DIR"/*.1passworditem.yaml; do
-              [[ -f "$f" ]] && echo "  - $(basename "$f")"
-            done
             for f in "$PR_DIR"/*.yaml; do
               BASENAME=$(basename "$f")
-              [[ "$BASENAME" == "kustomization.yaml" || "$BASENAME" == "namespaces.yaml" || "$BASENAME" == *.1passworditem.yaml ]] && continue
+              [[ "$BASENAME" == "kustomization.yaml" || "$BASENAME" == "namespaces.yaml" ]] && continue
               echo "  - $BASENAME"
             done
           } > "$PR_DIR/kustomization.yaml"

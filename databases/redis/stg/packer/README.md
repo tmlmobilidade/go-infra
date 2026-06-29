@@ -6,7 +6,7 @@ Follow this guide to build custom VM images using Packer on OCI. You will need a
 ## Usage
 Open a new terminal window and change the shell into this directory:
 ```
-cd ./infra/mongodb/packer
+cd ./infra/redis/packer
 ```
 
 Initialize the packer module and validate the configuration files:

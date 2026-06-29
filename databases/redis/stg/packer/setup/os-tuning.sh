@@ -11,22 +11,16 @@ cloud-init status --wait
 sleep 30
 echo "[tuning] cloud-init finished."
 
-
 # 2.
-# Apply MongoDB-recommended kernel settings.
+# Enable memory overcommit to prevent Redis
+# from failing under low memory conditions.
 
-echo "[tuning] Applying sysctl settings..."
-cat >> /etc/sysctl.d/99-mongodb.conf <<'EOF'
-# MongoDB recommended kernel settings
-fs.file-max = 2097152
-vm.swappiness = 1
-vm.dirty_ratio = 15
-vm.dirty_background_ratio = 5
-net.core.somaxconn = 65535
-net.ipv4.tcp_max_syn_backlog = 65535
-EOF
-sysctl -p /etc/sysctl.d/99-mongodb.conf
-echo "[tuning] sysctl settings applied."
-
-
-echo "[tuning] OS tuning complete."
+echo "[tuning] Enabling memory overcommit..."
+if ! grep -q "vm.overcommit_memory" /etc/sysctl.conf; then
+	 echo "vm.overcommit_memory = 1" | sudo tee -a /etc/sysctl.conf >/dev/null
+	 echo "[tuning] Added 'vm.overcommit_memory = 1' to /etc/sysctl.conf."
+else
+	 echo "[tuning] 'vm.overcommit_memory' already set in /etc/sysctl.conf, skipping."
+fi
+sudo sysctl -w vm.overcommit_memory=1
+echo "[tuning] Memory overcommit enabled."

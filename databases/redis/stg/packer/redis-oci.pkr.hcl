@@ -1,8 +1,8 @@
 # -----------------------------------------------------------------------
-# mongodb-oci.pkr.hcl
+# redis-oci.pkr.hcl
 #
-# Builds a custom OCI image for MongoDB replica nodes with Docker and
-# OS tuning pre-installed. MongoDB itself runs as a Docker container
+# Builds a custom OCI image for Redis nodes with Docker and
+# OS tuning pre-installed. Redis itself runs as a Docker container
 # at runtime (not baked into the image) so it can be updated without
 # rebuilding the image.
 #
@@ -31,7 +31,7 @@ packer {
 # Configure the VM that will be used
 # to create the final output image.
 
-source "oracle-oci" "mongodb-source" {
+source "oracle-oci" "redis-source" {
 
 	# In HashiCorp Packer, the isotime function expects
 	# a Go time format layout. Go uses the reference date:
@@ -74,7 +74,7 @@ source "oracle-oci" "mongodb-source" {
 
 build {
 
-	sources = ["source.oracle-oci.mongodb-source"]
+	sources = ["source.oracle-oci.redis-source"]
 
 	# 1.
 	# OS performance tuning + install prerequisite packages
@@ -113,22 +113,8 @@ build {
 		]
 	}
 
-	# The attach-volume.sh script is responsible
-	# for attaching and mounting the block volume.
-
-	provisioner "file" {
-		source = "${path.root}/init/attach-volume.sh"
-		destination = "/opt/app/attach-volume.sh"
-	}
-
-	provisioner "shell" {
-		inline = [
-			"sudo chmod +x /opt/app/attach-volume.sh"
-		]
-	}
-
 	# The firewall.sh script is responsible for
-	# configuring the firewall to allow MongoDB traffic.
+	# configuring the firewall to allow Redis traffic.
 
 	provisioner "file" {
 		source = "${path.root}/init/firewall.sh"
@@ -141,36 +127,8 @@ build {
 		]
 	}
 
-	# The setup-mongodb.sh script is responsible for
-	# setting up the MongoDB data directories and permissions.
-
-	provisioner "file" {
-		source = "${path.root}/init/setup-mongodb.sh"
-		destination = "/opt/app/setup-mongodb.sh"
-	}
-
-	provisioner "shell" {
-		inline = [
-			"sudo chmod +x /opt/app/setup-mongodb.sh"
-		]
-	}
-
-	# The init-mongodb-replica-set.sh script is responsible for
-	# initializing the MongoDB replica set on the primary node.
-
-	provisioner "file" {
-		source = "${path.root}/init/init-mongodb-replica-set.sh"
-		destination = "/opt/app/init-mongodb-replica-set.sh"
-	}
-
-	provisioner "shell" {
-		inline = [
-			"sudo chmod +x /opt/app/init-mongodb-replica-set.sh"
-		]
-	}
-
 	# The compose.yaml file holds the configuration
-	# that defines the MongoDB container and its settings.
+	# that defines the Redis container and its settings.
 
 	provisioner "file" {
 		source = "${path.root}/init/compose.yaml"

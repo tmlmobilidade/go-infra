@@ -4,13 +4,13 @@
 variable "display_name" {
 	type = string
 	description = "The name of the deployment. Used as the display name for resource names and tags."
-	default = "iso-go-stg-mongodb"
+	default = "iso-go-stg-redis"
 }
 
 variable "instance_count" {
 	type = number
-	description = "Number of MongoDB replica nodes to provision."
-	default = 3
+	description = "Number of Redis nodes to provision."
+	default = 1
 }
 
 
@@ -85,13 +85,11 @@ variable "subnet_ocid" {
 variable "private_ips" {
 	type = list(string)
 	description = <<-EOT
-	List of 3 static private IP addresses to assign to the replica nodes (one per node).
+	List of 1 static private IP address to assign to the node (one per node).
 	Must be free within the existing subnet — verify in OCI Console > Networking before applying.
 	EOT
 	default = [
-		"10.91.101.161",
-		"10.91.101.162",
-		"10.91.101.163"
+		"10.91.101.172"
 	]
 }
 
@@ -102,7 +100,7 @@ variable "private_ips" {
 variable "base_image_ocid" {
 	type = string
 	description = "OCID of the Packer-built image."
-	default = ""
+	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaalruyafcjdirqdf4g4pqxpn23onh2e6yxmevs76ustoyffsotj7ma"
 }
 
 variable "vm_shape" {
@@ -127,53 +125,4 @@ variable "boot_volume_size_in_gbs" {
 	type = number
 	description = "Boot volume size in GBs."
 	default = 50
-}
-
-
-# # #
-# STORAGE
-
-variable "block_volume_ocids" {
-	type = list(string)
-	description = <<-EOT
-	List of OCIDs for existing block volumes to attach as data disks to the replica nodes.
-	Each volume must be pre-created and match the count of replica nodes.
-	EOT
-	default = [
-		"",
-		"",
-		"",
-	]
-}
-
-
-# # #
-# MONGODB
-
-variable "mongodb_port" {
-	type = number
-	description = "MongoDB listening port."
-	default = 27017
-}
-
-variable "mongodb_root_username" {
-	type = string
-	description = "MongoDB root username."
-	default = "admin"
-}
-
-variable "mongodb_root_password" {
-	type = string
-	sensitive = true
-	description = "MongoDB root password."
-}
-
-variable "mongodb_keyfile" {
-	type = string
-	sensitive = true
-	description = <<-EOT
-	Shared keyfile content for MongoDB replica set internal authentication.
-	All nodes must use the same keyfile. Generate once with: `openssl rand -base64 756`
-	Then paste the output (including newlines) as the value of this variable.
-	EOT
 }

@@ -37,11 +37,11 @@ locals {
 
 # # #
 # COMPUTE
-# Deploy MongoDB Replica VMs
+# Deploy Redis Replica VMs
 # Each replica node is a separate instance
 # with its own boot volume and attached data volume.
 
-resource "oci_core_instance" "mongodb" {
+resource "oci_core_instance" "redis" {
 
 	display_name = "${var.display_name}-${count.index + 1}"
 
@@ -74,17 +74,8 @@ resource "oci_core_instance" "mongodb" {
 
 		ssh_authorized_keys = local.ssh_authorized_keys
 
-		# cloud-init runs on first boot and configures MongoDB replica set.
-		# All node IPs are known at plan time so they are injected into the template.
-		# Only node 0 (primary) runs rs.initiate() after the container starts.
-		user_data = base64encode(templatefile("${path.module}/templates/cloud-init.yaml", {
-			node_index = count.index
-			all_private_ips = var.private_ips
-			mongodb_root_username = var.mongodb_root_username
-			mongodb_root_password = var.mongodb_root_password
-			mongodb_keyfile = var.mongodb_keyfile
-			mongodb_port = var.mongodb_port
-		}))
+		# cloud-init runs on first boot and configures Redis.
+		user_data = base64encode(file("${path.module}/templates/cloud-init.yaml"))
 
 	}
 
@@ -93,29 +84,5 @@ resource "oci_core_instance" "mongodb" {
 		"ManagedBy" = "terraform"
 		"ReplicaIndex" = tostring(count.index + 1)
 	}
-
-}
-
-
-# # #
-# BLOCK VOLUMES ATTACHMENT
-# Each replica node has a dedicated data volume
-# attached for MongoDB data storage. These volumes
-# are created separately to prevent accidental deletion
-# when running Terraform commands.
-
-resource "oci_core_volume_attachment" "mongodb_data" {
-
-	count = var.instance_count
-
-	instance_id = oci_core_instance.mongodb[count.index].id
-
-	volume_id = var.block_volume_ocids[count.index]
-
-	# Paravirtualized is easier to manage
-	# in cloud-init than iSCSI
-	attachment_type = "paravirtualized"
-
-	is_pv_encryption_in_transit_enabled = false
 
 }

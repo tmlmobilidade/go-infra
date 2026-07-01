@@ -1,0 +1,15 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - secrets.yaml
+  - api
+  - frontend-navegante-app
+  - frontend-videowall
+  - publish-alerts
+  - publish-alerts-cm
+  - publish-gtfs
+  - publish-gtfs-cm
+  - publish-metrics
+  - publish-network
+  - publish-plans
+  - publish-realtime

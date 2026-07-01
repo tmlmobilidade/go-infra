@@ -11,7 +11,9 @@ resources:
   # - cm-sync-log
   - cp-fetch
   - mobi-fetch
+  - ml-fetch
   - ttsl-fetch
   - tcb-fetch
   - crtm-aisa-fetch
+  - crtm-laveloz-fetch
   - fertagus-fetch

@@ -29,4 +29,7 @@ spec:
       memory: 1Gi
     ingress:
       enabled: false
+    secrets:
+      - prd-platform-storage
+      - prd-platform-sentry
     env: []

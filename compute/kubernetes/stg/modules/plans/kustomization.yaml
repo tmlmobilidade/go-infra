@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - secrets.yaml
   - api/helmrelease.yaml
-  - cleaner/helmrelease.yaml
+  - organizer/helmrelease.yaml
   - frontend/helmrelease.yaml
   - validator/helmrelease.yaml
+  - export-posters/helmrelease.yaml

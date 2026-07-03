@@ -28,9 +28,6 @@ spec:
       path: /locations
       pathType: Prefix
       host: pr-477.go-stg.tmlmobilidade.pt
-    secrets:
-      - stg-platform-email
-      - stg-platform-storage
     env: []
     environment: pr-477
     app: frontend

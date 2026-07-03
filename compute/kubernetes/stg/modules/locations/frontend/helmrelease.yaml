@@ -27,9 +27,6 @@ spec:
       enabled: true
       path: /locations
       pathType: Prefix
-    secrets:
-      - stg-platform-email
-      - stg-platform-storage
     env: []
     environment: stg
     app: frontend

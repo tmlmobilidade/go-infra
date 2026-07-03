@@ -31,5 +31,6 @@ spec:
       enabled: false
     secrets:
       - prd-platform-storage
+      - prd-module-stops
       - prd-platform-sentry
     env: []

@@ -89,7 +89,7 @@ variable "private_ips" {
 	Must be free within the existing subnet — verify in OCI Console > Networking before applying.
 	EOT
 	default = [
-		"10.91.101.172"
+		"10.91.101.171"
 	]
 }
 

@@ -6,6 +6,9 @@ resources:
   - auth-cleaner.yaml
   - auth-frontend.yaml
   - auth-secrets.yaml
+  - locations-api.yaml
+  - locations-frontend.yaml
+  - locations-secrets.yaml
   - stops-api.yaml
   - stops-frontend.yaml
   - stops-organizer.yaml

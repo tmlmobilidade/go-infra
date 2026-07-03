@@ -28,7 +28,7 @@ spec:
       path: /stops
       pathType: Prefix
     secrets:
-      - stg-platform-email
+      - stg-module-stops
       - stg-platform-storage
     env: []
     environment: stg

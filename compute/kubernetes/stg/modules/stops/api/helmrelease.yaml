@@ -31,8 +31,8 @@ spec:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     secrets:
-      - stg-platform-email
       - stg-platform-storage
+      - stg-module-stops
     env: []
     environment: stg
     app: api

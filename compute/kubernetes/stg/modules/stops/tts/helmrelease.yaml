@@ -1,0 +1,34 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: stops-tts
+  namespace: flux-system
+spec:
+  interval: 30s
+  dependsOn:
+    - name: onepassword-connect
+  targetNamespace: prd-stops
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: compute/kubernetes/charts/go-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    environment: prd
+    module: stops
+    app: tts
+    replicas: 1
+    service:
+      targetPort: 8000
+    resources:
+      memory: 6Gi
+    ingress:
+      enabled: false
+    secrets:
+      - stg-platform-storage
+    env: []

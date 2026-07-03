@@ -7,3 +7,4 @@ resources:
   - frontend/helmrelease.yaml
   - validator/helmrelease.yaml
   - export-posters/helmrelease.yaml
+  - tts/helmrelease.yaml

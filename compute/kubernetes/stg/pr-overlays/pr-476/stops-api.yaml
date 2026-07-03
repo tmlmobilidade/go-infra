@@ -32,8 +32,8 @@ spec:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
       host: pr-476.go-stg.tmlmobilidade.pt
     secrets:
-      - stg-platform-email
       - stg-platform-storage
+      - stg-module-stops
     env: []
     environment: pr-476
     app: api

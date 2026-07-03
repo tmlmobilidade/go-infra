@@ -29,7 +29,7 @@ spec:
       pathType: Prefix
       host: pr-476.go-stg.tmlmobilidade.pt
     secrets:
-      - stg-platform-email
+      - stg-module-stops
       - stg-platform-storage
     env: []
     environment: pr-476

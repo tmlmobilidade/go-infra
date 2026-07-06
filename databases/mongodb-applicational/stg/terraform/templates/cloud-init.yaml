@@ -1,0 +1,86 @@
+#cloud-config
+
+# -----------------------------------------------------------------------
+# cloud-init.yaml — MongoDB Replica Set Node (node_index = ${node_index})
+#
+# Docker and OS tuning are pre-baked into the Packer image.
+# This file handles runtime concerns only:
+#   - Attaches and mounts the block volume
+#   - Writes the shared replica set keyfile (same content on all nodes)
+#   - Writes Docker Compose and starts mongod with --replSet
+#   - Node 0 (primary) waits for mongod to be ready and runs rs.initiate()
+#     with all 3 node IPs, so the replica set is self-initializing on first boot.
+#
+# Terraform variables injected:
+#   node_index, all_private_ips, mongodb_port,
+#   mongodb_root_username, mongodb_root_password, mongodb_keyfile
+#
+# Note: mongodb_port are hardcoded in packer/templates/compose.yaml
+#   and only referenced here for rs.initiate().
+# -----------------------------------------------------------------------
+
+packages:
+  - xfsprogs
+
+runcmd:
+
+  # 1.
+  # Attach and mount the block volume
+  # using the script pre-packed by Packer
+
+  - /opt/app/attach-volume.sh
+  - rm /opt/app/attach-volume.sh
+
+  # 2.
+  # Configure the firewall to allow MongoDB traffic
+  # using the script pre-packed by Packer
+
+  - /opt/app/firewall.sh
+  - rm /opt/app/firewall.sh
+
+  # 3.
+  # Setup MongoDB Directories
+  # using the script pre-packed by Packer
+
+  - /opt/app/setup-mongodb.sh
+  - rm /opt/app/setup-mongodb.sh
+
+  # 4.
+  # Write Shared Replica Set Keyfile
+  # Same secret on all nodes — injected by Terraform via mongodb_keyfile variable.
+  # Base64-encoded to avoid YAML parse errors with multiline content.
+  # Permission 400 owned by mongodb user (999) is required by mongod.
+
+  - echo "${base64encode(mongodb_keyfile)}" | base64 -d > /opt/app/persistent-data/replica.key
+  - chmod 400 /opt/app/persistent-data/replica.key
+  - chown 999:999 /opt/app/persistent-data/replica.key
+
+  # 5.
+  # Write Secrets
+
+  - |
+    mkdir -p /opt/app/secrets
+    cat > /opt/app/secrets/.env <<'ENVEOF'
+    MONGO_INITDB_ROOT_USERNAME=${mongodb_root_username}
+    MONGO_INITDB_ROOT_PASSWORD=${mongodb_root_password}
+    ENVEOF
+
+  # 6.
+  # Start MongoDB
+
+  - cd /opt/app && docker compose up -d --build --force-recreate --remove-orphans --pull=always
+
+  # 7.
+  # Initialize Replica Set (script pre-baked by Packer)
+  # Node 0 waits for mongod and runs rs.initiate(). Others exit early.
+
+  - |
+    /opt/app/init-mongodb-replica-set.sh \
+      --node-index ${node_index} \
+      --mongodb-port ${mongodb_port} \
+      --username '${mongodb_root_username}' \
+      --password '${mongodb_root_password}' \
+      --replica-set-members ${join(",", all_private_ips)}
+  - rm /opt/app/init-mongodb-replica-set.sh
+
+final_message: "MongoDB replica node ${node_index + 1} of ${length(all_private_ips)} configuration complete."

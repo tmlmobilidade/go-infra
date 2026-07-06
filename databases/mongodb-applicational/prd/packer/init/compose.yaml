@@ -1,0 +1,37 @@
+# # #
+
+services:
+
+  mongodb:
+    image: mongo:latest
+    restart: unless-stopped
+    network_mode: host
+    command: >
+      mongod
+        --auth
+        --replSet rs0
+        --bind_ip_all
+        --oplogSize 100000
+        --keyFile /data/replica.key
+    deploy:
+      resources:
+        limits:
+          memory: 10gb
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    ulimits:
+      nofile:
+        soft: 64000
+        hard: 64000
+    extra_hosts:
+      - "go-prd-mongodb-1.tmlmobilidade.pt:10.81.101.161"
+      - "go-prd-mongodb-2.tmlmobilidade.pt:10.81.101.162"
+      - "go-prd-mongodb-3.tmlmobilidade.pt:10.81.101.163"
+    volumes:
+      - /opt/app/persistent-data/data:/data/db
+      - /opt/app/persistent-data/logs:/var/log/mongodb
+      - /opt/app/persistent-data/replica.key:/data/replica.key:ro
+    env_file:
+      - /opt/app/secrets/.env

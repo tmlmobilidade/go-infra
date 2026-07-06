@@ -11,8 +11,8 @@ resources:
   - fleet
   - hub
   - locations
-  # - offer
+  - offer
   - performance
   - plans
-  # - stops
+  - stops
   - tracker

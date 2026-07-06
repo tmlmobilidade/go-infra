@@ -24,7 +24,8 @@ spec:
     app: tts-server
     replicas: 1
     resources:
-      memory: 12Gi
+      memory: 8Gi
+      cpu: 2000m
     service:
       targetPort: 8000
     ingress:

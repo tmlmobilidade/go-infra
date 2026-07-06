@@ -7,7 +7,7 @@ spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: prd-stops
+  targetNamespace: stg-stops
   install:
     createNamespace: true
   chart:
@@ -19,7 +19,7 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    environment: prd
+    environment: stg
     module: stops
     app: tts-cli
     replicas: 1

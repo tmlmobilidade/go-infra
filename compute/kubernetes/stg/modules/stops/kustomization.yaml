@@ -5,5 +5,5 @@ resources:
   - api/helmrelease.yaml
   - frontend/helmrelease.yaml
   - organizer/helmrelease.yaml
-  - tts-client/helmrelease.yaml
+  - tts-cli/helmrelease.yaml
   - tts-server/helmrelease.yaml

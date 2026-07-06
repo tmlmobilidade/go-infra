@@ -26,7 +26,7 @@ spec:
     resources:
       memory: 4Gi
     service:
-      targetPort: 8000
+      targetPort: 5050
     ingress:
       enabled: false
     secrets:

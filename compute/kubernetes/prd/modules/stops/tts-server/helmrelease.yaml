@@ -23,6 +23,8 @@ spec:
     module: stops
     app: tts-server
     replicas: 1
+    resources:
+      memory: 4Gi
     service:
       targetPort: 8000
     ingress:

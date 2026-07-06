@@ -4,5 +4,5 @@ resources:
   - secrets.yaml
   - api
   - frontend
-  - gtfs-exporter
+  # - gtfs-exporter
   # - gtfs-importer

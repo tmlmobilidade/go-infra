@@ -7,6 +7,7 @@ spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
+    - name: stops-tts-server
   targetNamespace: prd-stops
   install:
     createNamespace: true
@@ -26,7 +27,7 @@ spec:
     resources:
       memory: 4Gi
     service:
-      targetPort: 5050
+      targetPort: 3000
     ingress:
       enabled: false
     secrets:

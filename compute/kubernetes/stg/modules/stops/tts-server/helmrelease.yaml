@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: stops-tts
+  name: stops-tts-server
   namespace: flux-system
 spec:
   interval: 30s
@@ -21,16 +21,12 @@ spec:
   values:
     environment: prd
     module: stops
-    app: tts
+    app: tts-server
     replicas: 1
     service:
       targetPort: 8000
-    resources:
-      memory: 6Gi
     ingress:
       enabled: false
     secrets:
-      - prd-platform-storage
-      - prd-module-stops
-      - prd-platform-sentry
+      - stg-platform-storage
     env: []

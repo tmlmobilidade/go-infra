@@ -5,4 +5,5 @@ resources:
   - api
   - frontend
   - organizer
-  - tts
+  - tts-client
+  - tts-server

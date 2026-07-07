@@ -113,6 +113,20 @@ build {
 		]
 	}
 
+	# The attach-volume.sh script is responsible
+	# for attaching and mounting the block volume.
+
+	provisioner "file" {
+		source = "${path.root}/init/attach-volume.sh"
+		destination = "/opt/app/attach-volume.sh"
+	}
+
+	provisioner "shell" {
+		inline = [
+			"sudo chmod +x /opt/app/attach-volume.sh"
+		]
+	}
+
 	# The firewall.sh script is responsible for
 	# configuring the firewall to allow Redis traffic.
 
@@ -124,6 +138,20 @@ build {
 	provisioner "shell" {
 		inline = [
 			"sudo chmod +x /opt/app/firewall.sh"
+		]
+	}
+
+	# The setup-redis.sh script is responsible for
+	# setting up the Redis data directories and permissions.
+
+	provisioner "file" {
+		source = "${path.root}/init/setup-redis.sh"
+		destination = "/opt/app/setup-redis.sh"
+	}
+
+	provisioner "shell" {
+		inline = [
+			"sudo chmod +x /opt/app/setup-redis.sh"
 		]
 	}
 

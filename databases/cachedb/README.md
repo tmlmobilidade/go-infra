@@ -1,4 +1,4 @@
-# MongoDB Replica Set
+# Redis Replica Set
 
 Provisions **3 OCI VM instances** running MongoDB in a standard **Replica Set** (`rs0` by default). One node is elected primary; the other two are secondaries. All nodes use the same shared keyfile for internal authentication.
 

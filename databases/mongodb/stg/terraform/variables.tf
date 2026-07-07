@@ -4,7 +4,7 @@
 variable "display_name" {
 	type = string
 	description = "The name of the deployment. Used as the display name for resource names and tags."
-	default = "iso-go-stg-mongodb"
+	default = "iso-go-stg-rawdb"
 }
 
 variable "instance_count" {
@@ -89,9 +89,9 @@ variable "private_ips" {
 	Must be free within the existing subnet — verify in OCI Console > Networking before applying.
 	EOT
 	default = [
-		"10.91.101.161",
-		"10.91.101.162",
-		"10.91.101.163"
+		"10.91.101.201",
+		"10.91.101.202",
+		"10.91.101.203"
 	]
 }
 
@@ -102,7 +102,7 @@ variable "private_ips" {
 variable "base_image_ocid" {
 	type = string
 	description = "OCID of the Packer-built image."
-	default = ""
+	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaodknt7muwnovj73pwn4aawe7g7lwsu74jaooraoqlzo3kejl3lgq"
 }
 
 variable "vm_shape" {
@@ -140,9 +140,9 @@ variable "block_volume_ocids" {
 	Each volume must be pre-created and match the count of replica nodes.
 	EOT
 	default = [
-		"",
-		"",
-		"",
+		"ocid1.volume.oc1.eu-frankfurt-1.abtheljtpb73d5e6t4vgntfagn3ypieifcm6acb3riqwfhr5lbmzca5wfsaa",
+		"ocid1.volume.oc1.eu-frankfurt-1.abtheljt3lvhalczpaultjmt4lzul3ed4tlapusivpfz5p533dihyawf7e7a",
+		"ocid1.volume.oc1.eu-frankfurt-1.abtheljte2ynaz43ahhzpnzskajyate2umc3xfqz2judi7ehbtwth6oici2a",
 	]
 }
 

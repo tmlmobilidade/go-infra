@@ -4,7 +4,7 @@
 variable "display_name" {
 	type = string
 	description = "The name of the deployment. Used as the display name for resource names and tags."
-	default = "iso-go-stg-labdb-1"
+	default = "iso-go-stg-labdb"
 }
 
 variable "instance_count" {

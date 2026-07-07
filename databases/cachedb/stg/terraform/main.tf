@@ -86,3 +86,19 @@ resource "oci_core_instance" "redis" {
 	}
 
 }
+
+resource "oci_core_volume_attachment" "cachedb_data" {
+
+	count = var.instance_count
+
+	instance_id = oci_core_instance.redis[count.index].id
+
+	volume_id = var.block_volume_ocids[count.index]
+
+	# Paravirtualized is easier to manage
+	# in cloud-init than iSCSI
+	attachment_type = "paravirtualized"
+
+	is_pv_encryption_in_transit_enabled = false
+
+}

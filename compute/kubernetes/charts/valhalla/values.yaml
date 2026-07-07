@@ -6,7 +6,7 @@ minReplicas: 1
 maxReplicas: 2
 
 persistence:
-  storage: 20Gi
+  storage: 50Gi
   storageClassName: ""
   accessMode: ReadWriteMany
 
@@ -21,3 +21,14 @@ resources:
 service:
   type: ClusterIP
   annotations: {}
+
+# Daily Portugal OSM refresh (same flow as VM update-portugal-osm.sh).
+updateCron:
+  enabled: false
+  schedule: "0 4 * * *"
+  timeZone: Europe/Lisbon
+  image: bitnami/kubectl:1.31.4
+  mountPath: /custom_files
+  pbfFileName: portugal-latest.osm.pbf
+  pvcClaimName: valhalla-pvc
+  deploymentName: valhalla

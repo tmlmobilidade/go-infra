@@ -5,7 +5,7 @@
 variable "display_name" {
 	type = string
 	description = "The name of the project. This will be used as a prefix for resource names and tags."
-	default = "iso-go-stg-mongodb"
+	default = "iso-go-stg-godb"
 }
 
 variable "compartment_ocid" {
@@ -14,7 +14,7 @@ variable "compartment_ocid" {
 	The OCID of the compartment where resources will be created in.
 	Current compartment is set to: go-stg
 	EOT
-	default = ""
+	default = "ocid1.compartment.oc1..aaaaaaaanljo4qhg4wnwjpul5seazrticeyswmx5zt7f64ekfewpr6y6mbva"
 }
 
 variable "subnet_ocid" {
@@ -24,7 +24,7 @@ variable "subnet_ocid" {
 	For Packer builds, this subnet must have public access
 	to the internet, so it should be a public subnet.
 	EOT
-	default = ""
+	default = "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaabxgcifumk7or4z5kbdj6l6tkox3xqzpnmvhmq3l5hruveil4ze3q"
 }
 
 variable "availability_domain" {
@@ -77,5 +77,5 @@ variable "base_image_ocid" {
 	This should be regularly updated to the latest available minimal Ubuntu image.
 	Current image is set to: Canonical-Ubuntu-24.04-Minimal-aarch64-2026.02.28-0"
 	EOT
-	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaav7j5fmkuvwreezyn7pkyyzgexm4uaobnceclctrmkj2urjvo6e5a"
+	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaiclwz5vfkbnxddiyffjrycraavdu73axaswdsav2nmf3pxbnxv2a"
 }

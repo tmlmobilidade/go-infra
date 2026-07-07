@@ -4,7 +4,7 @@
 variable "display_name" {
 	type = string
 	description = "The name of the deployment. Used as the display name for resource names and tags."
-	default = "iso-go-stg-godb"
+	default = "iso-go-prd-godb"
 }
 
 variable "instance_count" {
@@ -52,7 +52,7 @@ variable "compartment_ocid" {
 	The OCID of the compartment where resources will be created in.
 	Current compartment is set to: cmet
 	EOT
-	default = "ocid1.compartment.oc1..aaaaaaaanljo4qhg4wnwjpul5seazrticeyswmx5zt7f64ekfewpr6y6mbva"
+	default = "ocid1.compartment.oc1..aaaaaaaade3kztlncv2ydpnbb5jl5hl6yqxyhkmezxhtj5dfjzsv27i3wf5a"
 }
 
 variable "availability_domain" {
@@ -79,7 +79,7 @@ variable "subnet_ocid" {
 	IGW, route table, security list, or NSG.
 	Defaults to the shared pub-cmet subnet.
 	EOT
-	default = "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaamognhazfxcnompsleq3oyfsufigrrw5753vp74hmheju7uuaxtba"
+	default = "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaaqwztdskuufaajsp2wz3htvywxlywkwcj63zof52hr7gywnnssbxa"
 }
 
 variable "private_ips" {
@@ -89,9 +89,9 @@ variable "private_ips" {
 	Must be free within the existing subnet — verify in OCI Console > Networking before applying.
 	EOT
 	default = [
-		"10.91.101.164",
-		"10.91.101.165",
-		"10.91.101.166"
+		"10.81.101.211",
+		"10.81.101.212",
+		"10.81.101.213"
 	]
 }
 
@@ -101,8 +101,8 @@ variable "private_ips" {
 
 variable "base_image_ocid" {
 	type = string
-	description = "OCID of the Packer-built image. (Actual image is iso-go-stg-mongodb-2026-03-20)"
-	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaasvj53bw4yeisswq6xo4o5i2an6wbqkhqkuzpctg3er24jzbfbl5a"
+	description = "OCID of the Packer-built image."
+	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaixzb4pz4a7pexvzlbkpi64v2rij55wqrd6wszfbro2xrvrhlrk7a"
 }
 
 variable "vm_shape" {
@@ -140,9 +140,9 @@ variable "block_volume_ocids" {
 	Each volume must be pre-created and match the count of replica nodes.
 	EOT
 	default = [
-		"ocid1.volume.oc1.eu-frankfurt-1.abtheljtsp4p2zc7p64pvsiirsnupiprfmjg4avz77aoi5sx5jgduuhucvcq",
-		"ocid1.volume.oc1.eu-frankfurt-1.abtheljtuz5ssiml7rzt3yi32zhajttrtqkzpddlrs3ssvy5eqtay5yks6va",
-		"ocid1.volume.oc1.eu-frankfurt-1.abtheljtr2kdplthhgpuuez52w4b57trstummad3lvvbdpjfg7odobix7pbq",
+		"ocid1.volume.oc1.eu-frankfurt-1.abtheljtf5ds2x77k2pov4xexa6awq72hdefdsuzcle3f76i4k6r4bhlsx4a",
+		"ocid1.volume.oc1.eu-frankfurt-1.abtheljthmgs4iu4f2yke5ohcxw2g7qygl27khiqkaraswue5tqpglnavkgq",
+		"ocid1.volume.oc1.eu-frankfurt-1.abtheljtbmzqxad2ocyoz55m4ekthnlph2ix3hnlayic7gnnscdc5sqxhisa",
 	]
 }
 

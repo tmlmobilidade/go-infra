@@ -26,9 +26,9 @@ services:
         soft: 64000
         hard: 64000
     extra_hosts:
-      - "go-prd-mongodb-1.tmlmobilidade.pt:10.81.101.161"
-      - "go-prd-mongodb-2.tmlmobilidade.pt:10.81.101.162"
-      - "go-prd-mongodb-3.tmlmobilidade.pt:10.81.101.163"
+      - "go-prd-godb-1.tmlmobilidade.pt:10.81.101.211"
+      - "go-prd-godb-2.tmlmobilidade.pt:10.81.101.212"
+      - "go-prd-godb-3.tmlmobilidade.pt:10.81.101.213"
     volumes:
       - /opt/app/persistent-data/data:/data/db
       - /opt/app/persistent-data/logs:/var/log/mongodb

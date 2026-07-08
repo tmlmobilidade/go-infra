@@ -5,7 +5,7 @@
 variable "display_name" {
 	type = string
 	description = "The name of the project. This will be used as a prefix for resource names and tags."
-	default = "iso-go-prd-redis"
+	default = "iso-go-prd-cachedb"
 }
 
 variable "compartment_ocid" {
@@ -75,7 +75,7 @@ variable "base_image_ocid" {
 	The OCID of the base image to use for the VM.
 	It is recommended to use a *minimal* Ubuntu image to reduce the final image size.
 	This should be regularly updated to the latest available minimal Ubuntu image.
-	Current image is set to: Canonical-Ubuntu-24.04-Minimal-aarch64-2026.02.28-0"
+	Current image is set to: Canonical-Ubuntu-24.04-Minimal-aarch64-2026.04.30-1"
 	EOT
-	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaav7j5fmkuvwreezyn7pkyyzgexm4uaobnceclctrmkj2urjvo6e5a"
+	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaiclwz5vfkbnxddiyffjrycraavdu73axaswdsav2nmf3pxbnxv2a"
 }

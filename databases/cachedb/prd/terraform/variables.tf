@@ -4,7 +4,7 @@
 variable "display_name" {
 	type = string
 	description = "The name of the deployment. Used as the display name for resource names and tags."
-	default = "iso-go-prd-redis"
+	default = "iso-go-prd-cachedb"
 }
 
 variable "instance_count" {
@@ -89,7 +89,7 @@ variable "private_ips" {
 	Must be free within the existing subnet — verify in OCI Console > Networking before applying.
 	EOT
 	default = [
-		"10.81.101.171"
+		"10.81.101.241"
 	]
 }
 
@@ -100,7 +100,7 @@ variable "private_ips" {
 variable "base_image_ocid" {
 	type = string
 	description = "OCID of the Packer-built image."
-	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaldyfggx6of5ob6mueogm7dpvar3iinc3yix5zhgqhtr7zlpiwgbq"
+	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaakdlgtcaaigmpo6f5usntduwlskpfa7hgh5oooaywg343jvjpu4gq"
 }
 
 variable "vm_shape" {
@@ -125,4 +125,15 @@ variable "boot_volume_size_in_gbs" {
 	type = number
 	description = "Boot volume size in GBs."
 	default = 50
+}
+
+variable "block_volume_ocids" {
+	type = list(string)
+	description = <<-EOT
+	List of OCIDs for existing block volumes to attach as data disks to the replica nodes.
+	Each volume must be pre-created and match the count of replica nodes.
+	EOT
+	default = [
+		"ocid1.volume.oc1.eu-frankfurt-1.abtheljt5l27abwclg6dlyee2lurymaijobaxiudetbt4ot36mlaiivnwjhq"
+	]
 }

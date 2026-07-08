@@ -99,7 +99,7 @@ variable "private_ips" {
 variable "base_image_ocid" {
 	type = string
 	description = "OCID of the Packer-built image."
-	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaai6t3cytl7437xge6pv7qqegzgf7ifdmsv2el6rtdqjmsvxl5oqoq"
+	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaiyet77hbr6km6qfhtmq3kxyrhxpdqcoo4eg2cc5zg3c6jmiscbqa"
 }
 
 variable "vm_shape" {
@@ -137,7 +137,7 @@ variable "block_volume_ocids" {
 	Each volume must be pre-created and match the count of replica nodes.
 	EOT
 	default = [
-		"ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaiyet77hbr6km6qfhtmq3kxyrhxpdqcoo4eg2cc5zg3c6jmiscbqa"
+		"ocid1.volume.oc1.eu-frankfurt-1.abtheljtkdl67nxnqpohdmhzwioyyix465j2mp4wsfcn23jhwrtn473fvg5q"
 	]
 }
 

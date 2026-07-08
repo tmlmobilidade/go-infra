@@ -15,7 +15,7 @@ services:
         max-size: '1m'
         max-file: '1'
     extra_hosts:
-      - "go-stg-cachedb-1.tmlmobilidade.pt:10.91.101.241"
+      - "go-stg-cachedb-1.tmlmobilidade.pt:10.91.101.231"
     volumes:
       - /opt/app/persistent-data/data:/data
     environment:

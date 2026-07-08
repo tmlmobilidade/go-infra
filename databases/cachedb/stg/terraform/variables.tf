@@ -89,7 +89,7 @@ variable "private_ips" {
 	Must be free within the existing subnet — verify in OCI Console > Networking before applying.
 	EOT
 	default = [
-		"10.91.101.241"
+		"10.91.101.231"
 	]
 }
 
@@ -100,7 +100,7 @@ variable "private_ips" {
 variable "base_image_ocid" {
 	type = string
 	description = "OCID of the Packer-built image."
-	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaahrsv2qmdj32vut5zg6tkjzfdckv26jgpn6h6rjmmfgseqe3qxtjq"
+	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaegoc2htopszvk5qxjefnrjlwby2vza35rk5qbicwhwujdgjgonuq"
 }
 
 variable "vm_shape" {

@@ -88,7 +88,7 @@ variable "private_ips" {
 	Must be free within the existing subnet — verify in OCI Console > Networking before applying.
 	EOT
 	default = [
-		"10.91.101.231",
+		"10.91.101.221",
 	]
 }
 
@@ -137,7 +137,7 @@ variable "block_volume_ocids" {
 	Each volume must be pre-created and match the count of replica nodes.
 	EOT
 	default = [
-		"ocid1.volume.oc1.eu-frankfurt-1.abtheljtkdl67nxnqpohdmhzwioyyix465j2mp4wsfcn23jhwrtn473fvg5q"
+		"ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaiyet77hbr6km6qfhtmq3kxyrhxpdqcoo4eg2cc5zg3c6jmiscbqa"
 	]
 }
 

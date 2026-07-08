@@ -19,7 +19,7 @@ services:
         max-size: '1m'
         max-file: '1'
     extra_hosts:
-      - "go-prd-labdb-1.tmlmobilidade.pt:10.81.101.231"
+      - "go-prd-labdb-1.tmlmobilidade.pt:10.81.101.221"
     volumes:
       - /opt/app/persistent-data/data:/var/lib/clickhouse
       - /opt/app/persistent-data/logs:/var/log/clickhouse-server

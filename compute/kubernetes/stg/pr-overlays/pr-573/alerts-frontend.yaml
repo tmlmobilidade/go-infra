@@ -31,8 +31,6 @@ spec:
       pathType: Prefix
       host: pr-573.go-stg.tmlmobilidade.pt
     secrets:
-      - stg-platform-email
-      - stg-platform-storage
       - stg-platform-sentry-alerts
     env: []
   suspend: false

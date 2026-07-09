@@ -29,5 +29,6 @@ spec:
       enabled: false
     secrets:
       - stg-platform-storage
+      - stg-module-alerts
       - stg-platform-sentry-alerts
     env: []

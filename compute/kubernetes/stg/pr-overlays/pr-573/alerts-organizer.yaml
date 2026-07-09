@@ -29,6 +29,7 @@ spec:
       enabled: true
       host: pr-573.go-stg.tmlmobilidade.pt
     secrets:
+      - stg-module-alerts
       - stg-platform-storage
       - stg-platform-sentry-alerts
     env: []

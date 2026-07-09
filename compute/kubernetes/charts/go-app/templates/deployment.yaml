@@ -31,13 +31,6 @@ spec:
         module: {{ .Values.module }}
         app: {{ .Values.app }}
     spec: 
-      hostAliases:
-        - hostname: go-prd-rawdb-1.tmlmobilidade.pt
-          ip: 10.81.101.201
-        - hostname: go-prd-rawdb-2.tmlmobilidade.pt
-          ip: 10.81.101.202
-        - hostname: go-prd-rawdb-3.tmlmobilidade.pt
-          ip: 10.81.101.203
       containers:
         - name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
           image: "ghcr.io/tmlmobilidade/go-{{ .Values.module }}-{{ .Values.app }}:{{ .Values.environment }}"

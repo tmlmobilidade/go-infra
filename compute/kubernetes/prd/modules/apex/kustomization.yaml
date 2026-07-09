@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - secrets.yaml
   # - organizer
-  # - pcgi-stream
+  - pcgi-stream
   - pcgi-sync
   - raw-stream
   - raw-sync-banking-taps

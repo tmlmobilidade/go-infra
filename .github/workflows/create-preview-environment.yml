@@ -77,13 +77,13 @@ jobs:
                     fi
                   done
                 done
-                echo "unknown app spec: ${spec}"
-                exit 1
+                echo "::warning::unknown app spec: ${spec} — skipping"
+                return 1
               fi
               return 0
             fi
-            echo "unknown app spec: ${spec}"
-            exit 1
+            echo "::warning::unknown app spec: ${spec} — skipping"
+            return 1
           }
 
           ensure_namespace() {
@@ -138,7 +138,10 @@ jobs:
             local module="$1"
             local app="$2"
             local app_dir="${STG_MODULES}/${module}/${app}"
-            [[ ! -f "$app_dir/helmrelease.yaml" ]] && { echo "missing template ${module}/${app}"; exit 1; }
+            if [[ ! -f "$app_dir/helmrelease.yaml" ]]; then
+              echo "::warning::missing template ${module}/${app} — skipping"
+              return 1
+            fi
 
             ensure_namespace "$module"
             ensure_module_secrets "$module"
@@ -157,8 +160,12 @@ jobs:
 
           while IFS= read -r spec; do
             [[ -z "$spec" ]] && continue
-            resolve_module_app "$spec"
-            enable_app "$MODULE" "$APP"
+            if ! resolve_module_app "$spec"; then
+              continue
+            fi
+            if ! enable_app "$MODULE" "$APP"; then
+              continue
+            fi
           done <<< "${APPS_TO_ENABLE}"
 
           # --- Kustomization for this PR directory ---

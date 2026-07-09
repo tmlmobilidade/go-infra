@@ -106,9 +106,9 @@ docker compose exec -T mongodb mongosh \
 	rs.initiate({
 		_id: "rs0",
 		members: [
-			{ _id: 0, host: "${MEMBERS[0]}:$PORT", priority: 1 },
-			{ _id: 1, host: "${MEMBERS[1]}:$PORT", priority: 0.5 },
-			{ _id: 2, host: "${MEMBERS[2]}:$PORT", priority: 0.5 }
+			{ _id: 0, host: "go-prd-rawdb-1.tmlmobilidade.pt:27017", priority: 1 },
+			{ _id: 1, host: "go-prd-rawdb-2.tmlmobilidade.pt:27017", priority: 0.5 },
+			{ _id: 2, host: "go-prd-rawdb-3.tmlmobilidade.pt:27017", priority: 0.5 }
 		]
 	})
 

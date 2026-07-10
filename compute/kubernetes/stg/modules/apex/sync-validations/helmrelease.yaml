@@ -27,6 +27,7 @@ spec:
       enabled: false
     secrets:
       - stg-platform-storage
+      - stg-platform-sentry-apex
     env: []
     environment: stg
     app: sync-validations

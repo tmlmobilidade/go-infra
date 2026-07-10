@@ -27,6 +27,7 @@ spec:
       enabled: false
     secrets:
       - stg-platform-storage
+      - stg-platform-sentry-exporter
     env: []
     environment: stg
     app: export-files

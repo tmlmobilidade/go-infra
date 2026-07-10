@@ -27,6 +27,7 @@ spec:
       enabled: false
     secrets:
       - stg-platform-storage
+      - stg-platform-sentry-performance
     env: []
     environment: stg
     app: sync-metrics-hourly

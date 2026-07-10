@@ -30,6 +30,7 @@ spec:
     secrets:
       - stg-platform-email
       - stg-platform-storage
+      - stg-platform-sentry-fleet
     env: []
     environment: stg
     app: frontend

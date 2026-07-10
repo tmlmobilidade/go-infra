@@ -32,4 +32,5 @@ spec:
       - stg-platform-go-redis
       - stg-platform-external-app-secrets
       - stg-module-hub
+      - stg-platform-sentry-hub
     env: []

@@ -32,4 +32,5 @@ spec:
       enabled: false
     secrets:
       - stg-module-eta
+      - stg-platform-sentry-eta
     env: []

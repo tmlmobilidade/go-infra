@@ -29,4 +29,6 @@ spec:
       enabled: true
       path: /hub/videowall
       pathType: Prefix
+    secrets:
+      - stg-platform-sentry-hub
     env: []

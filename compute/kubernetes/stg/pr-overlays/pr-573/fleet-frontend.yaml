@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: pr-573-alerts-organizer
+  name: pr-573-fleet-frontend
   namespace: flux-system
 spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: pr-573-alerts
+  targetNamespace: pr-573-fleet
   install:
     createNamespace: true
   chart:
@@ -19,18 +19,20 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    environment: pr-573
-    app: organizer
-    module: alerts
+    module: fleet
     replicas: 1
     service:
-      targetPort: 5050
+      targetPort: 3000
     ingress:
       enabled: true
+      path: /fleet
+      pathType: Prefix
       host: pr-573.go-stg.tmlmobilidade.pt
     secrets:
+      - stg-platform-email
       - stg-platform-storage
-      - stg-module-alerts
-      - stg-platform-sentry-alerts
+      - stg-platform-sentry-fleet
     env: []
+    environment: pr-573
+    app: frontend
   suspend: false

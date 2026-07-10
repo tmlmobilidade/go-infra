@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: pr-573-alerts-organizer
+  name: pr-573-tracker-clickhouse-stream
   namespace: flux-system
 spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: pr-573-alerts
+  targetNamespace: pr-573-tracker
   install:
     createNamespace: true
   chart:
@@ -19,9 +19,7 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    environment: pr-573
-    app: organizer
-    module: alerts
+    module: tracker
     replicas: 1
     service:
       targetPort: 5050
@@ -30,7 +28,8 @@ spec:
       host: pr-573.go-stg.tmlmobilidade.pt
     secrets:
       - stg-platform-storage
-      - stg-module-alerts
-      - stg-platform-sentry-alerts
+      - stg-platform-sentry-tracker
     env: []
+    environment: pr-573
+    app: clickhouse-stream
   suspend: false

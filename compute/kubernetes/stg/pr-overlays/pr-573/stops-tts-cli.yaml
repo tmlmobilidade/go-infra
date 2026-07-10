@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: pr-573-alerts-organizer
+  name: pr-573-stops-tts-cli
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: pr-573-alerts
+  targetNamespace: pr-573-stops
   install:
     createNamespace: true
   chart:
@@ -20,17 +20,16 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: pr-573
-    app: organizer
-    module: alerts
+    module: stops
+    app: tts-cli
     replicas: 1
     service:
-      targetPort: 5050
+      targetPort: 8000
     ingress:
       enabled: true
       host: pr-573.go-stg.tmlmobilidade.pt
     secrets:
       - stg-platform-storage
-      - stg-module-alerts
-      - stg-platform-sentry-alerts
+      - stg-platform-sentry-stops
     env: []
   suspend: false

@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: pr-573-alerts-organizer
+  name: pr-573-performance-api
   namespace: flux-system
 spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: pr-573-alerts
+  targetNamespace: pr-573-performance
   install:
     createNamespace: true
   chart:
@@ -19,18 +19,23 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    environment: pr-573
-    app: organizer
-    module: alerts
+    module: performance
     replicas: 1
     service:
       targetPort: 5050
     ingress:
       enabled: true
+      path: /performance/api(/|$)(.*)
+      pathType: ImplementationSpecific
+      annotations:
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
       host: pr-573.go-stg.tmlmobilidade.pt
     secrets:
+      - stg-platform-email
       - stg-platform-storage
-      - stg-module-alerts
-      - stg-platform-sentry-alerts
+      - stg-platform-sentry-performance
     env: []
+    environment: pr-573
+    app: api
   suspend: false

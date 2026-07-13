@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: valhalla-pvc
+  namespace: stg-locations
+  labels:
+    app.kubernetes.io/name: valhalla
+    app.kubernetes.io/component: valhalla-pvc
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: fss-dyn-storage
+  resources:
+    requests:
+      storage: 50Gi

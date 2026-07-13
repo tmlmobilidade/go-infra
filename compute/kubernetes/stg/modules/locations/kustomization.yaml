@@ -4,3 +4,4 @@ resources:
   - secrets.yaml
   - api/helmrelease.yaml
   - frontend/helmrelease.yaml
+  - valhalla

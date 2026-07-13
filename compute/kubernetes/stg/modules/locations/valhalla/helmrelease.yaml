@@ -5,7 +5,10 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30s
-  targetNamespace: prd-locations
+  dependsOn:
+    - name: valhalla-operator
+      namespace: flux-system
+  targetNamespace: stg-locations
   install:
     createNamespace: true
   chart:
@@ -17,14 +20,10 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    name: valhalla
+    name: valhalla-pvc
     pbfUrl: https://download.geofabrik.de/europe/portugal-latest.osm.pbf
     minReplicas: 1
     maxReplicas: 2
-    persistence:
-      storage: 50Gi
-      accessMode: ReadWriteMany
-      storageClassName: fss-dyn-storage
     resources:
       requests:
         cpu: "2000m"
@@ -47,4 +46,4 @@ spec:
       # After first deploy, confirm names match operator resources:
       # kubectl get pvc,deploy -n prd-locations
       pvcClaimName: valhalla-pvc
-      deploymentName: valhalla
+      deploymentName: valhalla-pvc

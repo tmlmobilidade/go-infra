@@ -1,13 +1,15 @@
-name: valhalla
+name: valhalla-pvc
 
 pbfUrl: https://download.geofabrik.de/europe/portugal-latest.osm.pbf
 
 minReplicas: 1
 maxReplicas: 2
 
+# Operator still needs this in the Valhalla CR — must match pvc.yaml spec.
+# Flux creates the PVC; operator adopts claim name from CR metadata.name above.
 persistence:
   storage: 50Gi
-  storageClassName: ""
+  storageClassName: fss-dyn-storage
   accessMode: ReadWriteMany
 
 resources:
@@ -31,4 +33,4 @@ updateCron:
   mountPath: /custom_files
   pbfFileName: portugal-latest.osm.pbf
   pvcClaimName: valhalla-pvc
-  deploymentName: valhalla
+  deploymentName: valhalla-pvc

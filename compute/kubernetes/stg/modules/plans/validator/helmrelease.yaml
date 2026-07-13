@@ -27,7 +27,8 @@ spec:
       enabled: false
     secrets:
       - stg-platform-storage
-      - stg-platform-sentry-plans
+      - stg-platform-sentry-
+      - stg-module-plans
     env: []
     environment: stg
     app: validator

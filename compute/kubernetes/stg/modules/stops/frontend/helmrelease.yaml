@@ -30,6 +30,7 @@ spec:
     secrets:
       - stg-module-stops
       - stg-platform-storage
+      - stg-platform-sentry-stops
     env: []
     environment: stg
     app: frontend

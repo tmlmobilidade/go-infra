@@ -32,5 +32,5 @@ spec:
     secrets:
       - stg-platform-storage
       - stg-module-hub
-      - stg-platform-sentry
+      - stg-platform-sentry-hub
     env: []

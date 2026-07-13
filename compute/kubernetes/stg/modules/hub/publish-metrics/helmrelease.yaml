@@ -31,4 +31,5 @@ spec:
       - stg-platform-clickhouse
       - stg-platform-go-redis
       - stg-module-hub
+      - stg-platform-sentry-hub
     env: []

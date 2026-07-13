@@ -34,4 +34,5 @@ spec:
     secrets:
       - stg-module-offer
       - stg-platform-storage
+      - stg-platform-sentry-offer
     env: []

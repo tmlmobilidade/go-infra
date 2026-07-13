@@ -33,5 +33,6 @@ spec:
       - prd-platform-pcgi-raw
       - prd-module-tracker
       - prd-platform-external-app-secrets
+      - prd-platform-go-tunnel
       - prd-platform-sentry
     env: []

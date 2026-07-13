@@ -33,4 +33,5 @@ spec:
       - stg-platform-go-redis
       - stg-platform-storage
       - stg-module-hub
+      - stg-platform-sentry-hub
     env: []

@@ -31,4 +31,5 @@ spec:
       - stg-platform-go-redis
       - stg-platform-storage
       - stg-module-plans
+      - stg-platform-sentry-plans
     env: []

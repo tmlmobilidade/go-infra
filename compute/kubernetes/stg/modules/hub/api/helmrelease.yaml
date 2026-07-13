@@ -38,6 +38,7 @@ spec:
       - stg-module-hub
       - stg-platform-go-redis
       - stg-platform-storage
+      - stg-platform-sentry-hub
     probes:
       startup:
         enabled: true

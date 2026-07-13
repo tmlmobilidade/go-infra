@@ -1,0 +1,49 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: locations-valhalla
+  namespace: flux-system
+spec:
+  interval: 30s
+  dependsOn:
+    - name: valhalla-operator
+      namespace: flux-system
+  targetNamespace: stg-locations
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: compute/kubernetes/charts/valhalla
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    name: valhalla-pvc
+    pbfUrl: https://download.geofabrik.de/europe/portugal-latest.osm.pbf
+    minReplicas: 1
+    maxReplicas: 2
+    resources:
+      requests:
+        cpu: "2000m"
+        memory: "4Gi"
+    service:
+      targetPort: 8080
+    ingress:
+      enabled: true
+      path: /locations/valhalla(/|$)(.*)
+      pathType: ImplementationSpecific
+      annotations:
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
+    updateCron:
+      enabled: true
+      schedule: "0 4 * * *"
+      timeZone: Europe/Lisbon
+      mountPath: /custom_files
+      pbfFileName: portugal-latest.osm.pbf
+      # After first deploy, confirm names match operator resources:
+      # kubectl get pvc,deploy -n prd-locations
+      pvcClaimName: valhalla-pvc
+      deploymentName: valhalla-pvc

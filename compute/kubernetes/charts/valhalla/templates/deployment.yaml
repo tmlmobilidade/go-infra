@@ -2,64 +2,130 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Values.name }}
-  namespace: {{ .Release.Namespace }}
   labels:
-    app: {{ .Values.name }}
+    app.kubernetes.io/name: {{ .Values.name }}
+
 spec:
-  replicas: {{ .Values.replicas }}
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
+  replicas: {{ .Values.replicaCount }}
+
   selector:
     matchLabels:
-      app: {{ .Values.name }}
+      app.kubernetes.io/name: {{ .Values.name }}
+
   template:
     metadata:
       labels:
-        app: {{ .Values.name }}
+        app.kubernetes.io/name: {{ .Values.name }}
+
+{{- with .Values.podAnnotations }}
+      annotations:
+{{ toYaml . | indent 8 }}
+{{- end }}
+
     spec:
-      containers:
-        - name: valhalla
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
-          ports:
-            - name: http
-              containerPort: {{ .Values.service.targetPort }}
-          env:
-            - name: tile_urls
-              value: {{ .Values.pbfUrl | quote }}
-            - name: serve_tiles
-              value: "True"
-            - name: use_tiles_ignore_pbf
-              value: "False"
-            - name: build_tar
-              value: "True"
+
+{{- if .Values.imagePullSecrets }}
+      imagePullSecrets:
+{{ toYaml .Values.imagePullSecrets | indent 8 }}
+{{- end }}
+
+      securityContext:
+{{ toYaml .Values.podSecurityContext | indent 8 }}
+
+{{- if .Values.initDownload.enabled }}
+      initContainers:
+
+        - name: download-osm
+
+          image: {{ .Values.initDownload.image }}
+
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+
+              mkdir -p {{ .Values.persistence.mountPath }}
+
+              if [ ! -f "{{ .Values.persistence.mountPath }}/{{ .Values.pbfFileName }}" ]; then
+                echo "Downloading Portugal OSM extract..."
+
+                curl -L \
+                  "{{ .Values.pbfUrl }}" \
+                  -o "{{ .Values.persistence.mountPath }}/{{ .Values.pbfFileName }}"
+
+                echo "Download completed."
+
+              else
+                echo "PBF already exists."
+              fi
+
           volumeMounts:
             - name: data
               mountPath: {{ .Values.persistence.mountPath }}
+
+{{- end }}
+
+      containers:
+
+        - name: valhalla
+
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+
+          env:
+{{- range $key, $value := .Values.env }}
+            - name: {{ $key }}
+              value: {{ $value | quote }}
+{{- end }}
+
           resources:
-            {{- toYaml .Values.resources | nindent 12 }}
-          startupProbe:
-            httpGet:
-              path: /status
-              port: http
-            periodSeconds: 30
-            failureThreshold: 120
+{{ toYaml .Values.resources | indent 12 }}
+
+          securityContext:
+{{ toYaml .Values.securityContext | indent 12 }}
+
+          volumeMounts:
+            - name: data
+              mountPath: {{ .Values.persistence.mountPath }}
+
           readinessProbe:
             httpGet:
               path: /status
               port: http
-            periodSeconds: 15
-            failureThreshold: 6
+
+            initialDelaySeconds: 20
+            periodSeconds: 10
+
           livenessProbe:
             httpGet:
               path: /status
               port: http
-            periodSeconds: 30
-            failureThreshold: 6
+
+            initialDelaySeconds: 60
+            periodSeconds: 20
+
       volumes:
         - name: data
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim }}
+            claimName: {{ default (printf "%s-data" .Values.name) .Values.persistence.existingClaim }}
+
+{{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+{{- end }}
+
+{{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+{{- end }}
+
+{{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+{{- end }}

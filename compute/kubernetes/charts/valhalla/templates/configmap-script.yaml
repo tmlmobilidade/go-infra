@@ -1,0 +1,11 @@
+{{- if .Values.updateCron.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.name }}-scripts
+
+data:
+  update-portugal-osm.sh: |
+{{ .Files.Get "scripts/update-portugal-osm.sh" | indent 4 }}
+
+{{- end }}

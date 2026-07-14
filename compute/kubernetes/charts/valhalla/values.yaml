@@ -1,50 +1,46 @@
 name: valhalla
 
-environment: stg
+replicaCount: 1
 
 image:
   repository: ghcr.io/valhalla/valhalla-scripted
   tag: latest
   pullPolicy: IfNotPresent
 
-pbfUrl: https://download.geofabrik.de/europe/portugal-latest.osm.pbf
-
-replicas: 1
+service:
+  port: 8002
 
 persistence:
-  create: true
-  claimName: valhalla-pvc
-  mountPath: /custom_files
+  enabled: true
   size: 50Gi
+  storageClass: ""
   accessMode: ReadWriteOnce
-  storageClassName: ""
 
-resources:
-  requests:
-    cpu: "2000m"
-    memory: "4Gi"
-  limits:
-    cpu: "4000m"
-    memory: "8Gi"
+customFilesPath: /custom_files
 
-service:
-  port: 80
-  targetPort: 8002
+pbfUrl: https://download.geofabrik.de/europe/portugal-latest.osm.pbf
 
-ingress:
-  enabled: false
-  path: /locations/valhalla(/|$)(.*)
-  pathType: ImplementationSpecific
-  annotations:
-    nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+env:
+  server_threads: "4"
+  serve_tiles: "True"
+  use_tiles_ignore_pbf: "False"
+  tileset_name: valhalla_tiles
+  build_elevation: "False"
+  build_admins: "False"
+  build_time_zones: "False"
+  build_transit: "False"
+  build_tar: "True"
+  force_rebuild: "False"
+  update_existing_config: "True"
 
-# Daily Portugal OSM refresh (same flow as VM update-portugal-osm.sh).
 updateCron:
-  enabled: false
+  enabled: true
   schedule: "0 4 * * *"
   timeZone: Europe/Lisbon
-  image: bitnami/kubectl:1.31.4
-  mountPath: /custom_files
-  pbfFileName: portugal-latest.osm.pbf
-  pvcClaimName: valhalla-pvc
+
+ingress:
+  enabled: true
+  path: /
+  pathType: Prefix
+  annotations: {}
+  environment: stg

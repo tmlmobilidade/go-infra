@@ -1,0 +1,60 @@
+{{- if .Values.updateCron.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Values.name }}-update
+spec:
+  schedule: {{ .Values.updateCron.schedule | quote }}
+  timeZone: {{ .Values.updateCron.timeZone | quote }}
+
+  concurrencyPolicy: Forbid
+
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+
+  jobTemplate:
+    spec:
+      backoffLimit: 1
+
+      template:
+        spec:
+
+          restartPolicy: Never
+
+          serviceAccountName: {{ .Values.name }}-updater
+
+          containers:
+            - name: updater
+              image: {{ .Values.updateCron.image | quote }}
+              command:
+                - /scripts/update-portugal-osm.sh
+
+              volumeMounts:
+                - name: data
+                  mountPath: {{ .Values.persistence.mountPath }}
+                - name: scripts
+                  mountPath: /scripts
+                  readOnly: true
+
+          volumes:
+            - name: scripts
+              configMap:
+                name: {{ .Values.name }}-scripts
+                defaultMode: 0755
+
+            - name: data
+              persistentVolumeClaim:
+                claimName: {{ default (printf "%s-data" .Values.name) .Values.persistence.existingClaim }}
+
+          env:
+          - name: CUSTOM_DIR
+            value: {{ .Values.persistence.mountPath }}
+          - name: PBF
+            value: {{ .Values.pbfFileName }}
+          - name: URL
+            value: {{ .Values.pbfUrl }}
+          - name: DEPLOY
+            value: {{ .Values.updateCron.deploymentName }}
+          - name: NS
+            value: {{ .Release.Namespace }}
+{{- end }}

@@ -1,0 +1,20 @@
+{{- if .Values.updateCron.enabled }}
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ .Values.name }}-updater
+rules:
+  - apiGroups:
+      - apps
+
+    resources:
+      - deployments
+
+    resourceNames:
+      - {{ .Values.updateCron.deploymentName }}
+
+    verbs:
+      - get
+      - patch
+      - watch
+{{- end }}

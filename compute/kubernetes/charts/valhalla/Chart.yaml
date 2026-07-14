@@ -1,6 +1,6 @@
 apiVersion: v2
 name: valhalla
-description: Helm chart for Valhalla routing engine (official valhalla-scripted image)
+description: Valhalla Routing Engine
 type: application
-version: 0.2.0
+version: 0.1.0
 appVersion: "latest"

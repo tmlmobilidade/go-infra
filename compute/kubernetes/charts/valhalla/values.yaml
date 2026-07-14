@@ -16,8 +16,8 @@ persistence:
   existingClaim: valhalla-pvc
   mountPath: /custom_files
   size: 50Gi
-  accessMode: ReadWriteMany
-  storageClassName: fss-dyn-storage
+  accessMode: ReadWriteOnce
+  storageClassName: ""
 
 resources:
   requests:

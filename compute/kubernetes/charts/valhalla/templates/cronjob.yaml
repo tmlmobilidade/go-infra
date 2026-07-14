@@ -28,7 +28,17 @@ spec:
               image: {{ .Values.updateCron.image | quote }}
               command:
                 - /scripts/update-portugal-osm.sh
-
+              env:
+                - name: CUSTOM_DIR
+                  value: {{ .Values.persistence.mountPath | quote }}
+                - name: PBF
+                  value: {{ .Values.pbfFileName | quote }}
+                - name: URL
+                  value: {{ .Values.pbfUrl | quote }}
+                - name: DEPLOY
+                  value: {{ .Values.updateCron.deploymentName | quote }}
+                - name: NS
+                  value: {{ .Release.Namespace | quote }}
               volumeMounts:
                 - name: data
                   mountPath: {{ .Values.persistence.mountPath }}
@@ -45,16 +55,4 @@ spec:
             - name: data
               persistentVolumeClaim:
                 claimName: {{ default (printf "%s-data" .Values.name) .Values.persistence.existingClaim }}
-
-          env:
-          - name: CUSTOM_DIR
-            value: {{ .Values.persistence.mountPath }}
-          - name: PBF
-            value: {{ .Values.pbfFileName }}
-          - name: URL
-            value: {{ .Values.pbfUrl }}
-          - name: DEPLOY
-            value: {{ .Values.updateCron.deploymentName }}
-          - name: NS
-            value: {{ .Release.Namespace }}
 {{- end }}

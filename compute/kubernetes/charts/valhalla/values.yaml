@@ -23,6 +23,10 @@ pbfFileName: portugal-latest.osm.pbf
 
 pbfUrl: https://download.geofabrik.de/europe/portugal-latest.osm.pbf
 
+initDownload:
+  enabled: true
+  image: curlimages/curl:8.12.1
+
 env:
   server_threads: "4"
   serve_tiles: "True"

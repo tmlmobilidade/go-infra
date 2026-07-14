@@ -30,6 +30,9 @@ spec:
       tag: latest
     pbfUrl: https://download.geofabrik.de/europe/portugal-latest.osm.pbf
     pbfFileName: portugal-latest.osm.pbf
+    initDownload:
+      enabled: true
+      image: curlimages/curl:8.12.1
     persistence:
       enabled: true
       mountPath: /custom_files

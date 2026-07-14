@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: locations-valhalla
+  name: valhalla
   namespace: flux-system
 spec:
   interval: 30s
-  targetNamespace: stg-locations
+  targetNamespace: stg-valhalla
   install:
-    createNamespace: true
+    createNamespace: false
   chart:
     spec:
       chart: compute/kubernetes/charts/valhalla

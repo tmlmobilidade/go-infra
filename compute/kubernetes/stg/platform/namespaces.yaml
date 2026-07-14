@@ -88,3 +88,10 @@ metadata:
   name: stg-tracker
   annotations:
     operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: stg-valhalla
+  annotations:
+    operator.1password.io/auto-restart: "true"

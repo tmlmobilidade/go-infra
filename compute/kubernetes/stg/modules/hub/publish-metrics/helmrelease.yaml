@@ -29,7 +29,7 @@ spec:
       enabled: false
     secrets:
       - stg-platform-clickhouse
-      - stg-platform-go-redis
+      - stg-platform-go-cache-db
       - stg-module-hub
       - stg-platform-sentry-hub
     env: []

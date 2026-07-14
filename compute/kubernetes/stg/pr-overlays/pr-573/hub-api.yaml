@@ -37,7 +37,7 @@ spec:
       host: pr-573.go-stg.tmlmobilidade.pt
     secrets:
       - stg-module-hub
-      - stg-platform-go-redis
+      - stg-platform-go-cache-db
       - stg-platform-storage
       - stg-platform-sentry-hub
     probes:

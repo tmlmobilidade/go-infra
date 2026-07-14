@@ -27,12 +27,12 @@ spec:
       memory: 4Gi
       cpu: 4000m
     service:
-      targetPort: 5050
+      targetPort: 5050  
     ingress:
       enabled: true
       host: pr-573.go-stg.tmlmobilidade.pt
     secrets:
-      - stg-platform-go-redis
+      - stg-platform-go-cache-db
       - stg-platform-storage
       - stg-module-hub
       - stg-platform-sentry-hub

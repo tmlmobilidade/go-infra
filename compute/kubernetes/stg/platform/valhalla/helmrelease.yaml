@@ -9,8 +9,8 @@ spec:
     spec:
       chart: ./charts/valhalla
       sourceRef:
-        kind: GitRepository
-        name: platform
+        kind: HelmRepository
+        name: valhalla-charts
         namespace: flux-system
   install:
     createNamespace: true

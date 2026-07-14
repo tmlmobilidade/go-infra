@@ -7,7 +7,9 @@ spec:
   interval: 30s
   targetNamespace: stg-valhalla
   install:
-    createNamespace: false
+    createNamespace: true
+    remediation:
+      retries: 3
   chart:
     spec:
       chart: compute/kubernetes/charts/valhalla
@@ -22,8 +24,12 @@ spec:
     pbfUrl: https://download.geofabrik.de/europe/portugal-latest.osm.pbf
     replicas: 1
     persistence:
+      create: true
       existingClaim: valhalla-pvc
       mountPath: /custom_files
+      size: 50Gi
+      accessMode: ReadWriteMany
+      storageClassName: fss-dyn-storage
     resources:
       requests:
         cpu: "2000m"

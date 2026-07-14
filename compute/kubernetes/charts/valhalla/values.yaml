@@ -1,16 +1,19 @@
-name: valhalla-pvc
+name: valhalla
+
+environment: stg
+
+image:
+  repository: ghcr.io/valhalla/valhalla-scripted
+  tag: latest
+  pullPolicy: IfNotPresent
 
 pbfUrl: https://download.geofabrik.de/europe/portugal-latest.osm.pbf
 
-minReplicas: 1
-maxReplicas: 2
+replicas: 1
 
-# Operator still needs this in the Valhalla CR — must match pvc.yaml spec.
-# Flux creates the PVC; operator adopts claim name from CR metadata.name above.
 persistence:
-  storage: 50Gi
-  storageClassName: fss-dyn-storage
-  accessMode: ReadWriteMany
+  existingClaim: valhalla-pvc
+  mountPath: /custom_files
 
 resources:
   requests:
@@ -21,8 +24,16 @@ resources:
     memory: "8Gi"
 
 service:
-  type: ClusterIP
-  annotations: {}
+  port: 80
+  targetPort: 8002
+
+ingress:
+  enabled: false
+  path: /locations/valhalla(/|$)(.*)
+  pathType: ImplementationSpecific
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
 
 # Daily Portugal OSM refresh (same flow as VM update-portugal-osm.sh).
 updateCron:
@@ -33,4 +44,3 @@ updateCron:
   mountPath: /custom_files
   pbfFileName: portugal-latest.osm.pbf
   pvcClaimName: valhalla-pvc
-  deploymentName: valhalla-pvc

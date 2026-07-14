@@ -57,7 +57,7 @@ spec:
                   PBF="{{ .Values.updateCron.pbfFileName }}"
                   URL="{{ .Values.pbfUrl }}"
                   NS="{{ .Release.Namespace }}"
-                  DEPLOY="{{ .Values.updateCron.deploymentName }}"
+                  DEPLOY="{{ .Values.name }}"
 
                   mkdir -p "$CUSTOM_DIR/backups"
                   curl -fsSL -o "$CUSTOM_DIR/$PBF.new" "$URL"

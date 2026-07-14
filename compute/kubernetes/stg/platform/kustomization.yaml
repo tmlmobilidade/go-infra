@@ -6,4 +6,3 @@ resources:
   - onepassword-connect.yaml
   - keel.yaml
   - evicted-pod-cleanup.yaml
-  - valhalla-operator.yaml

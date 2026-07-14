@@ -34,5 +34,6 @@ spec:
     secrets:
       - prd-platform-storage
       - prd-module-stops
+      - prd-platform-go-cache-db
       - prd-platform-sentry
     env: []

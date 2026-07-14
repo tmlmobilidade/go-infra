@@ -38,7 +38,7 @@ spec:
       mountPath: /custom_files
       size: 50Gi
       accessMode: ReadWriteOnce
-      storageClass: ""
+      storageClass: oci-bv
     ingress:
       enabled: true
       path: /valhalla(/|$)(.*)

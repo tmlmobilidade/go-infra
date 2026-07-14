@@ -16,7 +16,7 @@ persistence:
   enabled: true
   mountPath: /custom_files
   size: 50Gi
-  storageClass: ""
+  storageClass: oci-bv
   accessMode: ReadWriteOnce
 
 pbfFileName: portugal-latest.osm.pbf

@@ -13,7 +13,7 @@ replicas: 1
 
 persistence:
   create: true
-  existingClaim: valhalla-pvc
+  claimName: valhalla-pvc
   mountPath: /custom_files
   size: 50Gi
   accessMode: ReadWriteOnce

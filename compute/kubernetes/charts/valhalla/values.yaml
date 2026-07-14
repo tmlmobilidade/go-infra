@@ -1,5 +1,7 @@
 name: valhalla
 
+environment: stg
+
 replicaCount: 1
 
 image:
@@ -12,11 +14,12 @@ service:
 
 persistence:
   enabled: true
+  mountPath: /custom_files
   size: 50Gi
   storageClass: ""
   accessMode: ReadWriteOnce
 
-customFilesPath: /custom_files
+pbfFileName: portugal-latest.osm.pbf
 
 pbfUrl: https://download.geofabrik.de/europe/portugal-latest.osm.pbf
 
@@ -37,6 +40,14 @@ updateCron:
   enabled: true
   schedule: "0 4 * * *"
   timeZone: Europe/Lisbon
+  image: bitnami/kubectl:1.31.4
+  deploymentName: valhalla
+
+resources: {}
+
+podSecurityContext: {}
+
+securityContext: {}
 
 ingress:
   enabled: true

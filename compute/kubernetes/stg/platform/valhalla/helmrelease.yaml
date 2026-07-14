@@ -2,16 +2,10 @@ apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
   name: valhalla
-  namespace: valhalla
+  namespace: flux-system
 spec:
   interval: 5m
-  chart:
-    spec:
-      chart: ./charts/valhalla
-      sourceRef:
-        kind: HelmRepository
-        name: valhalla-charts
-        namespace: flux-system
+  targetNamespace: stg-valhalla
   install:
     createNamespace: true
     remediation:
@@ -19,34 +13,46 @@ spec:
   upgrade:
     remediation:
       retries: 3
+  chart:
+    spec:
+      chart: compute/kubernetes/charts/valhalla
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
   values:
-    replicaCount: 1
+    name: valhalla
     environment: stg
+    replicaCount: 1
     image:
       repository: ghcr.io/valhalla/valhalla-scripted
       tag: latest
-    service:
-      type: ClusterIP
-      port: 8002
-    ingress:
-      enabled: true
-      path: /valhalla
-      pathType: Prefix
-      annotations: {}
+    pbfUrl: https://download.geofabrik.de/europe/portugal-latest.osm.pbf
+    pbfFileName: portugal-latest.osm.pbf
     persistence:
       enabled: true
+      mountPath: /custom_files
       size: 50Gi
+      accessMode: ReadWriteOnce
       storageClass: ""
-    pbfUrl: https://download.geofabrik.de/europe/portugal-latest.osm.pbf
+    ingress:
+      enabled: true
+      path: /valhalla(/|$)(.*)
+      pathType: ImplementationSpecific
+      annotations:
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
     updateCron:
       enabled: true
       schedule: "0 4 * * *"
       timeZone: Europe/Lisbon
+      image: bitnami/kubectl:1.31.4
       deploymentName: valhalla
     resources:
       requests:
-        cpu: "1000m"
-        memory: "2Gi"
+        cpu: "2000m"
+        memory: "4Gi"
       limits:
         cpu: "4000m"
         memory: "8Gi"

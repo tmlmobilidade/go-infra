@@ -24,7 +24,7 @@ spec:
     pbfUrl: https://download.geofabrik.de/europe/portugal-latest.osm.pbf
     replicas: 1
     persistence:
-      create: true
+      create: false
       existingClaim: valhalla-pvc
       mountPath: /custom_files
       size: 50Gi

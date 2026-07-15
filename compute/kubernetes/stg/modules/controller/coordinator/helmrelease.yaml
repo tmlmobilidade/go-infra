@@ -26,8 +26,8 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - stg-platform-storage
       - stg-platform-sentry-controller
+      - stg-module-controller
     env: []
     environment: stg
     app: coordinator

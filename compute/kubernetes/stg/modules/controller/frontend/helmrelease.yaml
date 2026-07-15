@@ -28,8 +28,6 @@ spec:
       path: /controller
       pathType: Prefix
     secrets:
-      - stg-platform-email
-      - stg-platform-storage
       - stg-platform-sentry-controller
     env: []
     environment: stg

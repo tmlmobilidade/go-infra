@@ -32,9 +32,8 @@ spec:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
       host: pr-573.go-stg.tmlmobilidade.pt
     secrets:
-      - stg-platform-email
-      - stg-platform-storage
       - stg-platform-sentry-controller
+      - stg-module-controller
     env: []
     environment: pr-573
     app: api

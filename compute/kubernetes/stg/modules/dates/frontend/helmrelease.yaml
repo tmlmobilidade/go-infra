@@ -28,8 +28,6 @@ spec:
       path: /dates
       pathType: Prefix
     secrets:
-      - stg-platform-email
-      - stg-platform-storage
       - stg-platform-sentry-dates
     env: []
     environment: stg

@@ -26,7 +26,7 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - stg-platform-storage
+      - stg-module-stops
       - stg-platform-sentry-stops
     env: []
     environment: stg

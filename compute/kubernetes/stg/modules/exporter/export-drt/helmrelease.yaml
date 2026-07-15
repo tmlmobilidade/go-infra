@@ -26,6 +26,7 @@ spec:
     ingress:
       enabled: false
     secrets:
+      - stg-module-exporter
       - stg-platform-storage
       - stg-platform-sentry-exporter
     env: []

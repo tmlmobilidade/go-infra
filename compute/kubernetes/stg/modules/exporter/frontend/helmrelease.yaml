@@ -27,10 +27,6 @@ spec:
       enabled: true
       path: /exporter
       pathType: Prefix
-    secrets:
-      - stg-platform-email
-      - stg-platform-storage
-      - stg-platform-sentry-exporter
     env: []
     environment: stg
     app: frontend

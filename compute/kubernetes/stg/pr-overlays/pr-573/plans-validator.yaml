@@ -29,6 +29,8 @@ spec:
     secrets:
       - stg-platform-storage
       - stg-platform-sentry-plans
+      - stg-module-plans
+      - stg-platform-email
     env: []
     environment: pr-573
     app: validator

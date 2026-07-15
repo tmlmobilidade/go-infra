@@ -28,6 +28,7 @@ spec:
       host: pr-573.go-stg.tmlmobilidade.pt
     secrets:
       - stg-platform-storage
+      - stg-module-exporter
       - stg-platform-sentry-exporter
     env: []
     environment: pr-573

@@ -31,5 +31,6 @@ spec:
       enabled: false
     secrets:
       - prd-module-performance
+      - prd-platform-godb
       - prd-platform-sentry
     env: []

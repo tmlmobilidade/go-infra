@@ -31,6 +31,7 @@ spec:
       enabled: false
     secrets:
       - prd-module-tracker
+      - prd-platform-godb
       - prd-platform-clickhouse
       - prd-platform-pcgi-raw
       - prd-platform-sentry

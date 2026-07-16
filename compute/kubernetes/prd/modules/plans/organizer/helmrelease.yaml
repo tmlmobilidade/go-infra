@@ -31,5 +31,6 @@ spec:
       - prd-platform-cachedb
       - prd-platform-storage
       - prd-module-plans
+      - prd-platform-godb
       - prd-platform-sentry
     env: []

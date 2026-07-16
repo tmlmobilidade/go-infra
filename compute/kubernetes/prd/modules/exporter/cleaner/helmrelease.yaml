@@ -29,6 +29,7 @@ spec:
       enabled: false
     secrets:
       - prd-module-exporter
+      - prd-platform-godb
       - prd-platform-storage
       - prd-platform-sentry
     env: []

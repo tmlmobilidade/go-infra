@@ -29,6 +29,7 @@ spec:
       enabled: false
     secrets:
       - prd-module-apex
+      - prd-platform-godb
       - prd-platform-pcgi-raw
       - prd-platform-clickhouse
       - prd-platform-sentry

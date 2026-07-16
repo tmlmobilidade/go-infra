@@ -32,5 +32,6 @@ spec:
     secrets:
       - prd-platform-storage
       - prd-module-hub
+      - prd-platform-godb
       - prd-platform-sentry
     env: []

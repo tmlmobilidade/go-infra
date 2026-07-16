@@ -31,4 +31,5 @@ spec:
       - prd-platform-sentry
       - prd-platform-storage
       - prd-module-alerts
+      - prd-platform-godb
     env: []

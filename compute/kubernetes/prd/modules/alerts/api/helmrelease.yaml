@@ -38,6 +38,7 @@ spec:
       - prd-platform-ai
       - prd-platform-storage
       - prd-module-alerts
+      - prd-platform-godb
       - prd-platform-sentry
     probes:
       startup:

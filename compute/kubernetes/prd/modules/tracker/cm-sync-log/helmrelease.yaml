@@ -34,5 +34,6 @@ spec:
       - prd-platform-pcgi-legacy
       - prd-platform-pcgi-tunnel
       - prd-module-tracker
+      - prd-platform-godb
       - prd-platform-sentry
     env: []

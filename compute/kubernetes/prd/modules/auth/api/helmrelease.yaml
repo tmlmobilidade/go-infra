@@ -36,6 +36,7 @@ spec:
       - prd-platform-email
       - prd-platform-storage
       - prd-module-auth
+      - prd-platform-godb
       - prd-platform-sentry
     probes:
       startup:

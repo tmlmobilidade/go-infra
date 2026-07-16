@@ -31,6 +31,7 @@ spec:
       enabled: false
     secrets:
       - prd-module-performance
+      - prd-platform-godb
       - prd-platform-clickhouse
       - prd-platform-sentry
     env: []

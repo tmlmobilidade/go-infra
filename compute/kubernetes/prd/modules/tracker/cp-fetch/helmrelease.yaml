@@ -32,6 +32,7 @@ spec:
     secrets:
       - prd-platform-pcgi-raw
       - prd-module-tracker
+      - prd-platform-godb
       - prd-platform-external-app-secrets
       - prd-platform-go-tunnel
       - prd-platform-sentry

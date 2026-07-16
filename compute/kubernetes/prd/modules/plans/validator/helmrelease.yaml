@@ -33,6 +33,7 @@ spec:
     secrets:
       - prd-platform-storage
       - prd-module-plans
+      - prd-platform-godb
       - prd-platform-email
       - prd-platform-sentry
     env: []

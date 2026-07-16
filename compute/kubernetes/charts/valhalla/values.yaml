@@ -1,6 +1,7 @@
 name: valhalla
 
-environment: stg
+# Override per environment in HelmRelease (stg | prd | pr-XXX).
+environment: environment
 
 replicaCount: 1
 
@@ -18,6 +19,10 @@ persistence:
   size: 50Gi
   storageClass: oci-bv
   accessMode: ReadWriteOnce
+  # Bind to a pre-provisioned PV when set (e.g. stg-valhalla-pv / prd-valhalla-pv).
+  volumeName: ""
+  # Use an existing PVC instead of creating one.
+  existingClaim: ""
 
 pbfFileName: portugal-latest.osm.pbf
 
@@ -58,4 +63,3 @@ ingress:
   path: /
   pathType: Prefix
   annotations: {}
-  environment: stg

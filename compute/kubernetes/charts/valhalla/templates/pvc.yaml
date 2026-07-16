@@ -8,12 +8,13 @@ metadata:
 spec:
   accessModes:
     - {{ .Values.persistence.accessMode }}
-
   resources:
     requests:
       storage: {{ .Values.persistence.size }}
-
-{{- if .Values.persistence.storageClass }}
-  storageClassName: {{ .Values.persistence.storageClass }}
-{{- end }}
+  {{- with .Values.persistence.storageClass }}
+  storageClassName: {{ . | quote }}
+  {{- end }}
+  {{- with .Values.persistence.volumeName }}
+  volumeName: {{ . | quote }}
+  {{- end }}
 {{- end }}

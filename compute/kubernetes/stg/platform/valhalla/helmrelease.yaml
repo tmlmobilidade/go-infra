@@ -39,6 +39,7 @@ spec:
       size: 50Gi
       accessMode: ReadWriteOnce
       storageClass: oci-bv
+      volumeName: stg-valhalla-pv
     ingress:
       enabled: true
       path: /valhalla(/|$)(.*)

@@ -28,6 +28,7 @@ spec:
     secrets:
       - stg-platform-sentry-controller
       - stg-module-controller
+      - stg-platform-godb
     env: []
     environment: stg
     app: coordinator

@@ -33,6 +33,7 @@ spec:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     secrets:
       - stg-module-offer
+      - stg-platform-godb
       - stg-platform-storage
       - stg-platform-sentry-offer
     env: []

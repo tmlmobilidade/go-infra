@@ -27,6 +27,7 @@ spec:
       enabled: false
     secrets:
       - stg-module-stops
+      - stg-platform-godb
       - stg-platform-sentry-stops
     env: []
     environment: stg

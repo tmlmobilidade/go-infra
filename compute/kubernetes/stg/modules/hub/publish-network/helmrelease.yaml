@@ -34,5 +34,6 @@ spec:
       - stg-platform-cachedb
       - stg-platform-storage
       - stg-module-hub
+      - stg-platform-godb
       - stg-platform-sentry-hub
     env: []

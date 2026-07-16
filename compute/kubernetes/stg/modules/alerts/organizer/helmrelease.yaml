@@ -30,5 +30,6 @@ spec:
     secrets:
       - stg-platform-storage
       - stg-module-alerts
+      - stg-platform-godb
       - stg-platform-sentry-alerts
     env: []

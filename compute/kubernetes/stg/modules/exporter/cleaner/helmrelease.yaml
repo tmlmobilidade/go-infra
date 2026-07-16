@@ -27,6 +27,7 @@ spec:
       enabled: false
     secrets:
       - stg-module-exporter
+      - stg-platform-godb
       - stg-platform-storage
       - stg-platform-sentry-exporter
     env: []

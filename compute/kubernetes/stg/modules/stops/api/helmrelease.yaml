@@ -33,6 +33,7 @@ spec:
     secrets:
       - stg-platform-storage
       - stg-module-stops
+      - stg-platform-godb
       - stg-platform-sentry-stops
     env: []
     environment: stg

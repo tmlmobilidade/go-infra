@@ -31,5 +31,6 @@ spec:
       - stg-platform-clickhouse
       - stg-platform-cachedb
       - stg-module-hub
+      - stg-platform-godb
       - stg-platform-sentry-hub
     env: []

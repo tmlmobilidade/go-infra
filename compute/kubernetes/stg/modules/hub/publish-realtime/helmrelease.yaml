@@ -32,5 +32,6 @@ spec:
       - stg-platform-cachedb
       - stg-platform-external-app-secrets
       - stg-module-hub
+      - stg-platform-godb
       - stg-platform-sentry-hub
     env: []

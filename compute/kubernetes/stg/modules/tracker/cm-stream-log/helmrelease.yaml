@@ -28,6 +28,7 @@ spec:
     secrets:
       - stg-platform-pcgi-raw
       - stg-module-tracker
+      - stg-platform-godb
       - stg-platform-external-app-secrets
       - stg-platform-go-tunnel
       - stg-platform-sentry-tracker

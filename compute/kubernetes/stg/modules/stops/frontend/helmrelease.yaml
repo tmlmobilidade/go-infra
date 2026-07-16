@@ -29,6 +29,7 @@ spec:
       pathType: Prefix
     secrets:
       - stg-module-stops
+      - stg-platform-godb
       - stg-platform-storage
       - stg-platform-sentry-stops
     env: []

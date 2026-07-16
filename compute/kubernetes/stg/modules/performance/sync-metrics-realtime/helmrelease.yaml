@@ -27,6 +27,7 @@ spec:
       enabled: false
     secrets:
       - stg-module-performance
+      - stg-platform-godb
       - stg-platform-clickhouse
       - stg-platform-sentry-performance
     env: []

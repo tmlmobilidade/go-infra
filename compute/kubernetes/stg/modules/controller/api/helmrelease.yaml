@@ -33,6 +33,7 @@ spec:
     secrets:
       - stg-platform-email
       - stg-module-controller
+      - stg-platform-godb
       - stg-platform-clickhouse
       - stg-platform-sentry-controller
     env: []

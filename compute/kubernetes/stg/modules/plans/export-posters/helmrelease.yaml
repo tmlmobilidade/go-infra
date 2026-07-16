@@ -28,6 +28,7 @@ spec:
     secrets:
       - stg-platform-storage
       - stg-module-plans
+      - stg-platform-godb
       - stg-platform-sentry-plans
     env: []
     environment: stg

@@ -36,7 +36,7 @@ spec:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     secrets:
       - stg-module-hub
-      - stg-platform-go-cache-db
+      - stg-platform-cachedb
       - stg-platform-storage
       - stg-platform-sentry-hub
     probes:

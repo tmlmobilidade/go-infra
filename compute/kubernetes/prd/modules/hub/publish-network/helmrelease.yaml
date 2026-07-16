@@ -31,7 +31,7 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - prd-platform-go-cache-db
+      - prd-platform-cachedb
       - prd-platform-storage
       - prd-module-hub
       - prd-platform-sentry

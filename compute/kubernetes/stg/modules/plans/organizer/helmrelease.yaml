@@ -28,7 +28,7 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - stg-platform-go-cache-db
+      - stg-platform-cachedb
       - stg-platform-storage
       - stg-module-plans
       - stg-platform-sentry-plans

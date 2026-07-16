@@ -29,7 +29,7 @@ spec:
       enabled: false
     secrets:
       - prd-platform-clickhouse
-      - prd-platform-go-cache-db
+      - prd-platform-cachedb
       - prd-module-hub
       - prd-platform-sentry
     env: []

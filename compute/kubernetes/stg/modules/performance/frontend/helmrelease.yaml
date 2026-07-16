@@ -28,8 +28,6 @@ spec:
       path: /performance
       pathType: Prefix
     secrets:
-      - stg-platform-email
-      - stg-platform-storage
       - stg-platform-sentry-performance
     env: []
     environment: stg

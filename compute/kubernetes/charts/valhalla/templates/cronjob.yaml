@@ -18,11 +18,8 @@ spec:
 
       template:
         spec:
-
           restartPolicy: Never
-
           serviceAccountName: {{ .Values.name }}-updater
-
           containers:
             - name: updater
               image: {{ .Values.updateCron.image | quote }}
@@ -45,13 +42,11 @@ spec:
                 - name: scripts
                   mountPath: /scripts
                   readOnly: true
-
           volumes:
             - name: scripts
               configMap:
                 name: {{ .Values.name }}-scripts
                 defaultMode: 0755
-
             - name: data
               persistentVolumeClaim:
                 claimName: {{ default (printf "%s-data" .Values.name) .Values.persistence.existingClaim }}

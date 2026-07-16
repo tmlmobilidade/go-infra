@@ -6,13 +6,10 @@ metadata:
 rules:
   - apiGroups:
       - apps
-
     resources:
       - deployments
-
     resourceNames:
       - {{ .Values.updateCron.deploymentName }}
-
     verbs:
       - get
       - patch

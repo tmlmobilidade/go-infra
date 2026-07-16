@@ -36,7 +36,7 @@ spec:
     persistence:
       enabled: true
       mountPath: /custom_files
-      size: 50Gi
+      size: 100Gi
       accessMode: ReadWriteOnce
       storageClass: oci-bv
       volumeName: stg-valhalla-pv

@@ -16,12 +16,10 @@ service:
 persistence:
   enabled: true
   mountPath: /custom_files
-  size: 50Gi
+  size: 100Gi
   storageClass: oci-bv
   accessMode: ReadWriteOnce
-  # Bind to a pre-provisioned PV when set (e.g. stg-valhalla-pv / prd-valhalla-pv).
   volumeName: ""
-  # Use an existing PVC instead of creating one.
   existingClaim: ""
 
 pbfFileName: portugal-latest.osm.pbf

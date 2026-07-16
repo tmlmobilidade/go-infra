@@ -26,7 +26,10 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - stg-platform-storage
+      - stg-platform-pcgi-raw
+      - stg-module-tracker
+      - stg-platform-external-app-secrets
+      - stg-platform-go-tunnel
       - stg-platform-sentry-tracker
     env: []
     environment: stg

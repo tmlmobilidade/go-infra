@@ -6,7 +6,7 @@ resources:
   - alerts-frontend.yaml
   - alerts-organizer.yaml
   - alerts-secrets.yaml
-  - apex-organizer.yaml
+  # - apex-organizer.yaml
   - apex-secrets.yaml
   - auth-api.yaml
   - auth-cleaner.yaml

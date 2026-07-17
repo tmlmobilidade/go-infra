@@ -24,29 +24,6 @@ spec:
 {{- end }}
       securityContext:
 {{ toYaml .Values.podSecurityContext | indent 8 }}
-{{- if .Values.initDownload.enabled }}
-      initContainers:
-        - name: download-osm
-          image: {{ .Values.initDownload.image }}
-          command:
-            - sh
-            - -c
-            - |
-              set -e
-              mkdir -p {{ .Values.persistence.mountPath }}
-              if [ ! -f "{{ .Values.persistence.mountPath }}/{{ .Values.pbfFileName }}" ]; then
-                echo "Downloading Portugal OSM extract..."
-                curl -L \
-                  "{{ .Values.pbfUrl }}" \
-                  -o "{{ .Values.persistence.mountPath }}/{{ .Values.pbfFileName }}"
-                echo "Download completed."
-              else
-                echo "PBF already exists."
-              fi
-          volumeMounts:
-            - name: data
-              mountPath: {{ .Values.persistence.mountPath }}
-{{- end }}
       containers:
         - name: valhalla
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"

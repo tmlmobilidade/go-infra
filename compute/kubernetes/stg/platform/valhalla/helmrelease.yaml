@@ -60,3 +60,10 @@ spec:
       limits:
         cpu: "4000m"
         memory: "8Gi"
+  volumeMounts:
+    - name: block-storage
+      mountPath: /custom_files
+  volumes:
+    - name: block-storage
+      persistentVolumeClaim:
+        claimName: stg-valhalla-pv

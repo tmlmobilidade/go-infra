@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - alerts
   # - apex
-  # - auth
+  - auth
   - controller
   - dates
   - eta
@@ -11,7 +11,7 @@ resources:
   - fleet
   - hub
   - locations
-  - offer
+  # - offer
   - performance
   - plans
   - stops

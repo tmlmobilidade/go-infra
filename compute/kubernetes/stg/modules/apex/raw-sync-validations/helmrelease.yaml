@@ -1,10 +1,10 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: apex-sync-on-board-refunds
+  name: apex-raw-sync-validations
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 30s
   dependsOn:
     - name: onepassword-connect
   targetNamespace: stg-apex
@@ -19,15 +19,18 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: stg
     module: apex
+    app: raw-sync-validations
     replicas: 1
     service:
       targetPort: 5050
     ingress:
       enabled: false
     secrets:
-      - stg-platform-storage
-      - stg-platform-sentry-apex
+      - stg-module-apex
+      - stg-platform-godb
+      - stg-platform-pcgi-raw
+      - stg-platform-clickhouse
+      - stg-platform-sentry
     env: []
-    environment: stg
-    app: sync-on-board-refunds

@@ -4,7 +4,7 @@ metadata:
   name: alerts-frontend
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 30s
   dependsOn:
     - name: onepassword-connect
   targetNamespace: stg-alerts
@@ -30,5 +30,9 @@ spec:
       path: /alerts
       pathType: Prefix
     secrets:
-      - stg-platform-sentry-alerts
+      - stg-platform-sentry
+    probes:
+      startup:
+        enabled: true
+        path: /alerts/health
     env: []

@@ -4,7 +4,7 @@ metadata:
   name: alerts-api
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 30s
   dependsOn:
     - name: onepassword-connect
   targetNamespace: stg-alerts
@@ -19,8 +19,12 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: stg
     module: alerts
+    app: api
     replicas: 1
+    resources:
+      memory: 4Gi
     service:
       targetPort: 5050
     ingress:
@@ -35,7 +39,8 @@ spec:
       - stg-platform-storage
       - stg-module-alerts
       - stg-platform-godb
-      - stg-platform-sentry-alerts
+      - stg-platform-sentry
+    probes:
+      startup:
+        enabled: true
     env: []
-    environment: stg
-    app: api

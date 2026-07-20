@@ -31,5 +31,6 @@ spec:
       enabled: false
     secrets:
       - stg-platform-pcgi-file-manager
+      - stg-platform-pcgi-tunnel
       - stg-platform-rawdb
     env: []

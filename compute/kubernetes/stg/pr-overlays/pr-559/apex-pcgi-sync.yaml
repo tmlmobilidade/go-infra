@@ -32,6 +32,7 @@ spec:
       host: pr-559.go-stg.tmlmobilidade.pt
     secrets:
       - stg-platform-pcgi-file-manager
+      - stg-platform-pcgi-tunnel
       - stg-platform-rawdb
     env: []
   suspend: false

@@ -5,4 +5,4 @@ resources:
   - ingress-nginx.yaml
   - onepassword-connect.yaml
   - keel.yaml
-  - valhalla
+# - valhalla  

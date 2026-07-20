@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: tracker-cm-sync-log
+  name: tracker-pt-tml-ccfl-fetch
   namespace: flux-system
 spec:
   interval: 5m
@@ -19,19 +19,16 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: stg
     module: tracker
+    app: pt-tml-ccfl-fetch
     replicas: 1
     service:
       targetPort: 5050
     ingress:
       enabled: false
     secrets:
-      - stg-platform-pcgi-raw
       - stg-module-tracker
-      - stg-platform-godb
+      - stg-platform-rawdb
       - stg-platform-external-app-secrets
-      - stg-platform-go-tunnel
-      - stg-platform-sentry-tracker
     env: []
-    environment: stg
-    app: cm-sync-log

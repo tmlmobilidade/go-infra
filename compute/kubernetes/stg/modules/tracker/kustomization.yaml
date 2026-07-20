@@ -2,12 +2,12 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - secrets.yaml
-  - ccfl-fetch/helmrelease.yaml
-  - clickhouse-stream/helmrelease.yaml
-  - clickhouse-sync/helmrelease.yaml
-  - cm-stream-core/helmrelease.yaml
-  - cm-stream-log/helmrelease.yaml
-  - cm-sync-core/helmrelease.yaml
-  - cm-sync-log/helmrelease.yaml
-  - mobi-fetch/helmrelease.yaml
-  - ttsl-fetch/helmrelease.yaml
+  - clickhouse-stream
+  - clickhouse-sync
+  - pt-tml-ccfl-fetch
+  - pt-tml-cm-stream-core
+  - pt-tml-cm-stream-log
+  - pt-tml-cm-sync-core
+  - pt-tml-cm-sync-log
+  - pt-tml-mobi-fetch
+  - pt-tml-ttsl-fetch

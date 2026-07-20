@@ -28,7 +28,8 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - stg-platform-pcgi-raw
-      - stg-platform-clickhouse
-      - stg-platform-sentry
+      - stg-module-apex
+      - stg-platform-godb
+      - stg-platform-labdb
+      - stg-platform-rawdb
     env: []

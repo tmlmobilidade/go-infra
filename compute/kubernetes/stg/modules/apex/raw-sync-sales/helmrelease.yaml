@@ -30,7 +30,6 @@ spec:
     secrets:
       - stg-module-apex
       - stg-platform-godb
-      - stg-platform-pcgi-raw
-      - stg-platform-clickhouse
-      - stg-platform-sentry
+      - stg-platform-labdb
+      - stg-platform-rawdb
     env: []

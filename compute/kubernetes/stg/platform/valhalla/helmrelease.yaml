@@ -36,10 +36,9 @@ spec:
     persistence:
       enabled: true
       mountPath: /custom_files
-      size: 100Gi
-      accessMode: ReadWriteOnce
-      storageClass: oci-bv
-      volumeName: stg-valhalla-pv
+      size: 50Gi
+      accessMode: ReadWriteMany
+      storageClass: fss-dyn-storage
     ingress:
       enabled: true
       path: /valhalla(/|$)(.*)

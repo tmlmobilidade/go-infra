@@ -16,9 +16,10 @@ service:
 persistence:
   enabled: true
   mountPath: /custom_files
-  size: 100Gi
-  storageClass: oci-bv
-  accessMode: ReadWriteOnce
+  size: 50Gi
+  # Dynamic OCI FSS (no static volumeHandle / volumeName).
+  storageClass: fss-dyn-storage
+  accessMode: ReadWriteMany
   volumeName: ""
   existingClaim: ""
 

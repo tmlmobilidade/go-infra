@@ -19,7 +19,9 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: stg
     module: exporter
+    app: cleaner
     replicas: 1
     service:
       targetPort: 5050
@@ -29,7 +31,4 @@ spec:
       - stg-module-exporter
       - stg-platform-godb
       - stg-platform-storage
-      - stg-platform-sentry-exporter
     env: []
-    environment: stg
-    app: cleaner

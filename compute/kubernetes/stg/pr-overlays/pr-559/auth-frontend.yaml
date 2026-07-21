@@ -28,9 +28,6 @@ spec:
       path: /auth
       pathType: Prefix
       host: pr-559.go-stg.tmlmobilidade.pt
-    secrets:
-      - stg-platform-email
-      - stg-platform-storage
     env: []
     environment: pr-559
     app: frontend

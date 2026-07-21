@@ -27,7 +27,8 @@ spec:
       enabled: true
       host: pr-559.go-stg.tmlmobilidade.pt
     secrets:
-      - stg-platform-storage
+      - stg-module-auth
+      - stg-platform-godb
     env: []
     environment: pr-559
     app: cleaner

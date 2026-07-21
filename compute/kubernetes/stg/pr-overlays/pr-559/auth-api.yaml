@@ -32,10 +32,10 @@ spec:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
       host: pr-559.go-stg.tmlmobilidade.pt
     secrets:
-      - stg-platform-email
-      - stg-platform-storage
       - stg-module-auth
       - stg-platform-godb
+      - stg-platform-email
+      - stg-platform-storage
     env: []
     environment: pr-559
     app: api

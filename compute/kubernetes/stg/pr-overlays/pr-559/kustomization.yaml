@@ -38,6 +38,13 @@ resources:
   - eta-cleaner.yaml
   - eta-loader.yaml
   - eta-secrets.yaml
+  - exporter-api.yaml
+  - exporter-cleaner.yaml
+  - exporter-export-drt.yaml
+  - exporter-export-files.yaml
+  - exporter-export-posters.yaml
+  - exporter-frontend.yaml
+  - exporter-secrets.yaml
   - fleet-api.yaml
   - fleet-frontend.yaml
   - fleet-secrets.yaml
@@ -53,6 +60,9 @@ resources:
   - hub-publish-plans.yaml
   - hub-publish-realtime.yaml
   - hub-secrets.yaml
+  - locations-api.yaml
+  - locations-frontend.yaml
+  - locations-secrets.yaml
   - offer-api.yaml
   - offer-frontend.yaml
   - offer-gtfs-exporter.yaml

@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: pr-559-fleet-frontend
+  name: pr-559-exporter-frontend
   namespace: flux-system
 spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: pr-559-fleet
+  targetNamespace: pr-559-exporter
   install:
     createNamespace: true
   chart:
@@ -19,16 +19,16 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    environment: pr-559
-    module: fleet
-    app: frontend
+    module: exporter
     replicas: 1
     service:
       targetPort: 3000
     ingress:
       enabled: true
-      path: /fleet
+      path: /exporter
       pathType: Prefix
       host: pr-559.go-stg.tmlmobilidade.pt
     env: []
+    environment: pr-559
+    app: frontend
   suspend: false

@@ -19,7 +19,9 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: stg
     module: plans
+    app: frontend
     replicas: 1
     service:
       targetPort: 3000
@@ -28,5 +30,3 @@ spec:
       path: /plans
       pathType: Prefix
     env: []
-    environment: stg
-    app: frontend

@@ -19,7 +19,9 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: stg
     module: plans
+    app: validator
     replicas: 1
     service:
       targetPort: 5050
@@ -31,5 +33,3 @@ spec:
       - stg-platform-email
       - stg-platform-storage
     env: []
-    environment: stg
-    app: validator

@@ -37,6 +37,18 @@ resources:
   - fleet-api.yaml
   - fleet-frontend.yaml
   - fleet-secrets.yaml
+  - hub-api.yaml
+  - hub-frontend-navegante-app.yaml
+  - hub-frontend-videowall.yaml
+  - hub-publish-alerts-cm.yaml
+  - hub-publish-alerts.yaml
+  - hub-publish-gtfs-cm.yaml
+  - hub-publish-gtfs.yaml
+  - hub-publish-metrics.yaml
+  - hub-publish-network.yaml
+  - hub-publish-plans.yaml
+  - hub-publish-realtime.yaml
+  - hub-secrets.yaml
   - offer-api.yaml
   - offer-frontend.yaml
   - offer-gtfs-exporter.yaml

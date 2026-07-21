@@ -30,5 +30,5 @@ spec:
     secrets:
       - stg-module-tracker
       - stg-platform-rawdb
-      - stg-platform-pcgi-legacy
+      - stg-platform-external-app-secrets
     env: []

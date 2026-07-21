@@ -19,7 +19,9 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: stg
     module: locations
+    app: frontend
     replicas: 1
     service:
       targetPort: 3000
@@ -27,8 +29,4 @@ spec:
       enabled: true
       path: /locations
       pathType: Prefix
-    secrets:
-      - stg-platform-sentry-locations
     env: []
-    environment: stg
-    app: frontend

@@ -28,7 +28,5 @@ spec:
     ingress:
       enabled: true
       path: /hub/navegante-app
-      pathType: Prefix  
-    secrets:
-      - stg-platform-sentry-hub
+      pathType: Prefix
     env: []

@@ -39,7 +39,6 @@ spec:
       - stg-platform-godb
       - stg-platform-cachedb
       - stg-platform-storage
-      - stg-platform-sentry-hub
     probes:
       startup:
         enabled: true

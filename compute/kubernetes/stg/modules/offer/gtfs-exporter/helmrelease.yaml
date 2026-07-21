@@ -19,21 +19,16 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: stg
     module: offer
     app: gtfs-exporter
     replicas: 1
     service:
       targetPort: 5050
     ingress:
-      enabled: true
-      path: /offer/gtfs-exporter(/|$)(.*)
-      pathType: ImplementationSpecific
-      annotations:
-        nginx.ingress.kubernetes.io/use-regex: "true"
-        nginx.ingress.kubernetes.io/rewrite-target: /$2
+      enabled: false
     secrets:
       - stg-module-offer
       - stg-platform-godb
       - stg-platform-storage
-      - stg-platform-sentry-offer
     env: []

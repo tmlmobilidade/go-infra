@@ -29,8 +29,6 @@ resources:
   - controller-rides-examiner.yaml
   - controller-rides-feeder.yaml
   - controller-rides-locker.yaml
-  - controller-sams-examiner.yaml
-  - controller-sams-feeder.yaml
   - controller-secrets.yaml
   - dates-api.yaml
   - dates-frontend.yaml

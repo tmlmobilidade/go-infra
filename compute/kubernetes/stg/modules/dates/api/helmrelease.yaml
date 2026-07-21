@@ -19,7 +19,9 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: stg
     module: dates
+    app: api
     replicas: 1
     service:
       targetPort: 5050
@@ -33,7 +35,4 @@ spec:
     secrets:
       - stg-module-dates
       - stg-platform-godb
-      - stg-platform-sentry-dates
     env: []
-    environment: stg
-    app: api

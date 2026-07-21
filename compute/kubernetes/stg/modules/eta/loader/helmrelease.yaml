@@ -33,5 +33,5 @@ spec:
     secrets:
       - stg-module-eta
       - stg-platform-godb
-      - stg-platform-sentry-eta
+      - stg-platform-labdb
     env: []

@@ -1,0 +1,25 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - namespaces.yaml
+  - apex-pcgi-stream.yaml
+  - apex-pcgi-sync.yaml
+  - apex-raw-stream.yaml
+  - apex-raw-sync-banking-taps.yaml
+  - apex-raw-sync-inspection-decisions.yaml
+  - apex-raw-sync-inspections.yaml
+  - apex-raw-sync-locations.yaml
+  - apex-raw-sync-refunds.yaml
+  - apex-raw-sync-sales.yaml
+  - apex-raw-sync-validations.yaml
+  - apex-secrets.yaml
+  - tracker-clickhouse-stream.yaml
+  - tracker-clickhouse-sync.yaml
+  - tracker-pt-tml-ccfl-fetch.yaml
+  - tracker-pt-tml-cm-stream-core.yaml
+  - tracker-pt-tml-cm-stream-log.yaml
+  - tracker-pt-tml-cm-sync-core.yaml
+  - tracker-pt-tml-cm-sync-log.yaml
+  - tracker-pt-tml-mobi-fetch.yaml
+  - tracker-pt-tml-ttsl-fetch.yaml
+  - tracker-secrets.yaml

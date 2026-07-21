@@ -17,9 +17,23 @@ resources:
   - auth-cleaner.yaml
   - auth-frontend.yaml
   - auth-secrets.yaml
+  - controller-api.yaml
+  - controller-coordinator.yaml
+  - controller-frontend.yaml
+  - controller-rides-acceptor.yaml
+  - controller-rides-cleaner.yaml
+  - controller-rides-examiner.yaml
+  - controller-rides-feeder.yaml
+  - controller-rides-locker.yaml
+  - controller-sams-examiner.yaml
+  - controller-sams-feeder.yaml
+  - controller-secrets.yaml
   - dates-api.yaml
   - dates-frontend.yaml
   - dates-secrets.yaml
+  - eta-cleaner.yaml
+  - eta-loader.yaml
+  - eta-secrets.yaml
   - fleet-api.yaml
   - fleet-frontend.yaml
   - fleet-secrets.yaml

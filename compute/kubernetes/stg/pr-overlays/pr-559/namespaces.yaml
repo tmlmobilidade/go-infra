@@ -39,3 +39,17 @@ metadata:
   name: pr-559-offer
   annotations:
     operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-559-controller
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-559-eta
+  annotations:
+    operator.1password.io/auto-restart: "true"

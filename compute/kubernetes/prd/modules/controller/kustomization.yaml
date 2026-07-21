@@ -6,7 +6,6 @@ resources:
   - coordinator
   - frontend
   - rides-acceptor
-  # - rides-bridge
   - rides-cleaner
   - rides-examiner
   - rides-feeder

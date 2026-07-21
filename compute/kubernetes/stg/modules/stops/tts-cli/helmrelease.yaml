@@ -28,7 +28,6 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - stg-platform-storage
-      - stg-platform-sentry-stops
       - stg-platform-cachedb
+      - stg-platform-storage
     env: []

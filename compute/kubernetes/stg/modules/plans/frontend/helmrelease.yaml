@@ -27,10 +27,6 @@ spec:
       enabled: true
       path: /plans
       pathType: Prefix
-    secrets:
-      - stg-platform-email
-      - stg-platform-storage
-      - stg-platform-sentry-plans
     env: []
     environment: stg
     app: frontend

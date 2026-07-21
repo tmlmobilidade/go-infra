@@ -26,11 +26,10 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - stg-platform-storage
-      - stg-platform-sentry-plans
       - stg-module-plans
       - stg-platform-godb
       - stg-platform-email
+      - stg-platform-storage
     env: []
     environment: stg
     app: validator

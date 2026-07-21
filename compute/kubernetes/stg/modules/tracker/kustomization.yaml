@@ -4,10 +4,16 @@ resources:
   - secrets.yaml
   - clickhouse-stream
   - clickhouse-sync
+  - es-crtm-aisa-fetch
+  - es-crtm-la-veloz-fetch
   - pt-tml-ccfl-fetch
   - pt-tml-cm-stream-core
   - pt-tml-cm-stream-log
   - pt-tml-cm-sync-core
   - pt-tml-cm-sync-log
+  - pt-tml-cp-fetch
+  - pt-tml-fertagus-fetch
+  - pt-tml-ml-fetch
   - pt-tml-mobi-fetch
+  - pt-tml-tcb-fetch
   - pt-tml-ttsl-fetch

@@ -19,7 +19,9 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: stg
     module: performance
+    app: sync-metrics-realtime
     replicas: 1
     service:
       targetPort: 5050
@@ -28,8 +30,5 @@ spec:
     secrets:
       - stg-module-performance
       - stg-platform-godb
-      - stg-platform-clickhouse
-      - stg-platform-sentry-performance
+      - stg-platform-labdb
     env: []
-    environment: stg
-    app: sync-metrics-realtime

@@ -21,7 +21,7 @@ spec:
   values:
     environment: stg
     module: exporter
-    app: exporter
+    app: api
     replicas: 1
     service:
       targetPort: 5050

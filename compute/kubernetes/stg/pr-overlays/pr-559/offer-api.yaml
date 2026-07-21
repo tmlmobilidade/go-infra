@@ -19,7 +19,9 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: pr-559
     module: offer
+    app: api
     replicas: 1
     service:
       targetPort: 5050
@@ -32,10 +34,7 @@ spec:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
       host: pr-559.go-stg.tmlmobilidade.pt
     secrets:
-      - stg-platform-email
-      - stg-platform-storage
-      - stg-platform-sentry-offer
+      - stg-module-offer
+      - stg-platform-godb
     env: []
-    environment: pr-559
-    app: api
   suspend: false

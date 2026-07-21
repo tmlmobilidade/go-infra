@@ -30,7 +30,5 @@ spec:
       path: /hub/videowall
       pathType: Prefix
       host: pr-559.go-stg.tmlmobilidade.pt
-    secrets:
-      - stg-platform-sentry-hub
     env: []
   suspend: false

@@ -26,7 +26,8 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - stg-platform-storage
+      - stg-module-auth
+      - stg-platform-godb
     env: []
     environment: stg
     app: cleaner

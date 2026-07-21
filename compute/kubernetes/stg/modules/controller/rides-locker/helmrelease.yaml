@@ -19,7 +19,9 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: stg
     module: controller
+    app: rides-locker
     replicas: 1
     service:
       targetPort: 5050
@@ -28,7 +30,4 @@ spec:
     secrets:
       - stg-module-controller
       - stg-platform-godb
-      - stg-platform-sentry-controller
     env: []
-    environment: stg
-    app: rides-locker

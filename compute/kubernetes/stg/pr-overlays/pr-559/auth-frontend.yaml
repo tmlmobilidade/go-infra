@@ -19,7 +19,9 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: pr-559
     module: auth
+    app: frontend
     replicas: 1
     service:
       targetPort: 3000
@@ -29,6 +31,4 @@ spec:
       pathType: Prefix
       host: pr-559.go-stg.tmlmobilidade.pt
     env: []
-    environment: pr-559
-    app: frontend
   suspend: false

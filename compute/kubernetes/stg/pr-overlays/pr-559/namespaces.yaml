@@ -67,3 +67,17 @@ metadata:
   name: pr-559-stops
   annotations:
     operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-559-alerts
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-559-plans
+  annotations:
+    operator.1password.io/auto-restart: "true"

@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: pr-559-auth-api
+  name: pr-559-plans-api
   namespace: flux-system
 spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: pr-559-auth
+  targetNamespace: pr-559-plans
   install:
     createNamespace: true
   chart:
@@ -20,21 +20,20 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: pr-559
-    module: auth
+    module: plans
     app: api
     replicas: 1
     service:
       targetPort: 5050
     ingress:
       enabled: true
-      path: /auth/api(/|$)(.*)
+      path: /plans/api(/|$)(.*)
       pathType: ImplementationSpecific
       annotations:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/rewrite-target: /$2
       host: pr-559.go-stg.tmlmobilidade.pt
     secrets:
-      - stg-module-auth
       - stg-platform-godb
       - stg-platform-email
       - stg-platform-storage

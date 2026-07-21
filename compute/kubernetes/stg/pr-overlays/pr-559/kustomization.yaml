@@ -58,6 +58,12 @@ resources:
   - offer-gtfs-exporter.yaml
   - offer-gtfs-importer.yaml
   - offer-secrets.yaml
+  - performance-api.yaml
+  - performance-frontend.yaml
+  - performance-secrets.yaml
+  - performance-sync-metrics-daily.yaml
+  - performance-sync-metrics-hourly.yaml
+  - performance-sync-metrics-realtime.yaml
   - plans-api.yaml
   - plans-frontend.yaml
   - plans-organizer.yaml

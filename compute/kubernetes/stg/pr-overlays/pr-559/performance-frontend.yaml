@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: pr-559-controller-frontend
+  name: pr-559-performance-frontend
   namespace: flux-system
 spec:
   interval: 5m
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: pr-559-controller
+  targetNamespace: pr-559-performance
   install:
     createNamespace: true
   chart:
@@ -20,14 +20,14 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: pr-559
-    module: controller
+    module: performance
     app: frontend
     replicas: 1
     service:
       targetPort: 3000
     ingress:
       enabled: true
-      path: /controller
+      path: /performance
       pathType: Prefix
       host: pr-559.go-stg.tmlmobilidade.pt
     env: []

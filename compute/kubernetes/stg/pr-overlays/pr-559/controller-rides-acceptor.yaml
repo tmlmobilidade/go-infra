@@ -19,7 +19,9 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: pr-559
     module: controller
+    app: rides-acceptor
     replicas: 1
     service:
       targetPort: 5050
@@ -29,8 +31,5 @@ spec:
     secrets:
       - stg-module-controller
       - stg-platform-godb
-      - stg-platform-sentry-controller
     env: []
-    environment: pr-559
-    app: rides-acceptor
   suspend: false

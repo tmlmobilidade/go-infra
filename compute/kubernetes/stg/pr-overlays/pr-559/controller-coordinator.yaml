@@ -19,7 +19,9 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: pr-559
     module: controller
+    app: coordinator
     replicas: 1
     service:
       targetPort: 5050
@@ -27,10 +29,7 @@ spec:
       enabled: true
       host: pr-559.go-stg.tmlmobilidade.pt
     secrets:
-      - stg-platform-sentry-controller
       - stg-module-controller
       - stg-platform-godb
     env: []
-    environment: pr-559
-    app: coordinator
   suspend: false

@@ -19,7 +19,9 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: stg
     module: controller
+    app: api
     replicas: 1
     service:
       targetPort: 5050
@@ -31,11 +33,8 @@ spec:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     secrets:
-      - stg-platform-email
       - stg-module-controller
       - stg-platform-godb
-      - stg-platform-clickhouse
-      - stg-platform-sentry-controller
+      - stg-platform-labdb
+      - stg-platform-email
     env: []
-    environment: stg
-    app: api

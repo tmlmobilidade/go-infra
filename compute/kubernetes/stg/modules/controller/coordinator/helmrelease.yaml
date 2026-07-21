@@ -19,16 +19,15 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: stg
     module: controller
+    app: coordinator
     replicas: 1
     service:
       targetPort: 5050
     ingress:
       enabled: false
     secrets:
-      - stg-platform-sentry-controller
       - stg-module-controller
       - stg-platform-godb
     env: []
-    environment: stg
-    app: coordinator

@@ -19,7 +19,9 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: stg
     module: auth
+    app: cleaner
     replicas: 1
     service:
       targetPort: 5050
@@ -29,5 +31,3 @@ spec:
       - stg-module-auth
       - stg-platform-godb
     env: []
-    environment: stg
-    app: cleaner

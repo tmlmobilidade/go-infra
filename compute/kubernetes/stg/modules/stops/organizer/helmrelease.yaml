@@ -19,7 +19,9 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    environment: stg
     module: stops
+    app: organizer
     replicas: 1
     service:
       targetPort: 5050
@@ -29,5 +31,3 @@ spec:
       - stg-module-stops
       - stg-platform-godb
     env: []
-    environment: stg
-    app: organizer

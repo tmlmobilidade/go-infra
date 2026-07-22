@@ -4,7 +4,7 @@ metadata:
   name: pr-620-auth-cleaner
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 30s
   dependsOn:
     - name: onepassword-connect
   targetNamespace: pr-620-auth

@@ -4,7 +4,7 @@ metadata:
   name: tracker-pt-tml-cp-fetch
   namespace: flux-system
 spec:
-  interval: 5m
+  interval: 30s
   dependsOn:
     - name: onepassword-connect
   targetNamespace: stg-tracker

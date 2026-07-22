@@ -7,8 +7,6 @@ resources:
   - es-crtm-aisa-fetch
   - es-crtm-la-veloz-fetch
   - pt-tml-ccfl-fetch
-  - pt-tml-cm-stream-core
-  - pt-tml-cm-stream-log
   - pt-tml-cm-sync-core
   - pt-tml-cm-sync-log
   - pt-tml-cp-fetch

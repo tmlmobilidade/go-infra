@@ -97,4 +97,5 @@ resources:
   - tracker-pt-tml-mobi-fetch.yaml
   - tracker-pt-tml-tcb-fetch.yaml
   - tracker-pt-tml-ttsl-fetch.yaml
+  - tracker-pt-tmp-unir-fetch.yaml
   - tracker-secrets.yaml

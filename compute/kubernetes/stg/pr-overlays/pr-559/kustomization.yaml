@@ -88,9 +88,7 @@ resources:
   - tracker-es-crtm-la-veloz-fetch.yaml
   - tracker-pt-tml-ccfl-fetch.yaml
   - tracker-pt-tml-cm-stream-core.yaml
-  - tracker-pt-tml-cm-stream-log.yaml
   - tracker-pt-tml-cm-sync-core.yaml
-  - tracker-pt-tml-cm-sync-log.yaml
   - tracker-pt-tml-cp-fetch.yaml
   - tracker-pt-tml-fertagus-fetch.yaml
   - tracker-pt-tml-ml-fetch.yaml

@@ -22,7 +22,7 @@ spec:
     environment: pr-559
     module: controller
     app: rides-examiner
-    replicas: 1
+    replicas: 3
     service:
       targetPort: 5050
     ingress:

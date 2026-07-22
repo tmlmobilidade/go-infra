@@ -31,6 +31,7 @@ spec:
     secrets:
       - stg-module-tracker
       - stg-platform-rawdb
+      - stg-platform-pcgi-tunnel
       - stg-platform-pcgi-legacy
     env: []
   suspend: false

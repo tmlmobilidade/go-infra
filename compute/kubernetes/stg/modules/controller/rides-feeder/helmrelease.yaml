@@ -23,6 +23,8 @@ spec:
     module: controller
     app: rides-feeder
     replicas: 1
+    resources:
+      memory: 4Gi
     service:
       targetPort: 5050
     ingress:

@@ -32,6 +32,6 @@ spec:
     secrets:
       - prd-module-performance
       - prd-platform-godb
-      - prd-platform-clickhouse
+      - prd-platform-labdb
       - prd-platform-sentry
     env: []

@@ -6,3 +6,9 @@ resources:
   - auth-cleaner.yaml
   - auth-frontend.yaml
   - auth-secrets.yaml
+  - plans-api.yaml
+  - plans-export-posters.yaml
+  - plans-frontend.yaml
+  - plans-organizer.yaml
+  - plans-secrets.yaml
+  - plans-validator.yaml

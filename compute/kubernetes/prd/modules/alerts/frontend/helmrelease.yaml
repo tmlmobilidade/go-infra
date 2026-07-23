@@ -29,8 +29,6 @@ spec:
       enabled: true
       path: /alerts
       pathType: Prefix
-    secrets:
-      - prd-platform-sentry
     probes:
       startup:
         enabled: true

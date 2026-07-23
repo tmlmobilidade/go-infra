@@ -9,3 +9,9 @@ resources:
   - fleet-api.yaml
   - fleet-frontend.yaml
   - fleet-secrets.yaml
+  - stops-api.yaml
+  - stops-frontend.yaml
+  - stops-organizer.yaml
+  - stops-secrets.yaml
+  - stops-tts-cli.yaml
+  - stops-tts-server.yaml

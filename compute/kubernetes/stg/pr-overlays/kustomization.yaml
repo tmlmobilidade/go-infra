@@ -3,4 +3,3 @@ kind: Kustomization
 resources:
   - pr-553
   - pr-559
-  - pr-624

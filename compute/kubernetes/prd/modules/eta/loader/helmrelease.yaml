@@ -33,5 +33,6 @@ spec:
     secrets:
       - prd-module-eta
       - prd-platform-godb
+      - prd-platform-labdb
       - prd-platform-sentry
     env: []

@@ -28,10 +28,10 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - prd-platform-clickhouse
-      - prd-platform-cachedb
-      - prd-platform-external-app-secrets
       - prd-module-hub
       - prd-platform-godb
+      - prd-platform-labdb
+      - prd-platform-cachedb
+      - prd-platform-external-app-secrets
       - prd-platform-sentry
     env: []

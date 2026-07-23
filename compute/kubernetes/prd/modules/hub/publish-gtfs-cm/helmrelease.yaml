@@ -30,8 +30,8 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - prd-platform-storage
       - prd-module-hub
       - prd-platform-godb
+      - prd-platform-storage
       - prd-platform-sentry
     env: []

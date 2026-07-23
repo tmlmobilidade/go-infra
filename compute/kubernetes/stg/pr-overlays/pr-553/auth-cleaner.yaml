@@ -31,5 +31,4 @@ spec:
     secrets:
       - stg-module-auth
       - stg-platform-godb
-    env: []
-  suspend: false
+    env: []  suspend: false

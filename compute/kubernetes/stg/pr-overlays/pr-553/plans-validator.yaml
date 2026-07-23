@@ -33,5 +33,4 @@ spec:
       - stg-platform-godb
       - stg-platform-email
       - stg-platform-storage
-    env: []
-  suspend: false
+    env: []  suspend: false

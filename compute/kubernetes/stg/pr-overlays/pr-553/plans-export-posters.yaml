@@ -32,5 +32,4 @@ spec:
       - stg-module-plans
       - stg-platform-godb
       - stg-platform-storage
-    env: []
-  suspend: false
+    env: []  suspend: false

@@ -29,6 +29,7 @@ spec:
       enabled: false
     secrets:
       - prd-module-tracker
+      - prd-platform-go-tunnel
       - prd-platform-rawdb
       - prd-platform-external-app-secrets
       - prd-platform-sentry

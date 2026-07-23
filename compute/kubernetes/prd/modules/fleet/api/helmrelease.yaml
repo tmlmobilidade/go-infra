@@ -35,7 +35,6 @@ spec:
     secrets:
       - prd-module-fleet
       - prd-platform-godb
-      - prd-platform-clickhouse
       - prd-platform-sentry
     probes:
       startup:

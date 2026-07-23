@@ -35,9 +35,9 @@ spec:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     secrets:
-      - prd-platform-storage
       - prd-module-stops
       - prd-platform-godb
+      - prd-platform-storage
       - prd-platform-sentry
     probes:
       startup:

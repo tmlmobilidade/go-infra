@@ -32,4 +32,5 @@ spec:
       - prd-platform-rawdb
       - prd-platform-godb
       - prd-platform-labdb
+      - prd-platform-sentry
     env: []

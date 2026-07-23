@@ -30,7 +30,7 @@ spec:
     secrets:
       - prd-module-apex
       - prd-platform-godb
-      - prd-platform-pcgi-raw
-      - prd-platform-clickhouse
+      - prd-platform-rawdb
+      - prd-platform-labdb
       - prd-platform-sentry
     env: []

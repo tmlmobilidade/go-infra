@@ -28,7 +28,9 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - prd-platform-pcgi-raw
-      - prd-platform-clickhouse
+      - prd-module-apex
+      - prd-platform-godb
+      - prd-platform-rawdb
+      - prd-platform-labdb
       - prd-platform-sentry
     env: []

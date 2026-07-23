@@ -33,6 +33,4 @@ spec:
       startup:
         enabled: true
         path: /plans/health
-    secrets:
-      - prd-platform-sentry
     env: []

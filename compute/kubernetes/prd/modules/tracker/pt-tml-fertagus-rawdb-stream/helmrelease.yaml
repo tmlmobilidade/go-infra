@@ -19,7 +19,7 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    environment: stg
+    environment: prd
     module: tracker
     app: pt-tml-fertagus-rawdb-stream
     replicas: 1

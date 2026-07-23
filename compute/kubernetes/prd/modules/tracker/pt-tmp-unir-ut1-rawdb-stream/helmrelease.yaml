@@ -19,7 +19,7 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
-    environment: stg
+    environment: prd
     module: tracker
     app: pt-tmp-unir-ut1-rawdb-stream
     replicas: 1

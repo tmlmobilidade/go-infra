@@ -4,6 +4,6 @@ resources:
   - secrets.yaml
   - api
   - frontend
-  - organizer
+  # - organizer
   - tts-cli
   - tts-server

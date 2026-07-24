@@ -30,6 +30,7 @@ spec:
     secrets:
       - prd-module-tracker
       - prd-platform-rawdb
+      - prd-platform-godb
       - prd-platform-external-app-secrets
       - prd-platform-sentry
     env: []

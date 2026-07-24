@@ -2,6 +2,10 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - namespaces.yaml
+  - alerts-api.yaml
+  - alerts-frontend.yaml
+  - alerts-organizer.yaml
+  - alerts-secrets.yaml
   - apex-pcgi-stream.yaml
   - apex-pcgi-sync.yaml
   - apex-raw-stream.yaml
@@ -17,6 +21,52 @@ resources:
   - auth-cleaner.yaml
   - auth-frontend.yaml
   - auth-secrets.yaml
+  - controller-api.yaml
+  - controller-coordinator.yaml
+  - controller-frontend.yaml
+  - controller-rides-acceptor.yaml
+  - controller-rides-cleaner.yaml
+  - controller-rides-examiner.yaml
+  - controller-rides-feeder.yaml
+  - controller-rides-locker.yaml
+  - controller-secrets.yaml
+  - dates-api.yaml
+  - dates-frontend.yaml
+  - dates-secrets.yaml
   - eta-cleaner.yaml
   - eta-loader.yaml
   - eta-secrets.yaml
+  - exporter-api.yaml
+  - exporter-cleaner.yaml
+  - exporter-export-drt.yaml
+  - exporter-export-files.yaml
+  - exporter-export-posters.yaml
+  - exporter-frontend.yaml
+  - exporter-secrets.yaml
+  - fleet-api.yaml
+  - fleet-frontend.yaml
+  - fleet-secrets.yaml
+  - locations-api.yaml
+  - locations-frontend.yaml
+  - locations-secrets.yaml
+  - offer-api.yaml
+  - offer-frontend.yaml
+  - offer-gtfs-exporter.yaml
+  - offer-secrets.yaml
+  - performance-api.yaml
+  - performance-frontend.yaml
+  - performance-secrets.yaml
+  - performance-sync-metrics-daily.yaml
+  - performance-sync-metrics-hourly.yaml
+  - performance-sync-metrics-realtime.yaml
+  - plans-api.yaml
+  - plans-frontend.yaml
+  - plans-organizer.yaml
+  - plans-secrets.yaml
+  - plans-validator.yaml
+  - stops-api.yaml
+  - stops-frontend.yaml
+  - stops-organizer.yaml
+  - stops-secrets.yaml
+  - stops-tts-cli.yaml
+  - stops-tts-server.yaml

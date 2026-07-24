@@ -18,3 +18,73 @@ metadata:
   name: pr-573-eta
   annotations:
     operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-573-alerts
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-573-controller
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-573-dates
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-573-exporter
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-573-fleet
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-573-locations
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-573-offer
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-573-performance
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-573-plans
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-573-stops
+  annotations:
+    operator.1password.io/auto-restart: "true"

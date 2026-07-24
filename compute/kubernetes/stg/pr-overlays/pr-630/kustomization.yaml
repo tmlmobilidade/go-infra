@@ -13,6 +13,7 @@ resources:
   - tracker-pt-tml-ccfl-api-fetch.yaml
   - tracker-pt-tml-ccfl-rawdb-stream.yaml
   - tracker-pt-tml-cm-alsa-rawdb-stream.yaml
+  - tracker-pt-tml-cm-core-migrate.yaml
   - tracker-pt-tml-cm-core-stream.yaml
   - tracker-pt-tml-cm-rl-rawdb-stream.yaml
   - tracker-pt-tml-cm-tst-rawdb-stream.yaml

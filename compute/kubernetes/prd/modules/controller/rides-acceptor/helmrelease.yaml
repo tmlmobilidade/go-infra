@@ -26,7 +26,6 @@ spec:
     ingress:
       enabled: false
     secrets:
-      - prd-module-controller
       - prd-platform-godb
       - prd-platform-sentry
     env: []

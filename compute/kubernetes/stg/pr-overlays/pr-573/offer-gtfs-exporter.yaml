@@ -29,7 +29,6 @@ spec:
       enabled: true
       host: pr-573.go-stg.tmlmobilidade.pt
     secrets:
-      - stg-module-offer
       - stg-platform-godb
       - stg-platform-storage
     env: []

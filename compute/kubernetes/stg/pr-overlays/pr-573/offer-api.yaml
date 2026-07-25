@@ -34,7 +34,6 @@ spec:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
       host: pr-573.go-stg.tmlmobilidade.pt
     secrets:
-      - stg-module-offer
       - stg-platform-godb
     env: []
   suspend: false

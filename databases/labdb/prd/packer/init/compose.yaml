@@ -6,10 +6,6 @@ services:
     image: clickhouse/clickhouse-server:latest
     restart: unless-stopped
     network_mode: host
-    deploy:
-      resources:
-        limits:
-          memory: 10gb
     ulimits:
       nofile:
         soft: 262144

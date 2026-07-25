@@ -13,10 +13,6 @@ services:
         --bind_ip_all
         --oplogSize 100000
         --keyFile /data/replica.key
-    deploy:
-      resources:
-        limits:
-          memory: 10gb
     logging:
       options:
         max-size: '1m'

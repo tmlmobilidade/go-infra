@@ -36,6 +36,7 @@ spec:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     secrets:
       - prd-module-hub
+      - prd-platform-godb
       - prd-platform-cachedb
       - prd-platform-storage
       - prd-platform-sentry

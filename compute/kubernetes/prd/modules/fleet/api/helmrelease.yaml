@@ -33,7 +33,6 @@ spec:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     secrets:
-      - prd-module-fleet
       - prd-platform-godb
       - prd-platform-sentry
     probes:

@@ -32,3 +32,4 @@ resources:
   - pt-tmp-unir-ut3-rawdb-stream
   - pt-tmp-unir-ut4-rawdb-stream
   - pt-tmp-unir-ut5-rawdb-stream
+  - rawdb-sync

@@ -84,7 +84,7 @@ variable "subnet_ocid" {
 variable "kubernetes_version" {
 	type = string
 	description = "Kubernetes version for the cluster and node pool."
-	default = "v1.35.0"
+	default = "v1.36.1"
 }
 
 
@@ -100,7 +100,7 @@ variable "pool_count" {
 variable "node_count" {
 	type = number
 	description = "Number of virtual nodes in the node pool."
-	default = 3
+	default = 2
 }
 
 variable "pod_shape" {

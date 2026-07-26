@@ -3,33 +3,33 @@ kind: Kustomization
 resources:
   - secrets.yaml
   - es-crtm-aisa-api-fetch
-  # - es-crtm-aisa-rawdb-stream
+  - es-crtm-aisa-rawdb-stream
   - es-crtm-la-veloz-api-fetch
-  # - es-crtm-la-veloz-rawdb-stream
+  - es-crtm-la-veloz-rawdb-stream
   - pt-tml-ccfl-api-fetch
-  # - pt-tml-ccfl-rawdb-stream
-  # - pt-tml-cm-alsa-rawdb-stream
+  - pt-tml-ccfl-rawdb-stream
+  - pt-tml-cm-alsa-rawdb-stream
   - pt-tml-cm-core-migrate
   - pt-tml-cm-core-stream
-  # - pt-tml-cm-rl-rawdb-stream
-  # - pt-tml-cm-tst-rawdb-stream
-  # - pt-tml-cm-va-rawdb-stream
+  - pt-tml-cm-rl-rawdb-stream
+  - pt-tml-cm-tst-rawdb-stream
+  - pt-tml-cm-va-rawdb-stream
   - pt-tml-cp-api-fetch
-  # - pt-tml-cp-rawdb-stream
+  - pt-tml-cp-rawdb-stream
   - pt-tml-fertagus-api-fetch
-  # - pt-tml-fertagus-rawdb-stream
+  - pt-tml-fertagus-rawdb-stream
   - pt-tml-ml-api-fetch
-  # - pt-tml-ml-rawdb-stream
+  - pt-tml-ml-rawdb-stream
   - pt-tml-mobi-api-fetch
-  # - pt-tml-mobi-rawdb-stream
+  - pt-tml-mobi-rawdb-stream
   - pt-tml-tcb-api-fetch
-  # - pt-tml-tcb-rawdb-stream
+  - pt-tml-tcb-rawdb-stream
   - pt-tml-ttsl-api-fetch
-  # - pt-tml-ttsl-rawdb-stream
+  - pt-tml-ttsl-rawdb-stream
   - pt-tmp-unir-api-fetch
-  # - pt-tmp-unir-ut1-rawdb-stream
-  # - pt-tmp-unir-ut2-rawdb-stream
-  # - pt-tmp-unir-ut3-rawdb-stream
-  # - pt-tmp-unir-ut4-rawdb-stream
-  # - pt-tmp-unir-ut5-rawdb-stream
+  - pt-tmp-unir-ut1-rawdb-stream
+  - pt-tmp-unir-ut2-rawdb-stream
+  - pt-tmp-unir-ut3-rawdb-stream
+  - pt-tmp-unir-ut4-rawdb-stream
+  - pt-tmp-unir-ut5-rawdb-stream
   - rawdb-sync

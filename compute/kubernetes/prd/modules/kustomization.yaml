@@ -15,4 +15,4 @@ resources:
   - performance
   - plans
   - stops
-  # - tracker
+  - tracker

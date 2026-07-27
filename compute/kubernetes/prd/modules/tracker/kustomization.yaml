@@ -9,8 +9,8 @@ resources:
   - pt-tml-ccfl-api-fetch
   - pt-tml-ccfl-rawdb-stream
   - pt-tml-cm-alsa-rawdb-stream
-  # - pt-tml-cm-core-migrate
-  # - pt-tml-cm-core-migrate-coordinator
+  - pt-tml-cm-core-migrate
+  - pt-tml-cm-core-migrate-coordinator
   - pt-tml-cm-core-stream
   - pt-tml-cm-rl-rawdb-stream
   - pt-tml-cm-tst-rawdb-stream

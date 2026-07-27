@@ -109,7 +109,7 @@ variable "vm_ocpus" {
 variable "vm_memory_in_gbs" {
 	type = number
 	description = "Memory in GBs per VM."
-	default = 2
+	default = 4
 }
 
 variable "boot_volume_size_in_gbs" {

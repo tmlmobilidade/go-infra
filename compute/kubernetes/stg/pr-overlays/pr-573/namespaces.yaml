@@ -88,3 +88,10 @@ metadata:
   name: pr-573-stops
   annotations:
     operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-573-tracker
+  annotations:
+    operator.1password.io/auto-restart: "true"

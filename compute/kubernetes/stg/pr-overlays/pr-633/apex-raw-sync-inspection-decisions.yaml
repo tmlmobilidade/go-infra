@@ -1,0 +1,37 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pr-633-apex-raw-sync-inspection-decisions
+  namespace: flux-system
+spec:
+  interval: 30s
+  dependsOn:
+    - name: onepassword-connect
+  targetNamespace: pr-633-apex
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: compute/kubernetes/charts/go-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    environment: pr-633
+    module: apex
+    app: raw-sync-inspection-decisions
+    replicas: 1
+    service:
+      targetPort: 5050
+    ingress:
+      enabled: true
+      host: pr-633.go-stg.tmlmobilidade.pt
+    secrets:
+      - stg-module-apex
+      - stg-platform-godb
+      - stg-platform-labdb
+      - stg-platform-rawdb
+    env: []
+  suspend: false

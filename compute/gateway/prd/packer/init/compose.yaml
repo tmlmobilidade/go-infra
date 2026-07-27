@@ -38,8 +38,13 @@ services:
 
   certbot:
     image: certbot/certbot
-    restart: unless-stopped
-    mem_limit: 2g
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+      resources:
+        limits:
+          memory: 1gb
     volumes:
       - ./letsencrypt:/etc/letsencrypt
       - certbotdata:/var/www/certbot
@@ -54,9 +59,6 @@ services:
       restart_policy:
         condition: any
         delay: 30s
-      resources:
-        limits:
-          memory: 1gb
     logging:
       options:
         max-size: '1m'

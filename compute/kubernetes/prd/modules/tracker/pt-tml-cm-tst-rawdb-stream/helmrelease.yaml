@@ -23,6 +23,8 @@ spec:
     module: tracker
     app: pt-tml-cm-tst-rawdb-stream
     replicas: 1
+    resources:
+      memory: 2Gi
     service:
       targetPort: 5050
     ingress:

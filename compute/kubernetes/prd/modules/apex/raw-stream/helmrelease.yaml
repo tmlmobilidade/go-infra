@@ -23,6 +23,8 @@ spec:
     module: apex
     app: raw-stream
     replicas: 1
+    resources:
+      memory: 2Gi
     service:
       targetPort: 5050
     ingress:

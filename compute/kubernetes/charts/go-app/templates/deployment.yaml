@@ -66,10 +66,14 @@ spec:
               port: {{ .Values.service.targetPort }}
             failureThreshold: {{ .Values.probes.startup.failureThreshold }}
             periodSeconds: {{ .Values.probes.startup.periodSeconds }}
+            successThreshold: {{ .Values.probes.startup.successThreshold }}
+            timeoutSeconds: {{ .Values.probes.startup.timeoutSeconds }}
           readinessProbe:
             httpGet:
               path: {{ .Values.probes.startup.path }}
               port: {{ .Values.service.targetPort }}
             periodSeconds: {{ .Values.probes.readiness.periodSeconds }}
             failureThreshold: {{ .Values.probes.readiness.failureThreshold }}
+            successThreshold: {{ .Values.probes.readiness.successThreshold }}
+            timeoutSeconds: {{ .Values.probes.readiness.timeoutSeconds }}
           {{- end }}

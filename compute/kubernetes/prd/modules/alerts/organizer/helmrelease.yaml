@@ -23,8 +23,6 @@ spec:
     module: alerts
     app: organizer
     replicas: 1
-    service:
-      targetPort: 5050
     ingress:
       enabled: false
     secrets:

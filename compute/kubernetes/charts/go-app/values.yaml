@@ -30,8 +30,8 @@ probes:
   startup:
     enabled: false
     path: /health
-    failureThreshold: 2
+    failureThreshold: 5
     periodSeconds: 10
   readiness:
-    failureThreshold: 3
+    failureThreshold: 5
     periodSeconds: 30

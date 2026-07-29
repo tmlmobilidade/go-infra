@@ -30,5 +30,7 @@ spec:
       path: /auth
       pathType: Prefix
       host: pr-573.go-stg.tmlmobilidade.pt
+    secrets:
+      - stg-module-auth
     env: []
   suspend: false

@@ -1,5 +1,4 @@
 # # #
-
 volumes:
   certbotdata:
 
@@ -32,6 +31,7 @@ services:
 
   certbot:
     image: certbot/certbot
+    container_name: valhalla-certbot
     restart: unless-stopped
     volumes:
       - ./letsencrypt:/etc/letsencrypt

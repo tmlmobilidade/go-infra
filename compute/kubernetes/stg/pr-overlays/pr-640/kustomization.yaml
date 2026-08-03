@@ -6,8 +6,19 @@ resources:
   - auth-cleaner.yaml
   - auth-frontend.yaml
   - auth-secrets.yaml
+  - exporter-api.yaml
+  - exporter-cleaner.yaml
+  - exporter-export-drt.yaml
+  - exporter-export-files.yaml
+  - exporter-export-posters.yaml
+  - exporter-frontend.yaml
+  - exporter-secrets.yaml
   - locations-api.yaml
   - locations-secrets.yaml
+  - offer-api.yaml
+  - offer-frontend.yaml
+  - offer-gtfs-exporter.yaml
+  - offer-secrets.yaml
   - stops-api.yaml
   - stops-frontend.yaml
   - stops-organizer.yaml

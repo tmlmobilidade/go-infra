@@ -91,7 +91,7 @@ variable "private_ip" {
 variable "base_image_ocid" {
 	type = string
 	description = "OCID of the Packer-built Valhalla image. Set after packer build."
-	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaklcye7lgqnsro3iasl6az6xsbwlqlkpz5f7xbmcghweq4lpqzsfa"
+	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaazrbhjskzbqkic3d6aedeedfoy3ggkqd7f4u63lcghgft2pf7natq"
 }
 
 variable "vm_shape" {

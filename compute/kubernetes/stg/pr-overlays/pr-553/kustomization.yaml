@@ -6,6 +6,12 @@ resources:
   - auth-cleaner.yaml
   - auth-frontend.yaml
   - auth-secrets.yaml
+  - exporter-api.yaml
+  - exporter-cleaner.yaml
+  - exporter-export-drt.yaml
+  - exporter-export-files.yaml
+  - exporter-frontend.yaml
+  - exporter-secrets.yaml
   - plans-api.yaml
   - plans-export-posters.yaml
   - plans-frontend.yaml

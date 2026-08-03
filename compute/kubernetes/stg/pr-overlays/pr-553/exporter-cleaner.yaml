@@ -1,0 +1,36 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pr-553-exporter-cleaner
+  namespace: flux-system
+spec:
+  interval: 30s
+  dependsOn:
+    - name: onepassword-connect
+  targetNamespace: pr-553-exporter
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: compute/kubernetes/charts/go-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    environment: pr-553
+    module: exporter
+    app: cleaner
+    replicas: 1
+    service:
+      targetPort: 5050
+    ingress:
+      enabled: true
+      host: pr-553.go-stg.tmlmobilidade.pt
+    secrets:
+      - stg-module-exporter
+      - stg-platform-godb
+      - stg-platform-storage
+    env: []
+  suspend: false

@@ -18,6 +18,7 @@ packages:
   - wget
   - curl
   - ca-certificates
+  - nano
 
 runcmd:
   # 1.
@@ -38,13 +39,21 @@ runcmd:
   - /opt/app/setup-valhalla.sh
   - rm /opt/app/setup-valhalla.sh
 
-  # 4. Dummy cert → HTTP-01 LE → nginx
-  - cd /opt/app && sh init-letsencrypt.sh
+  # 4.
+  # Write Cloudflare API token
+  # This is needed for Certbot to obtain and renew SSL certificates for the Gateway.
+  # The token is injected via Terraform as a base64-encoded string.
 
-  # 5. Start Valhalla + certbot renew loop; nginx via init-letsencrypt
+  - mkdir -p /opt/app/secrets
+  - echo "${base64encode(cloudflare_token_file)}" | base64 -d > /opt/app/secrets/cloudflare.token
+  - chmod 400 /opt/app/secrets/cloudflare.token
+  - chown 999:999 /opt/app/secrets/cloudflare.token
+
+  # 6. Start Valhalla + certbot renew loop; nginx via init-letsencrypt
   - cd /opt/app && docker compose up -d --force-recreate --remove-orphans --pull=always
+  - sh init-letsencrypt.sh
 
-  # 6. Daily OSM update 04:00 Europe/Lisbon
+  # 7. Daily OSM update 04:00 Europe/Lisbon
   - |
     printf '%s\n' \
       'SHELL=/bin/bash' \

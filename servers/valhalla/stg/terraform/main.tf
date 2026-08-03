@@ -70,7 +70,11 @@ resource "oci_core_instance" "valhalla" {
 
 		ssh_authorized_keys = local.ssh_authorized_keys
 
-		user_data = base64encode(templatefile("${path.module}/templates/cloud-init.yaml", {}))
+		# cloud-init runs on first boot and configures Valhalla.
+		# We use a template file to inject the Cloudflare API token secret.
+		user_data = base64encode(templatefile("${path.module}/templates/cloud-init.yaml", {
+			cloudflare_token_file = var.cloudflare_token_file
+		}))
 
 	}
 

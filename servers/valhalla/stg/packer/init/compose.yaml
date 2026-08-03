@@ -2,6 +2,10 @@
 volumes:
   certbotdata:
 
+secrets:
+  cloudflaretoken:
+    file: ./secrets/cloudflare.token
+
 services:
   valhalla:
     image: ghcr.io/tmlmobilidade/valhalla:latest
@@ -30,12 +34,14 @@ services:
       - TZ=Europe/Lisbon
 
   certbot:
-    image: certbot/certbot
+    image: certbot/dns-cloudflare
     container_name: valhalla-certbot
     restart: unless-stopped
     volumes:
       - ./letsencrypt:/etc/letsencrypt
       - certbotdata:/var/www/certbot
+    secrets:
+      - cloudflaretoken
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
 
   nginx:

@@ -91,7 +91,7 @@ variable "private_ip" {
 variable "base_image_ocid" {
 	type = string
 	description = "OCID of the Packer-built Valhalla image. Set after packer build."
-	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaavkw2cewurojmwijrtf5d3yanykmzegoyn3zonfcmglzaejjmq5ha"
+	default = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaklcye7lgqnsro3iasl6az6xsbwlqlkpz5f7xbmcghweq4lpqzsfa"
 }
 
 variable "vm_shape" {
@@ -129,4 +129,13 @@ variable "block_volume_ocid" {
 	Pre-create outside Terraform (recommend >= 100 GiB). Destroy will not delete it.
 	EOT
 	default = "ocid1.volume.oc1.eu-frankfurt-1.abtheljt4z55j2opff7brmm6ixswznzgvt7uiz4iy5wibnh3ya6fjupdatza"
+}
+
+
+# # #
+# SECRETS
+variable "cloudflare_token_file" {
+	type = string
+	sensitive = true
+	description = "Cloudflare API token used by Certbot."
 }

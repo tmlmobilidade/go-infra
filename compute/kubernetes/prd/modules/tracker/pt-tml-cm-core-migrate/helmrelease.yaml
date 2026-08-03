@@ -22,7 +22,7 @@ spec:
     environment: prd
     module: tracker
     app: pt-tml-cm-core-migrate
-    replicas: 250
+    replicas: 100
     service:
       targetPort: 5050
     ingress:

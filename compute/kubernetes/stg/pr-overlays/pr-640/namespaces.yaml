@@ -11,3 +11,10 @@ metadata:
   name: pr-640-stops
   annotations:
     operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-640-locations
+  annotations:
+    operator.1password.io/auto-restart: "true"

@@ -12,7 +12,7 @@ services:
     container_name: valhalla
     restart: unless-stopped
     extra_hosts:
-      - "go-stg-valhalla-1.tmlmobilidade.pt:10.91.101.10"
+      - "go-valhalla-1.tmlmobilidade.pt:10.81.101.10"
     logging:
       options:
         max-size: '10m'
@@ -62,7 +62,7 @@ services:
       - "80:80"
       - "443:443"
     command: "/bin/sh -c 'while :; do sleep 6h; nginx -s reload; done & nginx -g \"daemon off;\"'"
-  
+
   watchtower:
     image: nickfedor/watchtower
     container_name: valhalla-watchtower

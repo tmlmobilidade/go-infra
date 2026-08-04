@@ -19,6 +19,7 @@ packages:
   - curl
   - ca-certificates
   - nano
+  - cron
 
 runcmd:
   # 1.
@@ -43,7 +44,6 @@ runcmd:
   # Write Cloudflare API token
   # This is needed for Certbot to obtain and renew SSL certificates for the Gateway.
   # The token is injected via Terraform as a base64-encoded string.
-
   - mkdir -p /opt/app/secrets
   - echo "${base64encode(cloudflare_token_file)}" | base64 -d > /opt/app/secrets/cloudflare.token
   - chmod 400 /opt/app/secrets/cloudflare.token
@@ -54,6 +54,10 @@ runcmd:
   - sh init-letsencrypt.sh
 
   # 7. Daily OSM update 04:00 Europe/Lisbon
+  # Ensure cron is running
+  - systemctl enable --now cron
+
+  # Daily OSM update 04:00 Europe/Lisbon
   - |
     printf '%s\n' \
       'SHELL=/bin/bash' \

@@ -48,8 +48,6 @@ services:
     image: nginx:alpine
     container_name: valhalla-nginx
     restart: unless-stopped
-    depends_on:
-      - valhalla
     logging:
       options:
         max-size: '1m'

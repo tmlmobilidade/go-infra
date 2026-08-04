@@ -1,0 +1,69 @@
+#cloud-config
+
+# -----------------------------------------------------------------------
+# cloud-init.yaml — Valhalla (Portugal OSM routing)
+#
+# Docker and OS tuning are pre-baked into the Packer image.
+# This file handles runtime concerns only:
+#   - Attach/mount block volume
+#   - Firewall (port 8002)
+#   - Ensure PBF on volume + dir perms
+#   - docker compose up valhalla-tml
+# -----------------------------------------------------------------------
+
+timezone: Europe/Lisbon
+
+packages:
+  - xfsprogs
+  - wget
+  - curl
+  - ca-certificates
+  - nano
+  - cron
+
+runcmd:
+  # 1.
+  # Attach and mount the block volume
+  # using the script pre-packed by Packer
+  - /opt/app/attach-volume.sh
+  - rm /opt/app/attach-volume.sh
+
+  # 2.
+  # Configure the firewall to allow Valhalla traffic
+  # using the script pre-packed by Packer
+  - /opt/app/firewall.sh
+  - rm /opt/app/firewall.sh
+
+  # 3.
+  # Setup Valhalla directories + download PBF if missing
+  # using the script pre-packed by Packer
+  - /opt/app/setup-valhalla.sh
+  - rm /opt/app/setup-valhalla.sh
+
+  # 4.
+  # Write Cloudflare API token
+  # This is needed for Certbot to obtain and renew SSL certificates for the Gateway.
+  # The token is injected via Terraform as a base64-encoded string.
+  - mkdir -p /opt/app/secrets
+  - echo "${base64encode(cloudflare_token_file)}" | base64 -d > /opt/app/secrets/cloudflare.token
+  - chmod 400 /opt/app/secrets/cloudflare.token
+  - chown 999:999 /opt/app/secrets/cloudflare.token
+
+  # 6. Start Valhalla + certbot renew loop; nginx via init-letsencrypt
+  - cd /opt/app && docker compose up -d --force-recreate --remove-orphans --pull=always
+  - sh init-letsencrypt.sh
+
+  # 7. Daily OSM update 04:00 Europe/Lisbon
+  # Ensure cron is running
+  - systemctl enable --now cron
+
+  # Daily OSM update 04:00 Europe/Lisbon
+  - |
+    printf '%s\n' \
+      'SHELL=/bin/bash' \
+      'PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin' \
+      '0 4 * * * ubuntu /opt/app/update-portugal-osm.sh >> /opt/app/update.log 2>&1' \
+      > /etc/cron.d/valhalla-update
+  - chmod 644 /etc/cron.d/valhalla-update
+
+final_message: "Valhalla + nginx + Let's Encrypt configuration complete."

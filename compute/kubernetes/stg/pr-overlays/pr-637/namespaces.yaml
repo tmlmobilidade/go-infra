@@ -4,3 +4,17 @@ metadata:
   name: pr-637-auth
   annotations:
     operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-637-controller
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-637-plans
+  annotations:
+    operator.1password.io/auto-restart: "true"

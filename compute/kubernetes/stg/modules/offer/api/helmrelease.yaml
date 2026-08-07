@@ -34,4 +34,5 @@ spec:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     secrets:
       - stg-platform-godb
+      - stg-platform-valhalla
     env: []

@@ -33,6 +33,7 @@ spec:
     secrets:
       - stg-module-controller
       - stg-platform-godb
+      - stg-platform-labdb
       - stg-platform-storage
     env: []
   suspend: false

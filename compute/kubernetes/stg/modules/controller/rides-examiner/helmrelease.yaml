@@ -29,6 +29,5 @@ spec:
       enabled: false
     secrets:
       - stg-module-controller
-      - stg-platform-godb
       - stg-platform-labdb
     env: []

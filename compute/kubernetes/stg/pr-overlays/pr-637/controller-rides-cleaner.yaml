@@ -30,6 +30,6 @@ spec:
       host: pr-637.go-stg.tmlmobilidade.pt
     secrets:
       - stg-module-controller
-      - stg-platform-godb
+      - stg-platform-labdb
     env: []
   suspend: false

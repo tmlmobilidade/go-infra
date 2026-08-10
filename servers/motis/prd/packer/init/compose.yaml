@@ -1,0 +1,85 @@
+# # #
+volumes:
+  certbotdata:
+
+secrets:
+  cloudflaretoken:
+    file: ./secrets/cloudflare.token
+
+services:
+  motis-import:
+    image: ghcr.io/tmlmobilidade/motis:v2.10.2
+    profiles: ["tools"]
+    volumes:
+      - /opt/app/persistent-data/input:/input:ro
+      - /opt/app/config.yml:/config.yml:ro
+      - /opt/app/persistent-data/data:/data
+    command: ["import"]
+
+  motis-server:
+    image: ghcr.io/tmlmobilidade/motis:v2.10.2
+    container_name: motis
+    restart: unless-stopped
+    volumes:
+      - /opt/app/config.yml:/config.yml:ro
+      - /opt/app/persistent-data/data:/data
+    # Loopback only — public traffic via nginx :443
+    ports:
+      - "go-motis-1.tmlmobilidade.pt:10.81.101.11"
+    command: ["server"]
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  certbot:
+    image: certbot/dns-cloudflare
+    container_name: motis-certbot
+    restart: unless-stopped
+    volumes:
+      - ./letsencrypt:/etc/letsencrypt
+      - certbotdata:/var/www/certbot
+    secrets:
+      - cloudflaretoken
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+
+  nginx:
+    image: nginx:alpine
+    container_name: motis-nginx
+    restart: unless-stopped
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./letsencrypt:/etc/letsencrypt:ro
+      - certbotdata:/var/www/certbot:ro
+    ports:
+      - "80:80"
+      - "443:443"
+    command: "/bin/sh -c 'while :; do sleep 6h; nginx -s reload; done & nginx -g \"daemon off;\"'"
+
+  watchtower:
+    image: nickfedor/watchtower
+    container_name: motis-watchtower
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+      resources:
+        limits:
+          memory: 1gb
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '1'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_POLL_INTERVAL=60
+      - WATCHTOWER_CLEANUP=TRUE
+      - WATCHTOWER_INCLUDE_STOPPED=TRUE
+      - WATCHTOWER_REVIVE_STOPPED=TRUE
+      - WATCHTOWER_ROLLING_RESTART=TRUE
+

@@ -62,7 +62,7 @@ runcmd:
     printf '%s\n' \
       'SHELL=/bin/bash' \
       'PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin' \
-      '0 4 * * * ubuntu /opt/app/update-portugal-osm.sh >> /opt/app/update.log 2>&1' \
+      '0 4 * * * root /opt/app/update-portugal-osm.sh >> /opt/app/update.log 2>&1' \
       > /etc/cron.d/valhalla-update
   - chmod 644 /etc/cron.d/valhalla-update
 

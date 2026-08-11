@@ -1,7 +1,7 @@
 #cloud-config
 
 # -----------------------------------------------------------------------
-# cloud-init.yaml — Valhalla (Portugal OSM routing)
+# cloud-init.yaml — Motis (prd)
 #
 # Docker and OS tuning are pre-baked into the Packer image.
 # This file handles runtime concerns only:
@@ -34,11 +34,9 @@ runcmd:
   - /opt/app/firewall.sh
   - rm /opt/app/firewall.sh
 
-  # 3.
-  # Setup Valhalla directories + download PBF if missing
-  # using the script pre-packed by Packer
-  - /opt/app/setup-valhalla.sh
-  - rm /opt/app/setup-valhalla.sh
+  # Fetch OSM + GTFS import data
+  - /opt/app/setup-motis.sh
+  - rm /opt/app/setup-motis.sh
 
   # 4.
   # Write Cloudflare API token
@@ -49,21 +47,20 @@ runcmd:
   - chmod 400 /opt/app/secrets/cloudflare.token
   - chown 999:999 /opt/app/secrets/cloudflare.token
 
-  # 6. Start Valhalla + certbot renew loop; nginx via init-letsencrypt
-  - cd /opt/app && docker compose up -d --force-recreate --remove-orphans --pull=always
-  - sh init-letsencrypt.sh
+  # ./motis import
+  - cd /opt/app && docker compose --profile tools run --rm motis-import
 
-  # 7. Daily OSM update 04:00 Europe/Lisbon
-  # Ensure cron is running
-  - systemctl enable --now cron
+  # ./motis server (+ certbot); nginx via LE script
+  - cd /opt/app && docker compose up -d --force-recreate --remove-orphans --pull=always motis-server certbot
+  - cd /opt/app && sh init-letsencrypt.sh
 
   # Daily OSM update 04:00 Europe/Lisbon
   - |
     printf '%s\n' \
       'SHELL=/bin/bash' \
       'PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin' \
-      '0 4 * * * root /opt/app/update-portugal-osm.sh >> /opt/app/update.log 2>&1' \
-      > /etc/cron.d/valhalla-update
-  - chmod 644 /etc/cron.d/valhalla-update
+      '0 4 * * * root /opt/app/update-motis.sh >> /opt/app/update.log 2>&1' \
+      > /etc/cron.d/motis-update
+  - chmod 644 /etc/cron.d/motis-update
 
-final_message: "Valhalla + nginx + Let's Encrypt configuration complete."
+final_message: "MOTIS import + server + TLS complete."

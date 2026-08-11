@@ -8,8 +8,9 @@ secrets:
 
 services:
   motis-import:
-    image: ghcr.io/tmlmobilidade/motis:v2.10.2
+    image: ghcr.io/tmlmobilidade/motis:latest
     profiles: ["tools"]
+    working_dir: /
     volumes:
       - /opt/app/persistent-data/input:/input:ro
       - /opt/app/config.yml:/config.yml:ro
@@ -17,14 +18,15 @@ services:
     command: ["import"]
 
   motis-server:
-    image: ghcr.io/tmlmobilidade/motis:v2.10.2
+    image: ghcr.io/tmlmobilidade/motis:latest
     container_name: motis
     restart: unless-stopped
+    working_dir: /
     volumes:
       - /opt/app/config.yml:/config.yml:ro
       - /opt/app/persistent-data/data:/data
     # Loopback only — public traffic via nginx :443
-    ports:
+    extra_hosts:
       - "go-motis-1.tmlmobilidade.pt:10.81.101.11"
     command: ["server"]
     logging:

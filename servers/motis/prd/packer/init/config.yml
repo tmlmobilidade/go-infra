@@ -30,7 +30,7 @@ timetable:
       default_cars_allowed: false
       extend_calendar: false
       rt:
-        - url: "https://go.tmlmobilidade.pt/hub/api/v1/realtime/trip-updates/gtfs.pb"
+        - url: "https://go.tmlmobilidade.pt/hub/api/v1/realtime/eta/gtfs.pb"
           protocol: gtfsrt
 elevators: false
 street_routing: true

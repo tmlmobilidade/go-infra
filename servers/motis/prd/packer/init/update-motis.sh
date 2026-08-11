@@ -23,6 +23,11 @@ echo "============================================================"
 
 mkdir -p "$INPUT_DIR/gtfs" "$BASE_DIR/data"
 
+# Image USER motis = Alpine UID 100
+chown -R 100:100 "$BASE_DIR/data"
+chmod -R 775 "$BASE_DIR/data"
+chmod -R a+rX "$INPUT_DIR"
+
 if [[ "$REFRESH_OSM" == "1" ]]; then
 	echo "[motis-update] Downloading OSM ..."
 	wget -q --show-progress -O "$OSM_PATH.new" "$OSM_URL"
@@ -34,9 +39,13 @@ echo "[motis-update] Downloading GTFS ..."
 wget -q --show-progress -O "$GTFS_PATH.new" "$GTFS_URL"
 test -s "$GTFS_PATH.new"
 mv "$GTFS_PATH.new" "$GTFS_PATH"
+chmod -R a+rX "$INPUT_DIR"
 
 echo "[motis-update] Running motis-import ..."
 docker compose --profile tools run --rm motis-import
+
+# Re-assert ownership after import
+chown -R 100:100 "$BASE_DIR/data"
 
 echo "[motis-update] Recreating motis-server ..."
 docker compose up -d --force-recreate motis-server

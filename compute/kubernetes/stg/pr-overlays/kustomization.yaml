@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - pr-553
   - pr-567
-  # - pr-573
+  - pr-573
   - pr-636
   - pr-637
   - pr-644

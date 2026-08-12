@@ -38,6 +38,7 @@ spec:
       - stg-platform-godb
       - stg-platform-cachedb
       - stg-platform-storage
+      - stg-platform-labdb
     probes:
       startup:
         enabled: true

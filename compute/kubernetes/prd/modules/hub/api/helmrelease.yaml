@@ -39,6 +39,7 @@ spec:
       - prd-platform-cachedb
       - prd-platform-storage
       - prd-platform-sentry
+      - prd-platform-labdb
     probes:
       startup:
         enabled: true

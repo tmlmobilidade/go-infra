@@ -22,9 +22,10 @@ spec:
     environment: prd
     module: hub
     app: api
-    replicas: 1
+    replicas: 3
     resources:
-      memory: 2Gi
+      memory: 4Gi
+      cpu: 2
     service:
       targetPort: 5050
     ingress:

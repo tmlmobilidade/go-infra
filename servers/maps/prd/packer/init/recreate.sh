@@ -1,29 +1,40 @@
 #!/bin/bash
-set -euo pipefail
 
 # Define variables
 SCRIPT_PATH="/usr/local/bin/maps-updater.sh"
 SERVICE_PATH="/etc/systemd/system/maps-updater.service"
-APP_DIR="/opt/app"
-USERNAME="${SUDO_USER:-$(whoami)}"
-GROUP="$(id -gn "$USERNAME")"
+USERNAME="root"
+GROUP="root"
 
 # Create the script file
 echo "Creating the script file..."
 cat <<'EOF' | sudo tee $SCRIPT_PATH > /dev/null
 #!/bin/sh
-set -eu
-
-APP_DIR=/opt/app
-COMPOSE="docker compose -f $APP_DIR/compose.yaml --project-directory $APP_DIR"
 
 while true; do
-	echo "Pull + recreate tileserver ..."
-	$COMPOSE pull tileserver
-	$COMPOSE up -d --force-recreate --remove-orphans tileserver
-	echo "Done! tileserver recreated."
-	sleep 86400
-done
+	echo "Changing directory to '/opt/app'..."
+	cd /opt/app/persistent-data/
+	# Check if "next.mbtiles" exists
+	if [ -f "./tileserver/next.mbtiles" ]; then
+		# Check if "current.mbtiles" exists
+		if [ -f "./tileserver/current.mbtiles" ]; then
+			# Remove "previous.mbtiles" if it exists
+			if [ -f "./tileserver/previous.mbtiles" ]; then
+				echo "Removing 'previous.mbtiles'..."
+				rm ./tileserver/previous.mbtiles
+			fi
+			echo "Renaming 'current.mbtiles' to 'previous.mbtiles'..."
+			mv ./tileserver/current.mbtiles ./tileserver/previous.mbtiles
+		fi
+		echo "Renaming 'next.mbtiles' to 'current.mbtiles'..."
+		mv ./tileserver/next.mbtiles ./tileserver/current.mbtiles
+	fi
+	echo "Updated files."
+	echo "Recreating planetiler...";
+	docker compose -f /opt/app/compose.yaml up -d --build --force-recreate --remove-orphans --pull=always planetiler
+	echo "Done! Planetiler recreated.";
+	sleep 86400; # Sleep for 24 hours
+done;
 EOF
 
 # Make the script executable
@@ -39,8 +50,6 @@ After=docker.service
 Requires=docker.service
 
 [Service]
-Type=simple
-WorkingDirectory=$APP_DIR
 ExecStart=$SCRIPT_PATH
 Restart=always
 RestartSec=10

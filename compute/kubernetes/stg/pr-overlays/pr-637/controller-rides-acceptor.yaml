@@ -1,0 +1,44 @@
+# apiVersion: helm.toolkit.fluxcd.io/v2
+# kind: HelmRelease
+# metadata:
+#   name: controller-rides-acceptor
+#   namespace: flux-system
+# spec:
+#   interval: 30s
+#   dependsOn:
+#     - name: onepassword-connect
+#   targetNamespace: stg-controller
+#   install:
+#     createNamespace: true
+#   chart:
+#     spec:
+#       chart: compute/kubernetes/charts/go-app
+#       sourceRef:
+#         kind: GitRepository
+#         name: flux-system
+#         namespace: flux-system
+#       reconcileStrategy: Revision
+#   values:
+#     environment: stg
+#     module: controller
+#     app: rides-acceptor
+#     replicas: 1
+#     service:
+#       targetPort: 5050
+#     ingress:
+#       enabled: false
+#     secrets:
+#       - stg-module-controller
+#       - stg-platform-godb
+#     env: []
+metadata:
+  name: pr-637--
+spec:
+  targetNamespace: pr-637-
+  values:
+    environment: pr-637
+    ingress:
+      host: pr-637.go-stg.tmlmobilidade.pt
+      enabled: true
+    replicas: 1
+  suspend: false

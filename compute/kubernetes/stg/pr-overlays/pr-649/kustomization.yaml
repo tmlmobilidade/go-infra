@@ -10,4 +10,3 @@ resources:
   - plans-frontend.yaml
   - plans-organizer.yaml
   - plans-secrets.yaml
-  - plans-validator.yaml

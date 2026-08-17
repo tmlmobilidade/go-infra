@@ -31,7 +31,7 @@ while true; do
 	fi
 	echo "Updated files."
 	echo "Recreating planetiler...";
-	docker compose -f /opt/app/compose.yaml up -d --build --force-recreate --remove-orphans --pull=always planetiler
+	docker compose -f /opt/app/compose.yaml up -d --build --force-recreate --remove-orphans --pull=always planetiler tileserver
 	echo "Done! Planetiler recreated.";
 	sleep 86400; # Sleep for 24 hours
 done;

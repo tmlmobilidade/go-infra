@@ -20,11 +20,11 @@ resources:
   - controller-api.yaml
   - controller-coordinator.yaml
   - controller-frontend.yaml
-  # - controller-rides-acceptor.yaml
-  # - controller-rides-cleaner.yaml
+  - controller-rides-acceptor.yaml
+  - controller-rides-cleaner.yaml
   - controller-rides-examiner.yaml
   - controller-rides-feeder.yaml
-  # - controller-rides-locker.yaml
+  - controller-rides-locker.yaml
   - controller-secrets.yaml
   - tracker-es-crtm-aisa-api-fetch.yaml
   - tracker-es-crtm-aisa-rawdb-stream.yaml

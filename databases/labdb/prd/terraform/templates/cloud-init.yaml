@@ -184,7 +184,19 @@ runcmd:
     </clickhouse>
     USERUEOF
 
-  # 10.
+  #11.
+  # Logging Config (server-level)
+  - |
+    cat > /opt/app/persistent-data/config.d/logger.xml <<'USERUEOF'
+    <clickhouse>
+        <logger>
+            <level>information</level>
+            <console>1</console>
+        </logger>
+    </clickhouse>
+    USERUEOF
+
+  # 12.
   # Write Secrets
 
   - |
@@ -194,7 +206,7 @@ runcmd:
     CLICKHOUSE_USER=admin
     ENVEOF
 
-  # 11.
+  # 13.
   # Start ClickHouse
 
   - cd /opt/app && docker compose up -d --build --force-recreate --remove-orphans --pull=always

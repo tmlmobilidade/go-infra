@@ -107,7 +107,7 @@
 			if (window.location.pathname.startsWith("/plans")) pingUrl = "https://status.carrismetropolitana.pt/api/push/87StVYwQPvQd78uEh1db2nLuOaPDhnLo?status=down&msg=NOK&ping=";
 			if (window.location.pathname.startsWith("/stops")) pingUrl = "https://status.carrismetropolitana.pt/api/push/zKnHYH5pgnpkKzCLu4eP4zvLDFHmYwJV?status=down&msg=NOK&ping=";
 			// Actually send the ping request
-			fetch(pingUrl).then(increaseCounter).catch(err => console.error("Request failed:", err));
+			// fetch(pingUrl).then(increaseCounter).catch(err => console.error("Request failed:", err));
 		}
 
 		/**

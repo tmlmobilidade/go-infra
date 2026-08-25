@@ -169,6 +169,20 @@ build {
 		]
 	}
 
+	# The env-sync.sh script is responsible for
+	# syncing the environment variables to the MongoDB container.
+
+	provisioner "file" {
+		source = "${path.root}/init/env-sync.sh"
+		destination = "/opt/app/env-sync.sh"
+	}
+
+	provisioner "shell" {
+		inline = [
+			"sudo chmod +x /opt/app/env-sync.sh"
+		]
+	}
+
 	# The compose.yaml file holds the configuration
 	# that defines the MongoDB container and its settings.
 

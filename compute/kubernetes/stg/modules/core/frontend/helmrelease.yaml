@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: auth-cleaner
+  name: core-frontend
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
-    - name: onepassword-connect
-  targetNamespace: stg-auth
+  - name: onepassword-connect
+  targetNamespace: stg-core
   install:
     createNamespace: true
   chart:
@@ -20,14 +20,15 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: stg
-    module: auth
-    app: cleaner
+    module: core
+    app: frontend
     replicas: 1
     service:
-      targetPort: 5050
+      targetPort: 3000
     ingress:
-      enabled: false
+      enabled: true
+      path: /core
+      pathType: Prefix
     secrets:
       - stg-module-auth
-      - stg-platform-godb
     env: []

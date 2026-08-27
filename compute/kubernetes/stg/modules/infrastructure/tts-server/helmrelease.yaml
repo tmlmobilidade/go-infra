@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: stops-organizer
+  name: infrastructure-tts-server
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: stg-stops
+  targetNamespace: stg-infrastructure
   install:
     createNamespace: true
   chart:
@@ -20,14 +20,11 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: stg
-    module: stops
-    app: organizer
+    module: infrastructure
+    app: tts-server
     replicas: 1
     service:
-      targetPort: 5050
+      targetPort: 8000
     ingress:
       enabled: false
-    secrets:
-      - stg-module-stops
-      - stg-platform-godb
     env: []

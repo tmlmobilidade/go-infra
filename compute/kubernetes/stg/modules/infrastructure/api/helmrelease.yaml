@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: stops-frontend
+  name: infrastructure-api
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: stg-stops
+  targetNamespace: stg-infrastructure
   install:
     createNamespace: true
   chart:
@@ -20,13 +20,20 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: stg
-    module: stops
-    app: frontend
+    module: infrastructure
+    app: api
     replicas: 1
     service:
-      targetPort: 3000
+      targetPort: 5050
     ingress:
       enabled: true
-      path: /stops
-      pathType: Prefix
+      path: /infrastructure/api(/|$)(.*)
+      pathType: ImplementationSpecific
+      annotations:
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
+    secrets:
+      - stg-module-stops
+      - stg-platform-godb
+      - stg-platform-storage
     env: []

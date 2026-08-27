@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: stops-organizer
+  name: infrastructure-frontend
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: prd-stops
+  targetNamespace: prd-infrastructure
   install:
     createNamespace: true
   chart:
@@ -20,17 +20,17 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: prd
-    module: stops
-    app: organizer
+    module: infrastructure
+    app: frontend
     replicas: 1
     service:
-      targetPort: 5050
-    resources:
-      memory: 2Gi
+      targetPort: 3000
     ingress:
-      enabled: false
-    secrets:
-      - prd-module-stops
-      - prd-platform-godb
-      - prd-platform-sentry
+      enabled: true
+      path: /infrastructure
+      pathType: Prefix
+    probes:
+      startup:
+        enabled: true
+        path: /infrastructure/health
     env: []

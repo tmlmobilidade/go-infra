@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - alerts
   - apex
-  - auth
+  - core
   - controller
   - dates
   - eta
@@ -14,5 +14,5 @@ resources:
   - offer
   - performance
   - plans
-  - stops
+  - infrastructure
   - tracker

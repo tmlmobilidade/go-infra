@@ -15,7 +15,7 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: prd-auth
+  name: prd-core
   annotations:
     operator.1password.io/auto-restart: "true"
 ---
@@ -92,7 +92,7 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: prd-stops
+  name: prd-infrastructure
   annotations:
     operator.1password.io/auto-restart: "true"
 ---

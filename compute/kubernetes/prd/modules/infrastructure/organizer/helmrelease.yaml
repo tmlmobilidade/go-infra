@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: stops-tts-server
+  name: infrastructure-organizer
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: prd-stops
+  targetNamespace: prd-infrastructure
   install:
     createNamespace: true
   chart:
@@ -20,19 +20,17 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: prd
-    module: stops
-    app: tts-server
+    module: infrastructure
+    app: organizer
     replicas: 1
-    resources:
-      memory: 12Gi
-      cpu: 4000m
     service:
-      targetPort: 8000
+      targetPort: 5050
+    resources:
+      memory: 2Gi
     ingress:
       enabled: false
     secrets:
-      - prd-module-stops
+      - prd-module-infrastructure
       - prd-platform-godb
-      - prd-platform-storage
       - prd-platform-sentry
     env: []

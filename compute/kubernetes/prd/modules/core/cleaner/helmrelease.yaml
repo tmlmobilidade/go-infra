@@ -1,14 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: stops-tts-cli
+  name: core-cleaner
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-    - name: stops-tts-server
-  targetNamespace: prd-stops
+  targetNamespace: prd-core
   install:
     createNamespace: true
   chart:
@@ -21,19 +20,14 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: prd
-    module: stops
-    app: tts-cli
+    module: core
+    app: cleaner
     replicas: 1
-    resources:
-      memory: 4Gi
-      cpu: 2000m
     service:
-      targetPort: 3000
+      targetPort: 5050
     ingress:
       enabled: false
     secrets:
-      - prd-module-stops
       - prd-platform-godb
-      - prd-platform-storage
       - prd-platform-sentry
     env: []

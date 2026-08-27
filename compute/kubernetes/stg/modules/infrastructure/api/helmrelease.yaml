@@ -33,7 +33,7 @@ spec:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     secrets:
-      - stg-module-stops
+      - stg-module-infrastructure
       - stg-platform-godb
       - stg-platform-storage
     env: []

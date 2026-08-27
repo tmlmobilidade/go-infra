@@ -27,13 +27,13 @@ spec:
       targetPort: 5050
     ingress:
       enabled: true
-      path: /auth/api(/|$)(.*)
+      path: /core/api(/|$)(.*)
       pathType: ImplementationSpecific
       annotations:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     secrets:
-      - stg-module-auth
+      - stg-module-core
       - stg-platform-godb
       - stg-platform-email
       - stg-platform-storage

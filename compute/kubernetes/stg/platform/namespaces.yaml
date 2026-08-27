@@ -15,7 +15,7 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: stg-auth
+  name: stg-core
   annotations:
     operator.1password.io/auto-restart: "true"
 ---
@@ -78,7 +78,7 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: stg-stops
+  name: stg-infrastructure
   annotations:
     operator.1password.io/auto-restart: "true"
 ---

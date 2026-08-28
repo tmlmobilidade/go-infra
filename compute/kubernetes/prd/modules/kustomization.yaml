@@ -4,7 +4,7 @@ resources:
   - alerts
   - apex
   - core
-  # - controller
+  - controller
   # - dates
   # - eta
   # - exporter

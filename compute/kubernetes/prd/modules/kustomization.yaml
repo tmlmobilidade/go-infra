@@ -5,8 +5,8 @@ resources:
   - apex
   - core
   - controller
-  # - dates
-  # - eta
+  - dates
+  - eta
   # - exporter
   # - fleet
   - hub

@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: auth-api
+  name: core-api
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: prd-auth
+  targetNamespace: prd-core
   install:
     createNamespace: true
   chart:
@@ -20,14 +20,14 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: prd
-    module: auth
+    module: core
     app: api
     replicas: 1
     service:
       targetPort: 5050
     ingress:
       enabled: true
-      path: /auth/api(/|$)(.*)
+      path: /core/api(/|$)(.*)
       pathType: ImplementationSpecific
       annotations:
         nginx.ingress.kubernetes.io/use-regex: "true"

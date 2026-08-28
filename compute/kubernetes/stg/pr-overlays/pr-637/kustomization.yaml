@@ -23,6 +23,9 @@ resources:
   - controller-rides-examiner.yaml
   - controller-rides-feeder.yaml
   - controller-secrets.yaml
+  - core-api.yaml
+  - core-frontend.yaml
+  - core-secrets.yaml
   - tracker-es-crtm-aisa-api-fetch.yaml
   - tracker-es-crtm-aisa-rawdb-stream.yaml
   - tracker-es-crtm-la-veloz-api-fetch.yaml

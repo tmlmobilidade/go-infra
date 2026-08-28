@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   # - alerts
   # - apex
-  # - core
+  - core
   # - controller
   # - dates
   # - eta

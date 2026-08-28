@@ -27,5 +27,6 @@ spec:
       enabled: false
     secrets:
       - prd-platform-godb
+      - prd-platform-labdb
       - prd-platform-sentry
     env: []

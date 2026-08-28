@@ -71,7 +71,7 @@
 
 	<div class="container">
 		<h1 class="title">Manutenção</h1>
-		<p class="text">Estamos a realizar uma manutenção programada. O serviço estará de volta em breve. Obrigado pela paciência.</p>
+		<p class="text">Estamos a realizar uma manutenção programada. O GO estará disponível em breve. Obrigado pela sua compreensão.</p>
 		<a id="link" class="status-link" href="https://status.carrismetropolitana.pt/status/go" target="_blank" rel="noopener noreferrer">Ver Estado</a>
 		<p id="retry" class="retry">A tentar novamente...</p>
 	</div>
@@ -84,14 +84,14 @@
 		 */
 		function reloadPage() {
 			document.getElementById("retry").style.opacity = 1;
-			setTimeout(() => window.location.reload(), 3_000);
+			setTimeout(() => window.location.reload(), 3_000); // 3 seconds
 		}
 
 		//
-		// After 30 seconds elapsed,
+		// After 10 seconds elapsed,
 		// reload the page to try again.
 
-		setTimeout(reloadPage, 30_000);
+		setTimeout(reloadPage, 10_000); // 10 seconds
 
 	</script>
 

@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: core-cleaner
+  name: core-organizer
   namespace: flux-system
 spec:
   interval: 30s
@@ -21,7 +21,7 @@ spec:
   values:
     environment: prd
     module: core
-    app: cleaner
+    app: organizer
     replicas: 1
     service:
       targetPort: 5050

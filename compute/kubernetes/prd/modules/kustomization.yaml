@@ -8,11 +8,11 @@ resources:
   - dates
   - eta
   # - exporter
-  # - fleet
+  - fleet
   - hub
   - locations
-  # - offer
-  # - performance
+  - offer
+  - performance
   - plans
   # - infrastructure
   - tracker

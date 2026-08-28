@@ -10,7 +10,7 @@ resources:
   # - exporter
   # - fleet
   - hub
-  # - locations
+  - locations
   # - offer
   # - performance
   - plans

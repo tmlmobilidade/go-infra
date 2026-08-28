@@ -9,7 +9,7 @@ resources:
   # - eta
   # - exporter
   # - fleet
-  # - hub
+  - hub
   # - locations
   # - offer
   # - performance

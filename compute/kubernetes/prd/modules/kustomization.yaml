@@ -3,7 +3,6 @@ kind: Kustomization
 resources:
   - apex
   - core
-  - controller
   - dates
   - eta
   # - exporter

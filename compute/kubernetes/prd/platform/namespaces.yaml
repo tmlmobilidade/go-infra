@@ -85,7 +85,7 @@ metadata:
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: prd-plans
+  name: prd-operation
   annotations:
     operator.1password.io/auto-restart: "true"
 ---

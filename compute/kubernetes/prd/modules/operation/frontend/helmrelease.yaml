@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: plans-validator
+  name: operation-frontend
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: prd-plans
+  targetNamespace: prd-operation
   install:
     createNamespace: true
   chart:
@@ -20,19 +20,17 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: prd
-    module: plans
-    app: validator
+    module: operation
+    app: frontend
     replicas: 1
     service:
-      targetPort: 5050
-    resources:
-      cpu: 6000m
-      memory: 12Gi
+      targetPort: 3000
     ingress:
-      enabled: false
-    secrets:
-      - prd-platform-godb
-      - prd-platform-storage
-      - prd-platform-email
-      - prd-platform-sentry
+      enabled: true
+      path: /operation
+      pathType: Prefix
+    probes:
+      startup:
+        enabled: true
+        path: /operation/health
     env: []

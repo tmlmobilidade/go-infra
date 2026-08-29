@@ -11,5 +11,5 @@ resources:
   - publish-gtfs-cm
   - publish-metrics
   - publish-network
-  - publish-plans
+  - publish-
   - publish-realtime

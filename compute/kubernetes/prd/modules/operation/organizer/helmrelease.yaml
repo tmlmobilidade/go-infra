@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: plans-organizer
+  name: operation-organizer
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: prd-plans
+  targetNamespace: prd-operation
   install:
     createNamespace: true
   chart:
@@ -20,7 +20,7 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: prd
-    module: plans
+    module: operation
     app: organizer
     replicas: 1
     service:

@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: controller-frontend
+  name: operation-rides-locker
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: prd-controller
+  targetNamespace: prd-operation
   install:
     createNamespace: true
   chart:
@@ -20,17 +20,13 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: prd
-    module: controller
-    app: frontend
+    module: operation
+    app: rides-locker
     replicas: 1
-    service:
-      targetPort: 3000
     ingress:
-      enabled: true
-      path: /controller
-      pathType: Prefix
-    probes:
-      startup:
-        enabled: true
-        path: /controller/health
+      enabled: false
+    secrets:
+      - prd-platform-godb
+      - prd-platform-labdb
+      - prd-platform-sentry
     env: []

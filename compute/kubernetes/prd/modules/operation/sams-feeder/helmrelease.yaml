@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: controller-rides-cleaner
+  name: operation-sams-feeder
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: prd-controller
+  targetNamespace: prd-operation
   install:
     createNamespace: true
   chart:
@@ -20,11 +20,9 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: prd
-    module: controller
-    app: rides-cleaner
+    module: operation
+    app: sams-feeder
     replicas: 1
-    resources:
-      memory: 3Gi
     ingress:
       enabled: false
     secrets:

@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: controller-rides-examiner
+  name: operation-rides-examiner
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: prd-controller
+  targetNamespace: prd-operation
   install:
     createNamespace: true
   chart:
@@ -20,7 +20,7 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: prd
-    module: controller
+    module: operation
     app: rides-examiner
     replicas: 2
     resources:

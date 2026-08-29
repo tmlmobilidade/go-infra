@@ -4,5 +4,13 @@ resources:
   - secrets.yaml
   - api
   - frontend
-  - organizer
   - gtfs-validator
+  - organizer
+  - rides-acceptor
+  - rides-cleaner
+  - rides-coordinator
+  - rides-examiner
+  - rides-feeder
+  - rides-locker
+  # - sams-examiner
+  # - sams-feeder

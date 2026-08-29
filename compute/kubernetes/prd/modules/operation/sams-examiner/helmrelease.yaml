@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: controller-sams-feeder
+  name: operation-sams-examiner
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: prd-controller
+  targetNamespace: prd-operation
   install:
     createNamespace: true
   chart:
@@ -20,9 +20,11 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: prd
-    module: controller
-    app: sams-feeder
+    module: operation
+    app: sams-examiner
     replicas: 1
+    resources:
+      memory: 2Gi
     ingress:
       enabled: false
     secrets:

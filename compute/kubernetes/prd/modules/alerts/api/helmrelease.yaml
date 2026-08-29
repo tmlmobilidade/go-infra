@@ -37,6 +37,7 @@ spec:
     secrets:
       - prd-platform-ai
       - prd-platform-godb
+      - prd-platform-labdb
       - prd-platform-storage
       - prd-platform-sentry
     probes:

@@ -24,7 +24,7 @@ spec:
     app: publish-gtfs-cm
     replicas: 1
     resources:
-      memory: 12Gi
+      memory: 24Gi
       cpu: 8000m
     service:
       targetPort: 5050

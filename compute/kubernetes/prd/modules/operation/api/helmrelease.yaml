@@ -38,6 +38,7 @@ spec:
       - prd-platform-godb
       - prd-platform-labdb
       - prd-platform-storage
+      - prd-platform-ai
       - prd-platform-email
       - prd-platform-sentry
     probes:

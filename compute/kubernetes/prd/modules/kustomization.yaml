@@ -11,5 +11,5 @@ resources:
   - offer
   - performance
   - operation
-  # - infrastructure
+  - infrastructure
   - tracker

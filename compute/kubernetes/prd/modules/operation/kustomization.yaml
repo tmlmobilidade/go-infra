@@ -10,7 +10,7 @@ resources:
   # - rides-cleaner
   - rides-coordinator
   # - rides-examiner
-  - rides-feeder
+  # - rides-feeder
   - rides-locker
   # - sams-examiner
   # - sams-feeder

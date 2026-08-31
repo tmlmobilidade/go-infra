@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>TTS Server — TML</title>
+	<style>
+		:root {
+			--bg: #1a1608;
+			--fg: #fff8e0;
+			--muted: #c4b580;
+			--accent: #f5c518;
+			--accent-dim: #d4a017;
+			--border: #3d3420;
+			--card: #241e0c;
+		}
+		* { box-sizing: border-box; }
+		body {
+			margin: 0;
+			min-height: 100vh;
+			font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+			background:
+				radial-gradient(ellipse 90% 55% at 15% -10%, #4a3a12 0%, transparent 50%),
+				radial-gradient(ellipse 60% 40% at 90% 100%, #2a2208 0%, transparent 45%),
+				var(--bg);
+			color: var(--fg);
+			line-height: 1.55;
+		}
+		main {
+			max-width: 40rem;
+			margin: 0 auto;
+			padding: 4rem 1.5rem;
+		}
+		h1 {
+			font-size: 1.75rem;
+			font-weight: 600;
+			letter-spacing: -0.02em;
+			margin: 0 0 0.35rem;
+			color: var(--accent);
+		}
+		.tag {
+			display: inline-block;
+			font-size: 0.75rem;
+			text-transform: uppercase;
+			letter-spacing: 0.08em;
+			color: var(--accent-dim);
+			margin-bottom: 1.5rem;
+		}
+		p { color: var(--muted); margin: 0 0 1rem; }
+		p strong { color: var(--fg); font-weight: 560; }
+		.use {
+			margin: 1.5rem 0;
+			padding: 1.1rem 1.2rem;
+			background: var(--card);
+			border: 1px solid var(--border);
+			border-left: 3px solid var(--accent);
+		}
+		.use p { margin: 0; }
+		ul {
+			margin: 1.25rem 0 0;
+			padding: 0;
+			list-style: none;
+			border-top: 1px solid var(--border);
+		}
+		li {
+			padding: 0.85rem 0;
+			border-bottom: 1px solid var(--border);
+			display: grid;
+			gap: 0.15rem;
+		}
+		li code {
+			font-family: "IBM Plex Mono", ui-monospace, monospace;
+			font-size: 0.9rem;
+			color: var(--accent);
+		}
+		li span { font-size: 0.85rem; color: var(--muted); }
+	</style>
+</head>
+<body>
+	<main>
+		<div class="tag">GO · TML Mobilidade</div>
+		<h1>TTS Server</h1>
+		<p>Your text now has a voice, because apparently that's what I'm here for.</p>
+		<p>
+			Serviço de <strong>text-to-speech</strong> do ecossistema GO.
+			Converte texto (ex.: nomes de paragens) em áudio
+		</p>
+		<div class="use">
+			<p>
+				Esta pagina é só informativa. Os pedidos de síntese de voz vão para os endpoints da API
+			</p>
+		</div>
+	</main>
+</body>
+</html>

@@ -1,0 +1,50 @@
+#cloud-config
+
+# -----------------------------------------------------------------------
+# cloud-init.yaml — TTS Server
+#
+# Docker and OS tuning are pre-baked into the Packer image.
+# This file handles runtime concerns only:
+#   - Attach/mount block volume
+#   - Firewall (port 8002)
+#   - Ensure PBF on volume + dir perms
+#   - docker compose up tts-server
+# -----------------------------------------------------------------------
+
+timezone: Europe/Lisbon
+
+packages:
+  - xfsprogs
+  - wget
+  - curl
+  - ca-certificates
+  - nano
+  - cron
+
+runcmd:
+  # 1.
+  # Attach and mount the block volume
+  # using the script pre-packed by Packer
+  - /opt/app/attach-volume.sh
+  - rm /opt/app/attach-volume.sh
+
+  # 2.
+  # Configure the firewall to allow TTS Server traffic
+  # using the script pre-packed by Packer
+  - /opt/app/firewall.sh
+  - rm /opt/app/firewall.sh
+
+  # 4.
+  # Write Cloudflare API token
+  # This is needed for Certbot to obtain and renew SSL certificates for the Gateway.
+  # The token is injected via Terraform as a base64-encoded string.
+  - mkdir -p /opt/app/secrets
+  - echo "${base64encode(cloudflare_token_file)}" | base64 -d > /opt/app/secrets/cloudflare.token
+  - chmod 400 /opt/app/secrets/cloudflare.token
+  - chown 999:999 /opt/app/secrets/cloudflare.token
+
+  # 6. Start TTS Server + certbot renew loop; nginx via init-letsencrypt
+  - cd /opt/app && docker compose up -d --force-recreate --remove-orphans --pull=always
+  - sh init-letsencrypt.sh
+
+final_message: "TTS Server + nginx + Let's Encrypt configuration complete."

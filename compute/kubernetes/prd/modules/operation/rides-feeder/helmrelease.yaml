@@ -24,7 +24,8 @@ spec:
     app: rides-feeder
     replicas: 1
     resources:
-      memory: 4Gi
+      memory: 8Gi
+      cpu: 4000m
     ingress:
       enabled: false
     secrets:

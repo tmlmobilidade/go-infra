@@ -26,7 +26,8 @@ spec:
     service:
       targetPort: 5050
     resources:
-      memory: 4Gi
+      memory: 6Gi
+      cpu: 4000m
     ingress:
       enabled: true
       path: /operation/api(/|$)(.*)

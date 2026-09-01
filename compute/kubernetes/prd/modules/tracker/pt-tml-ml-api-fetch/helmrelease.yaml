@@ -29,6 +29,7 @@ spec:
       enabled: false
     secrets:
       - prd-platform-godb
+      - prd-platform-labdb
       - prd-platform-rawdb
       - prd-platform-external-app-secrets
       - prd-platform-sentry

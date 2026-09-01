@@ -5,7 +5,7 @@ resources:
   - core
   - dates
   - eta
-  # - exporter
+  - exporter
   - hub
   # - locations
   - offer

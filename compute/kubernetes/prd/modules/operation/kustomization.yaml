@@ -7,7 +7,7 @@ resources:
   - gtfs-validator
   - organizer
   - rides-acceptor
-  # - rides-cleaner
+  - rides-cleaner
   - rides-coordinator
   - rides-examiner
   - rides-feeder

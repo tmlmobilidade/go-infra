@@ -22,7 +22,7 @@ spec:
     environment: prd
     module: operation
     app: rides-feeder
-    replicas: 4
+    replicas: 10
     resources:
       memory: 8Gi
       cpu: 4000m

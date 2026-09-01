@@ -28,6 +28,7 @@ spec:
     ingress:
       enabled: false
     secrets:
+      - prd-platform-godb
       - prd-platform-rawdb
       - prd-platform-external-app-secrets
       - prd-platform-sentry

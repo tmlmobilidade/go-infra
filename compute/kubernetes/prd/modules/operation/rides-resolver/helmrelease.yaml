@@ -22,7 +22,7 @@ spec:
     environment: prd
     module: operation
     app: rides-resolver
-    replicas: 1
+    replicas: 2
     ingress:
       enabled: false
     secrets:

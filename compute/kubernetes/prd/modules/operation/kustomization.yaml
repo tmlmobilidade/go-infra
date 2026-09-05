@@ -5,7 +5,7 @@ resources:
   - api
   - frontend
   - gtfs-validator
-  - organizer
+  # - organizer
   - rides-acceptor
   - rides-coordinator
   - rides-examiner

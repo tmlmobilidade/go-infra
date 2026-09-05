@@ -111,7 +111,7 @@ variable "vm_shape" {
 variable "vm_ocpus" {
 	type = number
 	description = "Number of OCPUs per replica VM."
-	default = 32
+	default = 64
 }
 
 variable "vm_memory_in_gbs" {

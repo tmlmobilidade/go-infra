@@ -11,6 +11,6 @@ resources:
   - rides-examiner
   - rides-feeder
   - rides-locker
-  - rides-resolver
+  - rides-matcher
   # - sams-examiner
   # - sams-feeder

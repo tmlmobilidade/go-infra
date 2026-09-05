@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: operation-rides-cleaner
+  name: operation-organizer
   namespace: flux-system
 spec:
   interval: 30s
@@ -21,7 +21,7 @@ spec:
   values:
     environment: prd
     module: operation
-    app: rides-cleaner
+    app: organizer
     replicas: 1
     resources:
       memory: 3Gi

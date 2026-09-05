@@ -5,8 +5,8 @@ resources:
   - api
   - frontend
   - gtfs-validator
+  - organizer
   - rides-acceptor
-  - rides-cleaner
   - rides-coordinator
   - rides-examiner
   - rides-feeder

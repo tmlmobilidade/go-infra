@@ -64,7 +64,7 @@ jobs:
             if [[ "$spec" == *-* ]]; then
               MODULE="${spec%-*}"
               APP="${spec#*-}"
-              # multi-word apps e.g. controller-rides-cleaner
+              # multi-word apps e.g. controller-rides-examiner
               if [[ ! -f "${STG_MODULES}/${MODULE}/${APP}/helmrelease.yaml" ]]; then
                 for MODULE_DIR in "$STG_MODULES"/*/; do
                   MOD=$(basename "$MODULE_DIR")

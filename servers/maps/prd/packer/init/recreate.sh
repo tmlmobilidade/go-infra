@@ -11,7 +11,20 @@ echo "Creating the script file..."
 cat <<'EOF' | sudo tee $SCRIPT_PATH > /dev/null
 #!/bin/sh
 
+LOG_DIR=/opt/app/persistent-data/logs
+mkdir -p "$LOG_DIR"
+LOG_PID=""
+
 while true; do
+	LOG_FILE="$LOG_DIR/planetiler-$(date +%Y-%m-%d).log"
+
+	# Stop previous log follower before recreate
+	if [ -n "$LOG_PID" ]; then
+		kill "$LOG_PID" 2>/dev/null || true
+		wait "$LOG_PID" 2>/dev/null || true
+		LOG_PID=""
+	fi
+
 	echo "Changing directory to '/opt/app'..."
 	cd /opt/app/persistent-data/
 	# Check if "next.mbtiles" exists
@@ -33,6 +46,10 @@ while true; do
 	echo "Recreating planetiler...";
 	docker compose -f /opt/app/compose.yaml up -d --build --force-recreate --remove-orphans --pull=always planetiler tileserver nginx
 	echo "Done! Planetiler recreated.";
+
+	docker logs -f --timestamps maps-planetiler >> "$LOG_FILE" 2>&1 &
+	LOG_PID=$!
+
 	sleep 86400; # Sleep for 24 hours
 done;
 EOF

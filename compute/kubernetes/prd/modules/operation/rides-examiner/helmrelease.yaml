@@ -25,6 +25,7 @@ spec:
     replicas: 6
     resources:
       memory: 3Gi
+      cpu: 2000m
     ingress:
       enabled: false
     secrets:

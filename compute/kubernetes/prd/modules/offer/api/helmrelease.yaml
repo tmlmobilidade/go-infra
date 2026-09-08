@@ -19,6 +19,8 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    resources:
+      memory: 2Gi
     environment: prd
     module: offer
     app: api

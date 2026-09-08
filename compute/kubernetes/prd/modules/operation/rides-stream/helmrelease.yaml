@@ -23,6 +23,9 @@ spec:
     module: operation
     app: rides-stream
     replicas: 1
+    resources:
+      memory: 3Gi
+      cpu: 2000m
     ingress:
       enabled: false
     secrets:

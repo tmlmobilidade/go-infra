@@ -6,7 +6,7 @@ resources:
   - frontend
   - gtfs-validator
   - organizer
-  - rides-acceptor
+  # - rides-acceptor
   - rides-coordinator
   - rides-examiner
   - rides-feeder

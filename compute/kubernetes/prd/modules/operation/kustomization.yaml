@@ -8,7 +8,7 @@ resources:
   - organizer
   - rides-acceptor
   - rides-coordinator
-  # - rides-examiner
+  - rides-examiner
   - rides-feeder
   - rides-locker
   - rides-stream

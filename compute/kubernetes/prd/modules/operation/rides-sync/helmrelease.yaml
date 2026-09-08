@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: operation-rides-matcher
+  name: operation-rides-sync
   namespace: flux-system
 spec:
   interval: 30s
@@ -21,7 +21,7 @@ spec:
   values:
     environment: prd
     module: operation
-    app: rides-matcher
+    app: rides-sync
     replicas: 2
     ingress:
       enabled: false

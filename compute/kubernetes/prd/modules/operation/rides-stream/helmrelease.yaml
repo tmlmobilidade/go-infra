@@ -22,7 +22,7 @@ spec:
     environment: prd
     module: operation
     app: rides-stream
-    replicas: 2
+    replicas: 1
     ingress:
       enabled: false
     secrets:

@@ -22,7 +22,7 @@ spec:
     environment: prd
     module: operation
     app: rides-examiner
-    replicas: 6
+    replicas: 10
     resources:
       memory: 3Gi
       cpu: 2000m

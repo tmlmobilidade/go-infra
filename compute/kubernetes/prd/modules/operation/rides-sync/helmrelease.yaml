@@ -23,8 +23,8 @@ spec:
     module: operation
     app: rides-sync
     resources:
-      memory: 3Gi
-      cpu: 2000m
+      memory: 6Gi
+      cpu: 3000m
     replicas: 1
     ingress:
       enabled: false

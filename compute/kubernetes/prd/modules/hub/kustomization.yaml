@@ -11,4 +11,4 @@ resources:
   - publish-metrics
   - publish-network
   - publish-plans
-  - publish-vehicles
+  # - publish-vehicles

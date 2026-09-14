@@ -37,11 +37,6 @@ spec:
     alloy:
       mounts:
         varlog: true
-      extraEnv:
-        - name: HOSTNAME
-          valueFrom:
-            fieldRef:
-              fieldPath: spec.nodeName
       configMap:
         create: true
         content: |-

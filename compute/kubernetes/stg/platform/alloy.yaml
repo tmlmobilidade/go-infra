@@ -63,20 +63,41 @@ spec:
               target_label  = "pod"
             }
 
+            # UI lists one entry per pod (not per Deployment/Service)
+            rule {
+              source_labels = ["__meta_kubernetes_pod_name"]
+              target_label  = "service_name"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_name"]
+              target_label  = "job"
+            }
+
             rule {
               source_labels = ["__meta_kubernetes_pod_container_name"]
               target_label  = "container"
             }
 
+            # Keep app label under k8s_app so Grafana won't group pods by Deployment name
             rule {
               source_labels = ["__meta_kubernetes_pod_label_app"]
-              target_label  = "app"
+              target_label  = "k8s_app"
             }
           }
 
           loki.source.kubernetes "pods" {
             targets    = discovery.relabel.pods.output
+            forward_to = [loki.process.pod_identity.receiver]
+          }
+
+          loki.process "pod_identity" {
             forward_to = [loki.write.default.receiver]
+
+            // Re-assert after scrape so Grafana Logs UI keys off pod name
+            stage.label_drop {
+              values = ["app", "service", "app_kubernetes_io_name"]
+            }
           }
 
           loki.write "default" {

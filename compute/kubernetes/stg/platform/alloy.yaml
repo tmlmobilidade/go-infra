@@ -33,10 +33,11 @@ spec:
   values:
     # Ship STG cluster logs → Loki on Grafana VM (HTTPS via nginx /loki/)
     controller:
-      type: daemonset
+      type: deployment
+      replicas: 1
     alloy:
       mounts:
-        varlog: true
+        varlog: false
       configMap:
         create: true
         content: |-
@@ -51,12 +52,6 @@ spec:
 
           discovery.relabel "pods" {
             targets = discovery.kubernetes.pods.targets
-
-            rule {
-              source_labels = ["__meta_kubernetes_pod_node_name"]
-              action        = "keep"
-              regex         = env("HOSTNAME")
-            }
 
             rule {
               source_labels = ["__meta_kubernetes_namespace"]

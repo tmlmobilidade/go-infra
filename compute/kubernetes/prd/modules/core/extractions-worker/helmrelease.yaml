@@ -22,7 +22,7 @@ spec:
     environment: prd
     module: core
     app: extractions-worker
-    replicas: 3
+    replicas: 1
     deployment:
       strategy:
         type: Recreate

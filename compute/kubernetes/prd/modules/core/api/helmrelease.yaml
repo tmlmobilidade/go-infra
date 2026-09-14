@@ -22,7 +22,7 @@ spec:
     environment: prd
     module: core
     app: api
-    replicas: 1
+    replicas: 3
     service:
       targetPort: 5050
     ingress:

@@ -7,9 +7,9 @@ resources:
   - gtfs-validator
   - organizer
   # - rides-acceptor
-  - rides-coordinator
-  - rides-examiner
-  - rides-feeder
+  # - rides-coordinator
+  # - rides-examiner
+  # - rides-feeder
   - rides-locker
   - rides-sync
   # - sams-examiner

@@ -34,6 +34,32 @@ spec:
     controller:
       type: deployment
       replicas: 1
+    extraObjects:
+      - apiVersion: rbac.authorization.k8s.io/v1
+        kind: ClusterRole
+        metadata:
+          name: alloy-pod-logs
+        rules:
+          - apiGroups: [""]
+            resources:
+              - pods
+              - pods/log
+            verbs:
+              - get
+              - list
+              - watch
+      - apiVersion: rbac.authorization.k8s.io/v1
+        kind: ClusterRoleBinding
+        metadata:
+          name: alloy-pod-logs
+        roleRef:
+          apiGroup: rbac.authorization.k8s.io
+          kind: ClusterRole
+          name: alloy-pod-logs
+        subjects:
+          - kind: ServiceAccount
+            name: alloy
+            namespace: kube-system
     alloy:
       mounts:
         varlog: false
@@ -89,8 +115,8 @@ spec:
           }
     resources:
       requests:
-        cpu: 50m
-        memory: 128Mi
+        cpu: 1000m
+        memory: 1Gi
       limits:
-        cpu: 200m
-        memory: 256Mi
+        cpu: 2000m
+        memory: 2Gi

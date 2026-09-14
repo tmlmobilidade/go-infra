@@ -23,6 +23,9 @@ spec:
     module: tracker
     app: pt-tml-cm-core-migrate
     replicas: 75
+    deployment:
+      strategy:
+        type: Recreate
     service:
       targetPort: 5050
     ingress:

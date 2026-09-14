@@ -6,7 +6,11 @@ replicas: 1
 
 deployment:
   strategy:
-    maxSurge: 1
+    # RollingUpdate honours maxSurge/maxUnavailable; Recreate replaces every replica at once.
+    # maxSurge 100% with maxUnavailable 0 brings up every new replica in parallel and only
+    # retires the old ones as the new ones pass readiness, so it needs double capacity briefly.
+    type: RollingUpdate
+    maxSurge: "100%"
     maxUnavailable: 0
 
 service:
@@ -30,12 +34,14 @@ probes:
   startup:
     enabled: false
     path: /health
-    failureThreshold: 5
-    periodSeconds: 10
+    # Short period with a high failure threshold: a pod is picked up within ~2s of being
+    # healthy, while still allowing 90s to boot before the kubelet gives up on it.
+    failureThreshold: 45
+    periodSeconds: 2
     successThreshold: 1
-    timeoutSeconds: 30
+    timeoutSeconds: 2
   readiness:
-    failureThreshold: 5
-    periodSeconds: 30
+    failureThreshold: 3
+    periodSeconds: 5
     successThreshold: 1
-    timeoutSeconds: 30
+    timeoutSeconds: 3

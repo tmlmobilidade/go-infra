@@ -29,4 +29,8 @@ spec:
       enabled: true
       path: /hub/navegante-app
       pathType: Prefix
+    probes:
+      startup:
+        enabled: true
+        path: /hub/navegante-app/health
     env: []

@@ -23,6 +23,9 @@ spec:
     module: operation
     app: rides-feeder
     replicas: 10
+    deployment:
+      strategy:
+        type: Recreate
     resources:
       memory: 8Gi
       cpu: 4000m

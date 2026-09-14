@@ -15,10 +15,12 @@ metadata:
 spec:
   replicas: {{ .Values.replicas }}
   strategy:
-    type: RollingUpdate
+    type: {{ .Values.deployment.strategy.type }}
+    {{- if eq .Values.deployment.strategy.type "RollingUpdate" }}
     rollingUpdate:
       maxSurge: {{ .Values.deployment.strategy.maxSurge }}
       maxUnavailable: {{ .Values.deployment.strategy.maxUnavailable }}
+    {{- end }}
   selector:
     matchLabels:
       environment: {{ .Values.environment }}

@@ -63,7 +63,7 @@ spec:
               target_label  = "pod"
             }
 
-            # UI lists one entry per pod (not per Deployment/Service)
+            // UI lists one entry per pod (not per Deployment/Service)
             rule {
               source_labels = ["__meta_kubernetes_pod_name"]
               target_label  = "service_name"
@@ -79,7 +79,7 @@ spec:
               target_label  = "container"
             }
 
-            # Keep app label under k8s_app so Grafana won't group pods by Deployment name
+            // Keep app under k8s_app so Grafana does not group by Deployment name
             rule {
               source_labels = ["__meta_kubernetes_pod_label_app"]
               target_label  = "k8s_app"
@@ -94,7 +94,7 @@ spec:
           loki.process "pod_identity" {
             forward_to = [loki.write.default.receiver]
 
-            // Re-assert after scrape so Grafana Logs UI keys off pod name
+            // Drop labels that make Grafana merge pods into one service
             stage.label_drop {
               values = ["app", "service", "app_kubernetes_io_name"]
             }

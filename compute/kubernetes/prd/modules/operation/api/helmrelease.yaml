@@ -22,7 +22,7 @@ spec:
     environment: prd
     module: operation
     app: api
-    replicas: 1
+    replicas: 3
     service:
       targetPort: 5050
     resources:

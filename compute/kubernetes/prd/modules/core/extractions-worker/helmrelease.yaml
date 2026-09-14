@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: operation-rides-coordinator
+  name: core-extractions-worker
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: prd-operation
+  targetNamespace: prd-core
   install:
     createNamespace: true
   chart:
@@ -20,14 +20,20 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: prd
-    module: operation
-    app: rides-coordinator
-    replicas: 1
-    service:
-      targetPort: 5050
+    module: core
+    app: extractions-worker
+    replicas: 3
+    deployment:
+      strategy:
+        type: Recreate
+    resources:
+      memory: 8Gi
+      cpu: 4000m
     ingress:
       enabled: false
     secrets:
       - prd-platform-godb
+      - prd-platform-labdb
+      - prd-platform-storage
       - prd-platform-sentry
     env: []

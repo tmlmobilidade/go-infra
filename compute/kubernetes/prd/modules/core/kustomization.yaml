@@ -3,5 +3,7 @@ kind: Kustomization
 resources:
   - secrets.yaml
   - api
+  - extractions-coordinator
+  - extractions-worker
   - frontend
   - organizer

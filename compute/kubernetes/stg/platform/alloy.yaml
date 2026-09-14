@@ -31,7 +31,6 @@ spec:
         name: grafana-charts
         namespace: flux-system
   values:
-    # Ship STG cluster logs → Loki on Grafana VM (HTTPS via nginx /loki/)
     controller:
       type: deployment
       replicas: 1
@@ -63,41 +62,20 @@ spec:
               target_label  = "pod"
             }
 
-            // UI lists one entry per pod (not per Deployment/Service)
-            rule {
-              source_labels = ["__meta_kubernetes_pod_name"]
-              target_label  = "service_name"
-            }
-
-            rule {
-              source_labels = ["__meta_kubernetes_pod_name"]
-              target_label  = "job"
-            }
-
             rule {
               source_labels = ["__meta_kubernetes_pod_container_name"]
               target_label  = "container"
             }
 
-            // Keep app under k8s_app so Grafana does not group by Deployment name
             rule {
               source_labels = ["__meta_kubernetes_pod_label_app"]
-              target_label  = "k8s_app"
+              target_label = "k8s_app"
             }
           }
 
           loki.source.kubernetes "pods" {
             targets    = discovery.relabel.pods.output
-            forward_to = [loki.process.pod_identity.receiver]
-          }
-
-          loki.process "pod_identity" {
             forward_to = [loki.write.default.receiver]
-
-            // Drop labels that make Grafana merge pods into one service
-            stage.label_drop {
-              values = ["app", "service", "app_kubernetes_io_name"]
-            }
           }
 
           loki.write "default" {

@@ -125,11 +125,10 @@ spec:
               replace    = ""
             }
 
-            // Truncate huge lines at rune boundary (Go `.` = code point),
-            // not mid-emoji byte. Keeps push accepted by Loki.
-            // Suffix marks truncation so you can spot it in Explore.
+            // Go RE2 rejects {n} above 1000 — use 64×1000 runes (~64KiB).
+            // `.` matches code points, so emoji stay intact.
             stage.replace {
-              expression = "^(.{65536}).+$"
+              expression = "^((?:.{1000}){64}).+$"
               replace    = "$1…[truncated]"
             }
           }

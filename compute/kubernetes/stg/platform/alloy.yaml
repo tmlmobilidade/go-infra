@@ -25,7 +25,7 @@ spec:
   chart:
     spec:
       chart: alloy
-      version: "0.12.5"
+      version: "1.5.1"
       sourceRef:
         kind: HelmRepository
         name: grafana-charts
@@ -116,7 +116,6 @@ spec:
           loki.process "pods" {
             forward_to = [loki.write.default.receiver]
 
-            // ANSI colors break Explore rendering
             stage.decolorize {}
 
             // Drop NULs (invalid for Loki UTF-8)

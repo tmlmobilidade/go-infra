@@ -85,13 +85,6 @@ spec:
           discovery.relabel "pods" {
             targets = discovery.kubernetes.pods.targets
 
-            // Fewer concurrent pods/log streams → fewer VN Internal errors
-            rule {
-              source_labels = ["__meta_kubernetes_namespace"]
-              regex         = "kube-system|flux-system|ingress-nginx|cert-manager|onepassword"
-              action        = "drop"
-            }
-
             rule {
               source_labels = ["__meta_kubernetes_namespace"]
               target_label  = "namespace"

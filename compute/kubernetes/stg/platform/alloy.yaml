@@ -85,8 +85,7 @@ spec:
           discovery.relabel "pods" {
             targets = discovery.kubernetes.pods.targets
 
-            // Virtual Node pods/log is flaky under many concurrent streams.
-            // Drop platform noise so Alloy opens fewer tailers.
+            // Fewer concurrent pods/log streams → fewer VN Internal errors
             rule {
               source_labels = ["__meta_kubernetes_namespace"]
               regex         = "kube-system|flux-system|ingress-nginx|cert-manager|onepassword"
@@ -116,18 +115,7 @@ spec:
 
           loki.source.kubernetes "pods" {
             targets    = discovery.relabel.pods.output
-            forward_to = [loki.process.pods.receiver]
-          }
-
-          // VN / runtime sometimes exposes raw CRI lines:
-          //   2026-09-15T16:39:29.149281Z stdout F ------------------------
-          // stage.cri keeps only the message and rejoins P→F partials.
-          loki.process "pods" {
             forward_to = [loki.write.default.receiver]
-
-            stage.cri {
-              max_partial_lines = 100
-            }
           }
 
           loki.write "default" {

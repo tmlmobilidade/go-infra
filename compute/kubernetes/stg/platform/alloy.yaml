@@ -124,13 +124,6 @@ spec:
               expression = "\\x00"
               replace    = ""
             }
-
-            // Go RE2 rejects {n} above 1000 — use 64×1000 runes (~64KiB).
-            // `.` matches code points, so emoji stay intact.
-            stage.replace {
-              expression = "^((?:.{1000}){64}).+$"
-              replace    = "$1…[truncated]"
-            }
           }
 
           loki.write "default" {

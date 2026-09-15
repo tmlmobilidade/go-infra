@@ -58,11 +58,18 @@ spec:
           name: alloy-pod-logs
         subjects:
           - kind: ServiceAccount
-            name: alloy
+            name: kube-system-alloy
             namespace: kube-system
     alloy:
       mounts:
         varlog: false
+      resources:
+        requests:
+          cpu: 2000m
+          memory: 2Gi
+        limits:
+          cpu: 2000m
+          memory: 2Gi
       configMap:
         create: true
         content: |-
@@ -113,7 +120,3 @@ spec:
               environment = "stg",
             }
           }
-    resources:
-      requests:
-        cpu: 2000m
-        memory: 2Gi

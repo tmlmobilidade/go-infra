@@ -108,25 +108,7 @@ spec:
 
           loki.source.kubernetes "pods" {
             targets    = discovery.relabel.pods.output
-            forward_to = [loki.process.pods.receiver]
-          }
-
-          loki.process "pods" {
             forward_to = [loki.write.default.receiver]
-
-            stage.decolorize {}
-
-            // CR makes the cursor jump back → line looks "eaten"/cut in UI
-            stage.replace {
-              expression = "\\r"
-              replace    = ""
-            }
-
-            // Other C0 controls (keep TAB). Breaks fonts / selection in Explore.
-            stage.replace {
-              expression = "[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]"
-              replace    = ""
-            }
           }
 
           loki.write "default" {

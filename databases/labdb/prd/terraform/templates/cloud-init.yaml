@@ -160,6 +160,8 @@ runcmd:
         <max_server_memory_usage_to_ram_ratio>0.85</max_server_memory_usage_to_ram_ratio>
         <uncompressed_cache_size>2147483648</uncompressed_cache_size>
         <mark_cache_size>2147483648</mark_cache_size>
+        <background_pool_size>32</background_pool_size>
+        <background_merges_mutations_concurrency_ratio>3</background_merges_mutations_concurrency_ratio>
         <!-- Enable Prometheus metrics -->
         <prometheus>
             <endpoint>/metrics</endpoint>
@@ -171,17 +173,6 @@ runcmd:
     TUNEOEOF
 
   # 10.
-  # Background Merge Config
-
-  - |
-    cat > /opt/app/config.d/background_merge.xml <<'BACKMERGEEOF'
-    <clickhouse>
-        <background_pool_size>32</background_pool_size>
-        <background_merges_mutations_concurrency_ratio>3</background_merges_mutations_concurrency_ratio>
-    </clickhouse>
-    BACKMERGEEOF
-
-  # 11.
   # User Profile Config (user-level memory limit, CH 26+)
 
   - |
@@ -195,7 +186,7 @@ runcmd:
     </clickhouse>
     USERUEOF
 
-  # 12.
+  # 11.
   # Logging Config (server-level)
 
   - |
@@ -208,7 +199,7 @@ runcmd:
     </clickhouse>
     USERUEOF
 
-  # 13.
+  # 12.
   # Write Secrets
 
   - |
@@ -218,7 +209,7 @@ runcmd:
     CLICKHOUSE_USER=admin
     ENVEOF
 
-  # 14.
+  # 13.
   # Start ClickHouse
 
   - cd /opt/app && docker compose up -d --build --force-recreate --remove-orphans --pull=always

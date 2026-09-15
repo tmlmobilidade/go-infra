@@ -111,17 +111,30 @@ spec:
             forward_to = [loki.process.pods.receiver]
           }
 
-          // Plain-text + emoji: sanitize before Loki so one bad line
-          // cannot drop a whole push batch (missing lines in Grafana).
           loki.process "pods" {
             forward_to = [loki.write.default.receiver]
 
             stage.decolorize {}
 
-            // Drop NULs (invalid for Loki UTF-8)
+            // CR makes the cursor jump back → line looks "eaten"/cut in UI
             stage.replace {
-              expression = "\\x00"
+              expression = "\\r"
               replace    = ""
+            }
+
+            // Other C0 controls (keep TAB). Breaks fonts / selection in Explore.
+            stage.replace {
+              expression = "[\\x00-\\x08\\x0B\\x0C\\x0E-\\x1F\\x7F]"
+              replace    = ""
+            }
+
+            // Soft-cap before Loki max (256KiB). Byte truncate; suffix marks it.
+            stage.truncate {
+              rule {
+                limit       = "240KiB"
+                source_type = "line"
+                suffix      = "…[truncated]"
+              }
             }
           }
 

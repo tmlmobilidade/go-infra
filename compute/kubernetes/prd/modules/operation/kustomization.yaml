@@ -9,7 +9,7 @@ resources:
   # - rides-acceptor
   - rides-coordinator
   # - rides-examiner
-  # - rides-feeder
+  - rides-feeder
   - rides-locker
   - rides-sync
   # - sams-examiner

@@ -120,3 +120,11 @@ spec:
               environment = "stg",
             }
           }
+    configReloader:
+      resources:
+        requests:
+          cpu: 1000m
+          memory: 1Gi
+        limits:
+          cpu: 1000m
+          memory: 1Gi

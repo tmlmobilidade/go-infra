@@ -85,7 +85,7 @@ runcmd:
     <clickhouse>
         <profiles>
             <default>
-                <max_memory_usage>20G</max_memory_usage>
+                <max_memory_usage>48G</max_memory_usage>
             </default>
         </profiles>
     </clickhouse>

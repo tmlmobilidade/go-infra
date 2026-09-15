@@ -32,6 +32,18 @@ spec:
       interval: 1h
   values:
     controller:
+      # Every ingress for the cluster flows through this controller, so it runs with
+      # considerably more than the chart defaults of 100m CPU / 90Mi memory, and with
+      # more than one replica so a single pod failure cannot take down all ingress.
+      # Requests match limits to mirror the go-app chart and keep the pod shape fixed.
+      replicaCount: 2
+      resources:
+        requests:
+          cpu: "2000m"
+          memory: "2Gi"
+        limits:
+          cpu: "2000m"
+          memory: "2Gi"
       # Use an OCI internal (private) Network Load Balancer.
       # The OCI cloud controller manager provisions this automatically
       # with a stable private IP — no need to track node IPs.

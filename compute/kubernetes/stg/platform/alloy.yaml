@@ -85,6 +85,14 @@ spec:
           discovery.relabel "pods" {
             targets = discovery.kubernetes.pods.targets
 
+            // Virtual Node pods/log is flaky under many concurrent streams.
+            // Drop platform noise so Alloy opens fewer tailers.
+            rule {
+              source_labels = ["__meta_kubernetes_namespace"]
+              regex         = "kube-system|flux-system|ingress-nginx|cert-manager|onepassword"
+              action        = "drop"
+            }
+
             rule {
               source_labels = ["__meta_kubernetes_namespace"]
               target_label  = "namespace"

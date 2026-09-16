@@ -64,3 +64,7 @@ spec:
       config:
         use-forwarded-headers: "true"
         compute-full-forwarded-for: "true"
+        # Forward the upstream buffering control header to the external gateway,
+        # which consumes it to disable buffering for streaming responses.
+        http-snippet: |
+          proxy_pass_header X-Accel-Buffering;

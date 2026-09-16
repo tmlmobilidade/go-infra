@@ -22,7 +22,7 @@ spec:
     environment: prd
     module: operation
     app: rides-examiner
-    replicas: 2
+    replicas: 10
     deployment:
       strategy:
         type: Recreate

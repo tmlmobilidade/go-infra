@@ -102,7 +102,22 @@ spec:
 
             rule {
               source_labels = ["__meta_kubernetes_pod_label_app"]
-              target_label = "k8s_app"
+              target_label  = "k8s_app"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_name"]
+              target_label  = "app"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_instance"]
+              target_label  = "instance"
+            }
+
+            rule {
+              source_labels = ["__meta_kubernetes_pod_label_app_kubernetes_io_component"]
+              target_label  = "component"
             }
           }
 

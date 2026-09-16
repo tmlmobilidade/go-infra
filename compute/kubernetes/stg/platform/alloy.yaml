@@ -111,10 +111,7 @@ spec:
             targets    = discovery.relabel.pods.output
             forward_to = [loki.process.kubernetes.receiver]
           }
-          loki.process "kubernetes" {
-            stage.cri {}
-            forward_to = [loki.write.default.receiver]
-          }
+
           loki.write "default" {
             endpoint {
               url            = "https://grafana.go.tmlmobilidade.pt/loki/api/v1/push"

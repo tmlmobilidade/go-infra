@@ -53,6 +53,51 @@ CREATE TABLE events ON CLUSTER 'default_cluster' (
 ORDER BY (ts, id);
 ```
 
+## Tuning
+
+`terraform/templates/cloud-init.yaml` writes the ClickHouse configuration, but cloud-init only
+runs on first boot. Changing it affects newly provisioned nodes; to apply it to a node that is
+already running, write the same file over SSH and either reload or restart.
+
+| File | Purpose | Applying it |
+|---|---|---|
+| `users.d/tuning.xml` | Memory limit, async insert batching | `SYSTEM RELOAD CONFIG` |
+| `config.d/logs.xml` | System log retention / disabled tables | restart required |
+| `users.d/logging.xml` | Disables profiler sampling | `SYSTEM RELOAD CONFIG` |
+
+### System log cleanup
+
+Changing the definition of an existing system table makes ClickHouse rename the old table to
+`<name>_<n>` on restart. Renamed tables stop merging immediately but keep their disk space
+until dropped. Find them with:
+
+```sql
+SELECT table, formatReadableSize(sum(bytes_on_disk)) AS size
+FROM system.parts
+WHERE active AND database = 'system' AND match(table, '_\d+$')
+GROUP BY table ORDER BY sum(bytes_on_disk) DESC;
+```
+
+`max_table_size_to_drop` is 50GB and the override flag is consumed by each `DROP`, so recreate
+it on the host before every large drop:
+
+```bash
+sudo touch /opt/app/persistent-data/data/flags/force_drop_table \
+  && sudo chmod 666 /opt/app/persistent-data/data/flags/force_drop_table
+```
+
+### Verifying
+
+```sql
+-- Disk usage per database
+SELECT database, formatReadableSize(sum(bytes_on_disk))
+FROM system.parts WHERE active GROUP BY database;
+
+-- Rows per async insert flush (should be thousands, not tens)
+SELECT avg(rows), avg(bytes) FROM system.asynchronous_insert_log
+WHERE event_time > now() - INTERVAL 1 HOUR;
+```
+
 ## Outputs
 
 | Output | Description |

@@ -1,15 +1,15 @@
-# ClickHouse Replica Set
+# ClickHouse
 
-Provisions **1 OCI VM instance** running ClickHouse.
+Provisions **1 OCI VM instance** running ClickHouse, single-node and unreplicated.
 
 ## Architecture
 
 ```
-  Node 1 (labdb-1)      
-  ┌────────────────┐       
+  Node 1 (labdb-1)
+  ┌────────────────┐
   │ server         │
-  └────────────────┘        
-   private_ips[0]           
+  └────────────────┘
+   private_ips[0]
 ```
 
 ## Prerequisites
@@ -21,14 +21,12 @@ Provisions **1 OCI VM instance** running ClickHouse.
    packer build -var-file=../terraform/terraform.tfvars .
    ```
 
-2. **Static IPs**: Choose 3 free private IPs within the `pub-cmet` subnet and add to `terraform.tfvars`.
+2. **Static IPs**: Choose one free private IP per node within the `pub-cmet` subnet and add to
+   `terraform.tfvars`.
 
 3. **Networking team**: Ensure the existing Security List allows inbound TCP on these ports from your clients:
    - `8123` — ClickHouse HTTP
    - `9000` — ClickHouse native TCP
-   - `9009` — Interserver replication (between the 3 nodes, i.e. within the subnet)
-   - `2181` — Keeper client / ZooKeeper-compatible (between the 3 nodes)
-   - `9444` — Keeper Raft (between the 3 nodes)
    - `22`   — SSH
 
 ## Usage
@@ -42,16 +40,25 @@ terraform plan
 terraform apply
 ```
 
-## Creating a Replicated Table
+## Creating a Table
 
 ```sql
-CREATE TABLE events ON CLUSTER 'default_cluster' (
+CREATE TABLE events (
     id   UUID,
     ts   DateTime,
     data String
-) ENGINE = ReplicatedMergeTree('/clickhouse/tables/{shard}/{table}', '{replica}')
+) ENGINE = MergeTree
 ORDER BY (ts, id);
 ```
+
+> **No replication.** This deployment runs a single node with no Keeper, no ZooKeeper client
+> config, no `remote_servers` and no replica macros — a lone node gains nothing from a
+> single-member Raft quorum and pays for it in fsyncs and constant connection timeouts in the
+> error log. As a result `ReplicatedMergeTree` and `ON CLUSTER` DDL are unavailable: both
+> require a Keeper quorum. Adding replicas means restoring `keeper.xml`, `zookeeper.xml`,
+> `macros.xml` and `cluster.xml` in `cloud-init.yaml`, plus ports `9009`, `2181` and `9444` in
+> `packer/init/firewall.sh`. Durability today rests on the block volume and its backups, not on
+> a second copy of the data.
 
 ## Tuning
 
@@ -61,9 +68,14 @@ already running, write the same file over SSH and either reload or restart.
 
 | File | Purpose | Applying it |
 |---|---|---|
-| `users.d/tuning.xml` | Memory limit, async insert batching | `SYSTEM RELOAD CONFIG` |
+| `users.d/tuning.xml` | Memory limits, async insert batching, insert threads | `SYSTEM RELOAD CONFIG` |
+| `config.d/tuning.xml` | Server memory ratio, Prometheus endpoint | restart required |
 | `config.d/logs.xml` | System log retention / disabled tables | restart required |
 | `users.d/logging.xml` | Disables profiler sampling | `SYSTEM RELOAD CONFIG` |
+
+Cache sizes (`mark_cache_size`, `uncompressed_cache_size`) are intentionally left at their
+defaults. Note that `uncompressed_cache_size` only has an effect for queries run with
+`use_uncompressed_cache = 1`, which is off by default.
 
 ### System log cleanup
 

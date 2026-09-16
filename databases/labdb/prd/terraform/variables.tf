@@ -84,7 +84,7 @@ variable "subnet_ocid" {
 variable "private_ips" {
 	type = list(string)
 	description = <<-EOT
-	List of 3 static private IP addresses to assign to the replica nodes (one per node).
+	Static private IP addresses to assign to the nodes, one per node — must match `instance_count`.
 	Must be free within the existing subnet — verify in OCI Console > Networking before applying.
 	EOT
 	default = [

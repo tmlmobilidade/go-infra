@@ -1,15 +1,13 @@
 #cloud-config
 
 # -----------------------------------------------------------------------
-# cloud-init.yaml — ClickHouse Replica Node (node_index = ${node_index})
+# cloud-init.yaml — ClickHouse Node (node_index = ${node_index})
 #
 # Docker and OS tuning are pre-baked into the Packer image.
 # This file handles runtime concerns only:
 #   - Attaches and mounts the 1TB block volume
-#   - Writes ClickHouse Keeper config (embedded keeper, 3-node Raft quorum)
-#   - Writes ZooKeeper client config (points CH to keeper endpoints)
-#   - Writes replica macros and cluster config
-#   - Writes tuning, system-log retention and profiling config
+#   - Writes network and tuning config
+#   - Writes system-log retention and profiling config
 #   - Writes secrets and starts the container
 #
 # Terraform variables injected:
@@ -48,119 +46,29 @@ runcmd:
 
   # 4.
   # Network Config to instruct Clickhouse to listen
-  # on all network interfaces (IPv4 only). `interserver_http_host`
-  # sets the current node's private IP to allow cluster communication.
+  # on all network interfaces (IPv4 only).
 
   - |
     cat > /opt/app/persistent-data/config.d/network.xml <<'NETEOF'
     <clickhouse>
         <listen_host>0.0.0.0</listen_host>
-        <interserver_http_host>${all_private_ips[node_index]}</interserver_http_host>
     </clickhouse>
     NETEOF
 
   # 5.
-  # ZooKeeper Client Config (replicated 3-node Keeper cluster)
-  # Points ClickHouse at all 3 Keeper nodes for high availability.
-  # If a Keeper node is down, ClickHouse will automatically failover
-  # to the next available node.
-
-  - |
-    cat > /opt/app/persistent-data/config.d/keeper.xml <<'KEEPEREOF'
-    <clickhouse>
-        <keeper_server>
-            <!-- ZooKeeper-compatible client port -->
-            <tcp_port>2181</tcp_port>
-            <!-- Unique server ID for this node (1, 2, or 3) -->
-            <server_id>${node_index + 1}</server_id>
-            <log_storage_path>/var/lib/clickhouse/coordination/log</log_storage_path>
-            <snapshot_storage_path>/var/lib/clickhouse/coordination/snapshots</snapshot_storage_path>
-            <coordination_settings>
-                <operation_timeout_ms>10000</operation_timeout_ms>
-                <session_timeout_ms>30000</session_timeout_ms>
-                <raft_logs_level>warning</raft_logs_level>
-            </coordination_settings>
-            <raft_configuration>
-            %{ for idx in range(length(all_private_ips)) ~}
-                <server>
-                    <id>${idx + 1}</id>
-                    <hostname>${all_private_ips[idx]}</hostname>
-                    <!-- Inter-keeper Raft port -->
-                    <port>9444</port>
-                </server>
-            %{ endfor ~}
-            </raft_configuration>
-        </keeper_server>
-    </clickhouse>
-    KEEPEREOF
-
-  # 6.
-  # ZooKeeper Client Config — points ClickHouse at all 3 Keeper nodes
-  # Points ClickHouse at all 3 Keeper nodes for high availability.
-  # If a Keeper node is down, ClickHouse will automatically failover
-  # to the next available node.
-
-  - |
-    cat > /opt/app/persistent-data/config.d/zookeeper.xml <<'ZKEOF'
-    <clickhouse>
-        <zookeeper>
-        %{ for node_ip in all_private_ips ~}
-            <node>
-                <host>${node_ip}</host>
-                <port>2181</port>
-            </node>
-        %{ endfor ~}
-        </zookeeper>
-    </clickhouse>
-    ZKEOF
-
-  # 7.
-  # Replica Macros
-  # node-specific identity for ReplicatedMergeTree
-
-  - |
-    cat > /opt/app/persistent-data/config.d/macros.xml <<'MACROEOF'
-    <clickhouse>
-        <macros>
-            <shard>01</shard>
-            <replica>replica-${node_index + 1}</replica>
-            <cluster>default_cluster</cluster>
-        </macros>
-    </clickhouse>
-    MACROEOF
-
-  # 8.
-  # Cluster Config — all 3 replicas in one shard (no sharding)
-
-  - |
-    cat > /opt/app/persistent-data/config.d/cluster.xml <<'CLUSTEREOF'
-    <clickhouse>
-        <remote_servers>
-            <default_cluster>
-                <shard>
-                %{ for ip in all_private_ips ~}
-                  <replica>
-                      <host>${ip}</host>
-                      <port>${clickhouse_tcp_port}</port>
-                  </replica>
-                %{ endfor ~}
-                  <internal_replication>true</internal_replication>
-                </shard>
-            </default_cluster>
-        </remote_servers>
-    </clickhouse>
-    CLUSTEREOF
-
-  # 9.
   # Performance Tuning Config (server-level)
 
   - |
     cat > /opt/app/persistent-data/config.d/tuning.xml <<'TUNEOEOF'
     <clickhouse>
-        <!-- Server-level memory: 85% of 12GB = ~10.2GB -->
+        <!-- Server-level memory: 85% of 128GB = ~108GB -->
         <max_server_memory_usage_to_ram_ratio>0.85</max_server_memory_usage_to_ram_ratio>
-        <uncompressed_cache_size>2147483648</uncompressed_cache_size>
-        <mark_cache_size>2147483648</mark_cache_size>
+        <!--
+            mark_cache_size and uncompressed_cache_size are deliberately not set.
+            The defaults (5GiB and 8GiB) are appropriate for 128GB of RAM; the
+            previous 2GiB overrides were sized for a much smaller machine and
+            only served to evict marks that should have stayed cached.
+        -->
         <!-- Enable Prometheus metrics -->
         <prometheus>
             <endpoint>/metrics</endpoint>
@@ -171,7 +79,7 @@ runcmd:
     </clickhouse>
     TUNEOEOF
 
-  # 10.
+  # 6.
   # User Profile Config (user-level memory limit, CH 26+)
 
   - |
@@ -190,12 +98,19 @@ runcmd:
                 <async_insert_busy_timeout_min_ms>1000</async_insert_busy_timeout_min_ms>
                 <async_insert_busy_timeout_max_ms>5000</async_insert_busy_timeout_max_ms>
                 <async_insert_max_data_size>104857600</async_insert_max_data_size>
+                <!--
+                    Cap insert parallelism. On 64 OCPUs ClickHouse 26.8 picks a
+                    very high `auto(...)` value, which makes a single INSERT (and
+                    every refreshable materialized view) fan out into dozens of
+                    streams, each writing its own part.
+                -->
+                <max_insert_threads>8</max_insert_threads>
             </default>
         </profiles>
     </clickhouse>
     USERUEOF
 
-  # 11.
+  # 7.
   # Logging Config (server-level)
 
   - |
@@ -208,7 +123,7 @@ runcmd:
     </clickhouse>
     USERUEOF
 
-  # 12.
+  # 8.
   # System Log Tables (server-level)
   #
   # By default ClickHouse writes every query, every trace sample and every
@@ -275,7 +190,7 @@ runcmd:
     </clickhouse>
     LOGSEOF
 
-  # 13.
+  # 9.
   # Profiling Collection (user-level)
   #
   # Stops the data from being produced in the first place: no per-processor
@@ -297,7 +212,7 @@ runcmd:
     </clickhouse>
     LOGGINGEOF
 
-  # 14.
+  # 10.
   # Write Secrets
 
   - |
@@ -307,9 +222,9 @@ runcmd:
     CLICKHOUSE_USER=admin
     ENVEOF
 
-  # 15.
+  # 11.
   # Start ClickHouse
 
   - cd /opt/app && docker compose up -d --build --force-recreate --remove-orphans --pull=always
 
-final_message: "ClickHouse replica node ${node_index + 1} of ${length(all_private_ips)} configuration complete."
+final_message: "ClickHouse node ${node_index + 1} of ${length(all_private_ips)} configuration complete."

@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - secrets.yaml
   - api
-  - eta
+  # - eta
   - frontend-navegante-app
   - frontend-videowall
   - publish-alerts

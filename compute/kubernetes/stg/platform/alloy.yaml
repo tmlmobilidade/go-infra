@@ -1,4 +1,3 @@
-
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
@@ -35,7 +34,17 @@ spec:
     controller:
       type: deployment
       replicas: 1
+      serviceAccount:
+        create: false
+        name: kube-system-alloy
     extraObjects:
+      # Explicit ServiceAccount used by Alloy
+      - apiVersion: v1
+        kind: ServiceAccount
+        metadata:
+          name: kube-system-alloy
+          namespace: kube-system
+      # Permissions to discover Pods and read Pod logs
       - apiVersion: rbac.authorization.k8s.io/v1
         kind: ClusterRole
         metadata:
@@ -50,6 +59,7 @@ spec:
               - get
               - list
               - watch
+      # Bind the permissions to Alloy's ServiceAccount
       - apiVersion: rbac.authorization.k8s.io/v1
         kind: ClusterRoleBinding
         metadata:
@@ -111,7 +121,6 @@ spec:
             targets    = discovery.relabel.pods.output
             forward_to = [loki.write.default.receiver]
           }
-
           loki.write "default" {
             endpoint {
               url            = "https://grafana.go.tmlmobilidade.pt/loki/api/v1/push"

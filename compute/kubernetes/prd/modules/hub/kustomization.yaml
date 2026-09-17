@@ -13,3 +13,4 @@ resources:
   - publish-network
   - publish-plans
   - publish-vehicles
+  - publish-eta

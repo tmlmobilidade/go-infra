@@ -1,0 +1,102 @@
+# Alloy sidecar support for pr-636-hub-publish-gtfs only (test).
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pr-636-hub-publish-gtfs
+  namespace: pr-636-hub
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pr-636-hub-publish-gtfs-logs
+  namespace: pr-636-hub
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods/log"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pr-636-hub-publish-gtfs-logs
+  namespace: pr-636-hub
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pr-636-hub-publish-gtfs-logs
+subjects:
+  - kind: ServiceAccount
+    name: pr-636-hub-publish-gtfs
+    namespace: pr-636-hub
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pr-636-hub-publish-gtfs-logging
+  namespace: pr-636-hub
+data:
+  config.alloy: |
+    logging {
+      level  = "warn"
+      format = "logfmt"
+    }
+
+    discovery.kubernetes "local" {
+      role = "pod"
+      namespaces {
+        names = [env("POD_NAMESPACE")]
+      }
+      selectors {
+        role  = "pod"
+        field = "metadata.name=" + env("POD_NAME")
+      }
+    }
+
+    discovery.relabel "local" {
+      targets = discovery.kubernetes.local.targets
+
+      rule {
+        source_labels = ["__meta_kubernetes_pod_container_name"]
+        regex         = "log-shipper"
+        action        = "drop"
+      }
+
+      rule {
+        source_labels = ["__meta_kubernetes_namespace"]
+        target_label  = "namespace"
+      }
+
+      rule {
+        source_labels = ["__meta_kubernetes_pod_name"]
+        target_label  = "pod"
+      }
+
+      rule {
+        source_labels = ["__meta_kubernetes_pod_name"]
+        target_label  = "service_name"
+      }
+
+      rule {
+        source_labels = ["__meta_kubernetes_pod_container_name"]
+        target_label  = "container"
+      }
+    }
+
+    loki.source.kubernetes "local" {
+      targets    = discovery.relabel.local.output
+      forward_to = [loki.write.default.receiver]
+    }
+
+    loki.write "default" {
+      endpoint {
+        url = "https://grafana.go.tmlmobilidade.pt/loki/api/v1/push"
+      }
+      external_labels = {
+        cluster     = "go-stg",
+        environment = "pr-636",
+        test        = "pr-636-hub-publish-gtfs-sidecar",
+      }
+    }

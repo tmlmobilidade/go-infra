@@ -5,5 +5,5 @@ resources:
   - ingress-nginx.yaml
   - onepassword-connect.yaml
   - keel.yaml
-  - alloy.yaml
-# - valhalla  
+# - alloy.yaml removed while testing sidecar on stg-hub-api only
+# - valhalla

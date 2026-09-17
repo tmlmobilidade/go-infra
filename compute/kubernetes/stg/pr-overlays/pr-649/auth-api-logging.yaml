@@ -1,0 +1,102 @@
+# Alloy sidecar support for pr-649-auth-api only (test).
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: pr-649-auth-api
+  namespace: pr-649-auth
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: pr-649-auth-api-logs
+  namespace: pr-649-auth
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods/log"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: pr-649-auth-api-logs
+  namespace: pr-649-auth
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: pr-649-auth-api-logs
+subjects:
+  - kind: ServiceAccount
+    name: pr-649-auth-api
+    namespace: pr-649-auth
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: pr-649-auth-api-logging
+  namespace: pr-649-auth
+data:
+  config.alloy: |
+    logging {
+      level  = "warn"
+      format = "logfmt"
+    }
+
+    discovery.kubernetes "local" {
+      role = "pod"
+      namespaces {
+        names = [env("POD_NAMESPACE")]
+      }
+      selectors {
+        role  = "pod"
+        field = "metadata.name=" + env("POD_NAME")
+      }
+    }
+
+    discovery.relabel "local" {
+      targets = discovery.kubernetes.local.targets
+
+      rule {
+        source_labels = ["__meta_kubernetes_pod_container_name"]
+        regex         = "log-shipper"
+        action        = "drop"
+      }
+
+      rule {
+        source_labels = ["__meta_kubernetes_namespace"]
+        target_label  = "namespace"
+      }
+
+      rule {
+        source_labels = ["__meta_kubernetes_pod_name"]
+        target_label  = "pod"
+      }
+
+      rule {
+        source_labels = ["__meta_kubernetes_pod_name"]
+        target_label  = "service_name"
+      }
+
+      rule {
+        source_labels = ["__meta_kubernetes_pod_container_name"]
+        target_label  = "container"
+      }
+    }
+
+    loki.source.kubernetes "local" {
+      targets    = discovery.relabel.local.output
+      forward_to = [loki.write.default.receiver]
+    }
+
+    loki.write "default" {
+      endpoint {
+        url = "https://grafana.go.tmlmobilidade.pt/loki/api/v1/push"
+      }
+      external_labels = {
+        cluster     = "go-stg",
+        environment = "pr-649",
+        test        = "pr-649-auth-api-sidecar",
+      }
+    }

@@ -40,3 +40,61 @@ spec:
       - stg-platform-storage
     env: []
   suspend: false
+  # TEST: Alloy sidecar on this PR pod only (VN-safe, own-pod tail).
+  postRenderers:
+    - kustomize:
+        patches:
+          - target:
+              kind: Deployment
+              name: pr-649-auth-api
+            patch: |
+              apiVersion: apps/v1
+              kind: Deployment
+              metadata:
+                name: pr-649-auth-api
+              spec:
+                template:
+                  spec:
+                    serviceAccountName: pr-649-auth-api
+                    containers:
+                      - name: log-shipper
+                        image: docker.io/grafana/alloy:v1.12.1
+                        imagePullPolicy: IfNotPresent
+                        args:
+                          - run
+                          - /etc/alloy/config.alloy
+                          - --storage.path=/tmp/alloy
+                          - --server.http.listen-addr=127.0.0.1:12345
+                          - --stability.level=generally-available
+                        env:
+                          - name: POD_NAME
+                            valueFrom:
+                              fieldRef:
+                                fieldPath: metadata.name
+                          - name: POD_NAMESPACE
+                            valueFrom:
+                              fieldRef:
+                                fieldPath: metadata.namespace
+                          - name: HOSTNAME
+                            valueFrom:
+                              fieldRef:
+                                fieldPath: metadata.name
+                        resources:
+                          requests:
+                            cpu: 50m
+                            memory: 128Mi
+                          limits:
+                            cpu: 50m
+                            memory: 128Mi
+                        volumeMounts:
+                          - name: alloy-config
+                            mountPath: /etc/alloy
+                            readOnly: true
+                          - name: alloy-data
+                            mountPath: /tmp/alloy
+                    volumes:
+                      - name: alloy-config
+                        configMap:
+                          name: pr-649-auth-api-logging
+                      - name: alloy-data
+                        emptyDir: {}

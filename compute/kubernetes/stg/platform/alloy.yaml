@@ -1,3 +1,0 @@
-# Cluster-wide Alloy disabled during sidecar test on stg-hub-api.
-# Sidecar lives in: stg/modules/hub/api/{helmrelease,logging}.yaml
-# Re-add this file to platform/kustomization.yaml to restore cluster Alloy.

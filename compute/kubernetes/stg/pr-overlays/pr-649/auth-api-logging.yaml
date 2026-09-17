@@ -93,6 +93,10 @@ data:
     loki.write "default" {
       endpoint {
         url = "https://grafana.go.tmlmobilidade.pt/loki/api/v1/push"
+        basic_auth {
+          username = env("LOKI_USERNAME")
+          password = env("LOKI_PASSWORD")
+        }
       }
       external_labels = {
         cluster     = "go-stg",

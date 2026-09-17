@@ -79,6 +79,16 @@ spec:
                             valueFrom:
                               fieldRef:
                                 fieldPath: metadata.name
+                          - name: LOKI_USERNAME
+                            valueFrom:
+                              secretKeyRef:
+                                name: stg-platform-loki
+                                key: username
+                          - name: LOKI_PASSWORD
+                            valueFrom:
+                              secretKeyRef:
+                                name: stg-platform-loki
+                                key: password
                         resources:
                           requests:
                             cpu: 50m

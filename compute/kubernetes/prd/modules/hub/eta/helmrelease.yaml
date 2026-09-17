@@ -1,13 +1,13 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: eta-loader
+  name: hub-eta
   namespace: flux-system
 spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
-  targetNamespace: prd-eta
+  targetNamespace: prd-hub
   install:
     createNamespace: true
   chart:
@@ -20,18 +20,14 @@ spec:
       reconcileStrategy: Revision
   values:
     environment: prd
-    module: eta
-    app: loader
+    module: hub
+    app: eta
     replicas: 1
     service:
       targetPort: 5050
-    resources:
-      memory: 6Gi
-      cpu: 4000m
     ingress:
       enabled: false
     secrets:
-      - prd-platform-godb
       - prd-platform-labdb
       - prd-platform-sentry
     env: []

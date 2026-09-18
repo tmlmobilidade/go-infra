@@ -75,9 +75,11 @@ data:
 
       stage.static_labels {
         values = {
-          namespace = env("POD_NAMESPACE"),
-          pod       = env("POD_NAME"),
-          container = {{ printf "%s-%s-%s" .Values.environment .Values.module .Values.app | quote }},
+          namespace    = env("POD_NAMESPACE"),
+          pod          = env("POD_NAME"),
+          service_name = env("POD_NAME"),
+          container    = {{ printf "%s-%s-%s" .Values.environment .Values.module .Values.app | quote }},
+          workload     = {{ printf "%s-%s-%s" .Values.environment .Values.module .Values.app | quote }},
         }
       }
     }

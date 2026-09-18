@@ -2,5 +2,5 @@ apiVersion: v2
 name: go-app
 description: STG test fork of go-app (Alloy logging). Promote to shared charts/go-app later.
 type: application
-version: 0.2.1-stg
+version: 0.2.2-stg
 appVersion: "1.0.0"

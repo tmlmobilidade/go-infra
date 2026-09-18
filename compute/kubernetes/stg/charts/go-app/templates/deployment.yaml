@@ -33,6 +33,9 @@ spec:
         module: {{ .Values.module }}
         app: {{ .Values.app }}
     spec:
+      {{- if .Values.logging.enabled }}
+      serviceAccountName: default
+      {{- end }}
       containers:
         - name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
           image: "ghcr.io/tmlmobilidade/go-{{ .Values.module }}-{{ .Values.app }}:{{ .Values.environment }}"

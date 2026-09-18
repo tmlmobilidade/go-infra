@@ -1,50 +1,5 @@
 {{- if .Values.logging.enabled }}
 apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
-  namespace: "{{ .Values.environment }}-{{ .Values.module }}"
-  labels:
-    environment: {{ .Values.environment }}
-    module: {{ .Values.module }}
-    app: {{ .Values.app }}
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
-metadata:
-  name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}-logs"
-  namespace: "{{ .Values.environment }}-{{ .Values.module }}"
-  labels:
-    environment: {{ .Values.environment }}
-    module: {{ .Values.module }}
-    app: {{ .Values.app }}
-rules:
-  - apiGroups: [""]
-    resources: ["pods"]
-    verbs: ["get", "list", "watch"]
-  - apiGroups: [""]
-    resources: ["pods/log"]
-    verbs: ["get", "list", "watch"]
----
-apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}-logs"
-  namespace: "{{ .Values.environment }}-{{ .Values.module }}"
-  labels:
-    environment: {{ .Values.environment }}
-    module: {{ .Values.module }}
-    app: {{ .Values.app }}
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: Role
-  name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}-logs"
-subjects:
-  - kind: ServiceAccount
-    name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
-    namespace: "{{ .Values.environment }}-{{ .Values.module }}"
----
-apiVersion: v1
 kind: ConfigMap
 metadata:
   name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}-logging"
@@ -54,56 +9,77 @@ metadata:
     module: {{ .Values.module }}
     app: {{ .Values.app }}
 data:
+  # Distroless node images have no shell — wrap stdout/stderr to a shared emptyDir
+  # so Alloy can tail files (OKE Virtual Nodes: pods/log API is unreliable).
+  wrap.cjs: |
+    const { spawn } = require("child_process");
+    const fs = require("fs");
+
+    const logDir = process.env.LOG_DIR || "/var/log/app";
+    const logFile = `${logDir}/stdout.log`;
+    fs.mkdirSync(logDir, { recursive: true });
+    const out = fs.createWriteStream(logFile, { flags: "a" });
+
+    const args = process.argv.slice(2);
+    if (args.length === 0) {
+      console.error("log-wrap: missing app args");
+      process.exit(1);
+    }
+
+    const child = spawn(process.execPath, args, {
+      stdio: ["inherit", "pipe", "pipe"],
+    });
+
+    const pipe = (stream, dest) => {
+      stream.on("data", (chunk) => {
+        dest.write(chunk);
+        out.write(chunk);
+      });
+    };
+    pipe(child.stdout, process.stdout);
+    pipe(child.stderr, process.stderr);
+
+    const shutdown = (code, signal) => {
+      out.end();
+      if (signal) {
+        process.kill(process.pid, signal);
+        return;
+      }
+      process.exit(code ?? 1);
+    };
+    child.on("error", (err) => {
+      console.error("log-wrap:", err);
+      shutdown(1);
+    });
+    child.on("exit", shutdown);
+
   config.alloy: |
     logging {
       level  = "warn"
       format = "logfmt"
     }
 
-    discovery.kubernetes "local" {
-      role = "pod"
-      namespaces {
-        names = [env("POD_NAMESPACE")]
-      }
-      selectors {
-        role  = "pod"
-        field = "metadata.name=" + env("POD_NAME")
-      }
+    local.file_match "app" {
+      path_targets = [{
+        __path__ = {{ printf "%s/*.log" .Values.logging.logPath | quote }},
+      }]
     }
 
-    discovery.relabel "local" {
-      targets = discovery.kubernetes.local.targets
-
-      rule {
-        source_labels = ["__meta_kubernetes_pod_container_name"]
-        regex         = "log-shipper"
-        action        = "drop"
-      }
-
-      rule {
-        source_labels = ["__meta_kubernetes_namespace"]
-        target_label  = "namespace"
-      }
-
-      rule {
-        source_labels = ["__meta_kubernetes_pod_name"]
-        target_label  = "pod"
-      }
-
-      rule {
-        source_labels = ["__meta_kubernetes_pod_name"]
-        target_label  = "service_name"
-      }
-
-      rule {
-        source_labels = ["__meta_kubernetes_pod_container_name"]
-        target_label  = "container"
-      }
+    loki.source.file "app" {
+      targets    = local.file_match.app.targets
+      forward_to = [loki.process.labels.receiver]
     }
 
-    loki.source.kubernetes "local" {
-      targets    = discovery.relabel.local.output
+    loki.process "labels" {
       forward_to = [loki.write.default.receiver]
+
+      stage.static_labels {
+        values = {
+          namespace = env("POD_NAMESPACE"),
+          pod       = env("POD_NAME"),
+          container = {{ printf "%s-%s-%s" .Values.environment .Values.module .Values.app | quote }},
+        }
+      }
     }
 
     loki.write "default" {

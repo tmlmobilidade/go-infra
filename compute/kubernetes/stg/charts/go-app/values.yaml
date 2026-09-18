@@ -30,11 +30,14 @@ secrets: []
 
 env: []
 
-# Alloy sidecar → Loki (OKE Virtual Node safe: own-pod API tail).
-# STG: enable per release. PRD later: same flag + cluster/secretName.
+# Alloy sidecar → Loki. OKE Virtual Nodes: file tail via shared emptyDir (not pods/log API).
+# Distroless node apps: wrap.cjs tees stdout/stderr → /var/log/app/stdout.log.
 logging:
   enabled: false
   cluster: go-stg
+  logPath: /var/log/app
+  # Override app CMD args after wrap (default: frontend* → server.js, else ./dist/index.js)
+  appArgs: []
   loki:
     url: https://grafana.go.tmlmobilidade.pt/loki/api/v1/push
     secretName: stg-platform-loki

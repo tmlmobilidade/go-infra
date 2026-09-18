@@ -77,7 +77,7 @@ data:
         values = {
           namespace    = env("POD_NAMESPACE"),
           pod          = env("POD_NAME"),
-          service_name = env("POD_NAME"),
+          service_name = {{ printf "%s-%s-%s" .Values.environment .Values.module .Values.app | quote }},
           container    = {{ printf "%s-%s-%s" .Values.environment .Values.module .Values.app | quote }},
           workload     = {{ printf "%s-%s-%s" .Values.environment .Values.module .Values.app | quote }},
         }

@@ -30,6 +30,31 @@ secrets: []
 
 env: []
 
+# Alloy sidecar → Loki (OKE Virtual Nodes: file tail on emptyDir).
+# Off by default — PRD/STG modules unchanged until enabled.
+# Enable example:
+#   logging:
+#     enabled: true
+#     cluster: go-prd          # or go-stg
+#     loki:
+#       secretName: prd-platform-loki   # or stg-platform-loki
+logging:
+  enabled: false
+  cluster: go-stg
+  logPath: /var/log/app
+  # Override app CMD args after wrap (default: frontend* → server.js, else ./dist/index.js)
+  appArgs: []
+  loki:
+    url: https://grafana.go.tmlmobilidade.pt/loki/api/v1/push
+    secretName: stg-platform-loki
+    usernameKey: username
+    passwordKey: password
+  alloy:
+    image: docker.io/grafana/alloy:v1.12.1
+    resources:
+      cpu: 50m
+      memory: 128Mi
+
 probes:
   startup:
     enabled: false

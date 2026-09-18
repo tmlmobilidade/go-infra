@@ -46,8 +46,8 @@ logging:
   alloy:
     image: docker.io/grafana/alloy:v1.12.1
     resources:
-      cpu: 100m
-      memory: 256Mi
+      cpu: 50m
+      memory: 128Mi
 
 probes:
   startup:

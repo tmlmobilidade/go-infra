@@ -1,0 +1,63 @@
+environment: environment
+module: module
+app: app
+
+replicas: 1
+
+deployment:
+  strategy:
+    # RollingUpdate honours maxSurge/maxUnavailable; Recreate replaces every replica at once.
+    # maxSurge 100% with maxUnavailable 0 brings up every new replica in parallel and only
+    # retires the old ones as the new ones pass readiness, so it needs double capacity briefly.
+    type: RollingUpdate
+    maxSurge: "100%"
+    maxUnavailable: 0
+
+service:
+  targetPort: 5050
+
+resources:
+  cpu: 1000m
+  memory: 512Mi
+
+ingress:
+  enabled: false
+  path: /
+  pathType: Prefix
+  annotations: {}
+
+secrets: []
+
+env: []
+
+# Alloy sidecar → Loki (OKE Virtual Node safe: own-pod API tail).
+# STG: enable per release. PRD later: same flag + cluster/secretName.
+logging:
+  enabled: false
+  cluster: go-stg
+  loki:
+    url: https://grafana.go.tmlmobilidade.pt/loki/api/v1/push
+    secretName: stg-platform-loki
+    usernameKey: username
+    passwordKey: password
+  alloy:
+    image: docker.io/grafana/alloy:v1.12.1
+    resources:
+      cpu: 50m
+      memory: 128Mi
+
+probes:
+  startup:
+    enabled: false
+    path: /health
+    # Short period with a high failure threshold: a pod is picked up within ~2s of being
+    # healthy, while still allowing 90s to boot before the kubelet gives up on it.
+    failureThreshold: 45
+    periodSeconds: 2
+    successThreshold: 1
+    timeoutSeconds: 2
+  readiness:
+    failureThreshold: 3
+    periodSeconds: 5
+    successThreshold: 1
+    timeoutSeconds: 3

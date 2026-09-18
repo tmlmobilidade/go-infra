@@ -12,7 +12,7 @@ spec:
     createNamespace: true
   chart:
     spec:
-      chart: compute/kubernetes/charts/go-app
+      chart: compute/kubernetes/stg/charts/go-app
       sourceRef:
         kind: GitRepository
         name: flux-system
@@ -38,5 +38,10 @@ spec:
       - stg-platform-godb
       - stg-platform-email
       - stg-platform-storage
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
     env: []
   suspend: false

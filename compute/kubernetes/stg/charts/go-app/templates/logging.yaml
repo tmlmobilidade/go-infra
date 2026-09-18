@@ -1,15 +1,23 @@
-# Alloy sidecar support for pr-649-auth-api only (test).
+{{- if .Values.logging.enabled }}
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: pr-649-auth-api
-  namespace: pr-649-auth
+  name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
+  namespace: "{{ .Values.environment }}-{{ .Values.module }}"
+  labels:
+    environment: {{ .Values.environment }}
+    module: {{ .Values.module }}
+    app: {{ .Values.app }}
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: pr-649-auth-api-logs
-  namespace: pr-649-auth
+  name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}-logs"
+  namespace: "{{ .Values.environment }}-{{ .Values.module }}"
+  labels:
+    environment: {{ .Values.environment }}
+    module: {{ .Values.module }}
+    app: {{ .Values.app }}
 rules:
   - apiGroups: [""]
     resources: ["pods"]
@@ -21,22 +29,30 @@ rules:
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: pr-649-auth-api-logs
-  namespace: pr-649-auth
+  name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}-logs"
+  namespace: "{{ .Values.environment }}-{{ .Values.module }}"
+  labels:
+    environment: {{ .Values.environment }}
+    module: {{ .Values.module }}
+    app: {{ .Values.app }}
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
-  name: pr-649-auth-api-logs
+  name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}-logs"
 subjects:
   - kind: ServiceAccount
-    name: pr-649-auth-api
-    namespace: pr-649-auth
+    name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
+    namespace: "{{ .Values.environment }}-{{ .Values.module }}"
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: pr-649-auth-api-logging
-  namespace: pr-649-auth
+  name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}-logging"
+  namespace: "{{ .Values.environment }}-{{ .Values.module }}"
+  labels:
+    environment: {{ .Values.environment }}
+    module: {{ .Values.module }}
+    app: {{ .Values.app }}
 data:
   config.alloy: |
     logging {
@@ -92,15 +108,17 @@ data:
 
     loki.write "default" {
       endpoint {
-        url = "https://grafana.go.tmlmobilidade.pt/loki/api/v1/push"
+        url = {{ .Values.logging.loki.url | quote }}
         basic_auth {
           username = env("LOKI_USERNAME")
           password = env("LOKI_PASSWORD")
         }
       }
       external_labels = {
-        cluster     = "go-stg",
-        environment = "pr-649",
-        test        = "pr-649-auth-api-sidecar",
+        cluster     = {{ .Values.logging.cluster | quote }},
+        environment = {{ .Values.environment | quote }},
+        module      = {{ .Values.module | quote }},
+        app         = {{ .Values.app | quote }},
       }
     }
+{{- end }}

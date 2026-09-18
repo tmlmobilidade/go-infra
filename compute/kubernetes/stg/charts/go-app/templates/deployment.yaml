@@ -1,0 +1,139 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
+  namespace: "{{ .Values.environment }}-{{ .Values.module }}"
+  labels:
+    environment: {{ .Values.environment }}
+    module: {{ .Values.module }}
+    app: {{ .Values.app }}
+  annotations:
+    keel.sh/policy: force
+    keel.sh/trigger: poll
+    keel.sh/match-tag: "true"
+    keel.sh/pollSchedule: "@every 30s"
+spec:
+  replicas: {{ .Values.replicas }}
+  strategy:
+    type: {{ .Values.deployment.strategy.type }}
+    {{- if eq .Values.deployment.strategy.type "RollingUpdate" }}
+    rollingUpdate:
+      maxSurge: {{ .Values.deployment.strategy.maxSurge }}
+      maxUnavailable: {{ .Values.deployment.strategy.maxUnavailable }}
+    {{- end }}
+  selector:
+    matchLabels:
+      environment: {{ .Values.environment }}
+      module: {{ .Values.module }}
+      app: {{ .Values.app }}
+  template:
+    metadata:
+      labels:
+        environment: {{ .Values.environment }}
+        module: {{ .Values.module }}
+        app: {{ .Values.app }}
+    spec:
+      {{- if .Values.logging.enabled }}
+      serviceAccountName: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
+      {{- end }}
+      containers:
+        - name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
+          image: "ghcr.io/tmlmobilidade/go-{{ .Values.module }}-{{ .Values.app }}:{{ .Values.environment }}"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: {{ .Values.service.targetPort }}
+          resources:
+            requests:
+              cpu: {{ .Values.resources.cpu | quote }}
+              memory: {{ .Values.resources.memory | quote }}
+            limits:
+              cpu: {{ .Values.resources.cpu | quote }}
+              memory: {{ .Values.resources.memory | quote }}
+          {{- if .Values.secrets }}
+          envFrom:
+            {{- range .Values.secrets }}
+            - secretRef:
+                name: {{ . }}
+            {{- end }}
+          {{- end }}
+          env:
+            - name: ENVIRONMENT
+              value: {{ .Values.environment }}
+            - name: HOSTNAME
+              value: "0.0.0.0"
+            {{- if .Values.env }}
+            {{- toYaml .Values.env | nindent 12 }}
+            {{- end }}
+          {{- if .Values.probes.startup.enabled }}
+          startupProbe:
+            httpGet:
+              path: {{ .Values.probes.startup.path }}
+              port: {{ .Values.service.targetPort }}
+            failureThreshold: {{ .Values.probes.startup.failureThreshold }}
+            periodSeconds: {{ .Values.probes.startup.periodSeconds }}
+            successThreshold: {{ .Values.probes.startup.successThreshold }}
+            timeoutSeconds: {{ .Values.probes.startup.timeoutSeconds }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.probes.startup.path }}
+              port: {{ .Values.service.targetPort }}
+            periodSeconds: {{ .Values.probes.readiness.periodSeconds }}
+            failureThreshold: {{ .Values.probes.readiness.failureThreshold }}
+            successThreshold: {{ .Values.probes.readiness.successThreshold }}
+            timeoutSeconds: {{ .Values.probes.readiness.timeoutSeconds }}
+          {{- end }}
+        {{- if .Values.logging.enabled }}
+        - name: log-shipper
+          image: {{ .Values.logging.alloy.image | quote }}
+          imagePullPolicy: IfNotPresent
+          args:
+            - run
+            - /etc/alloy/config.alloy
+            - --storage.path=/tmp/alloy
+            - --server.http.listen-addr=127.0.0.1:12345
+            - --stability.level=generally-available
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: LOKI_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.logging.loki.secretName }}
+                  key: {{ .Values.logging.loki.usernameKey }}
+            - name: LOKI_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.logging.loki.secretName }}
+                  key: {{ .Values.logging.loki.passwordKey }}
+          resources:
+            requests:
+              cpu: {{ .Values.logging.alloy.resources.cpu | quote }}
+              memory: {{ .Values.logging.alloy.resources.memory | quote }}
+            limits:
+              cpu: {{ .Values.logging.alloy.resources.cpu | quote }}
+              memory: {{ .Values.logging.alloy.resources.memory | quote }}
+          volumeMounts:
+            - name: alloy-config
+              mountPath: /etc/alloy
+              readOnly: true
+            - name: alloy-data
+              mountPath: /tmp/alloy
+        {{- end }}
+      {{- if .Values.logging.enabled }}
+      volumes:
+        - name: alloy-config
+          configMap:
+            name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}-logging"
+        - name: alloy-data
+          emptyDir: {}
+      {{- end }}

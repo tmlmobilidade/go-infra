@@ -18,4 +18,3 @@ resources:
   - hub-publish-plans.yaml
   - hub-publish-realtime.yaml
   - hub-secrets.yaml
-  - hub-publish-gtfs-logging.yaml

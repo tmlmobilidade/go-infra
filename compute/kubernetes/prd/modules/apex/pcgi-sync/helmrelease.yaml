@@ -34,4 +34,9 @@ spec:
       - prd-platform-pcgi-tunnel
       - prd-platform-pcgi-file-manager
       - prd-platform-sentry
+    logging:
+      enabled: true
+      cluster: go-prd
+      loki:
+        secretName: prd-platform-loki
     env: []

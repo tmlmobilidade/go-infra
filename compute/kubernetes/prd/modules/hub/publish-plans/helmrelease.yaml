@@ -31,4 +31,9 @@ spec:
       - prd-platform-cachedb
       - prd-platform-storage
       - prd-platform-sentry
+    logging:
+      enabled: true
+      cluster: go-prd
+      loki:
+        secretName: prd-platform-loki
     env: []

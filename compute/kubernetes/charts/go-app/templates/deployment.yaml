@@ -32,7 +32,10 @@ spec:
         environment: {{ .Values.environment }}
         module: {{ .Values.module }}
         app: {{ .Values.app }}
-    spec: 
+    spec:
+      {{- if .Values.logging.enabled }}
+      serviceAccountName: default
+      {{- end }}
       containers:
         - name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
           image: "ghcr.io/tmlmobilidade/go-{{ .Values.module }}-{{ .Values.app }}:{{ .Values.environment }}"
@@ -58,9 +61,34 @@ spec:
               value: {{ .Values.environment }}
             - name: HOSTNAME
               value: "0.0.0.0"
+            {{- if .Values.logging.enabled }}
+            - name: LOG_DIR
+              value: {{ .Values.logging.logPath | quote }}
+            {{- end }}
             {{- if .Values.env }}
             {{- toYaml .Values.env | nindent 12 }}
             {{- end }}
+          {{- if .Values.logging.enabled }}
+          # Distroless ENTRYPOINT is node; replace CMD with wrap → tee → app script.
+          # frontend* images use server.js; other node apps use ./dist/index.js.
+          args:
+            - /etc/log-wrap/wrap.cjs
+            {{- if .Values.logging.appArgs }}
+            {{- range .Values.logging.appArgs }}
+            - {{ . | quote }}
+            {{- end }}
+            {{- else if hasPrefix "frontend" .Values.app }}
+            - server.js
+            {{- else }}
+            - ./dist/index.js
+            {{- end }}
+          volumeMounts:
+            - name: app-logs
+              mountPath: {{ .Values.logging.logPath | quote }}
+            - name: log-wrap
+              mountPath: /etc/log-wrap
+              readOnly: true
+          {{- end }}
           {{- if .Values.probes.startup.enabled }}
           startupProbe:
             httpGet:
@@ -79,3 +107,72 @@ spec:
             successThreshold: {{ .Values.probes.readiness.successThreshold }}
             timeoutSeconds: {{ .Values.probes.readiness.timeoutSeconds }}
           {{- end }}
+        {{- if .Values.logging.enabled }}
+        - name: log-shipper
+          image: {{ .Values.logging.alloy.image | quote }}
+          imagePullPolicy: IfNotPresent
+          args:
+            - run
+            - /etc/alloy/config.alloy
+            - --storage.path=/tmp/alloy
+            - --server.http.listen-addr=127.0.0.1:12345
+            - --stability.level=generally-available
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: POD_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            - name: HOSTNAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: LOKI_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.logging.loki.secretName }}
+                  key: {{ .Values.logging.loki.usernameKey }}
+            - name: LOKI_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.logging.loki.secretName }}
+                  key: {{ .Values.logging.loki.passwordKey }}
+          resources:
+            requests:
+              cpu: {{ .Values.logging.alloy.resources.cpu | quote }}
+              memory: {{ .Values.logging.alloy.resources.memory | quote }}
+            limits:
+              cpu: {{ .Values.logging.alloy.resources.cpu | quote }}
+              memory: {{ .Values.logging.alloy.resources.memory | quote }}
+          volumeMounts:
+            - name: alloy-config
+              mountPath: /etc/alloy
+              readOnly: true
+            - name: alloy-data
+              mountPath: /tmp/alloy
+            - name: app-logs
+              mountPath: {{ .Values.logging.logPath | quote }}
+              readOnly: true
+        {{- end }}
+      {{- if .Values.logging.enabled }}
+      volumes:
+        - name: alloy-config
+          configMap:
+            name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}-logging"
+            items:
+              - key: config.alloy
+                path: config.alloy
+        - name: log-wrap
+          configMap:
+            name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}-logging"
+            items:
+              - key: wrap.cjs
+                path: wrap.cjs
+        - name: alloy-data
+          emptyDir: {}
+        - name: app-logs
+          emptyDir: {}
+      {{- end }}

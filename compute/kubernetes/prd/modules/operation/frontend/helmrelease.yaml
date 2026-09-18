@@ -33,4 +33,9 @@ spec:
       startup:
         enabled: true
         path: /operation/health
+    logging:
+      enabled: true
+      cluster: go-prd
+      loki:
+        secretName: prd-platform-loki
     env: []

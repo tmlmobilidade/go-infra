@@ -30,4 +30,9 @@ spec:
     secrets:
       - prd-platform-godb
       - prd-platform-sentry
+    logging:
+      enabled: true
+      cluster: go-prd
+      loki:
+        secretName: prd-platform-loki
     env: []

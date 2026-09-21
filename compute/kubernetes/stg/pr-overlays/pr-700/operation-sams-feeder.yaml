@@ -1,0 +1,39 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pr-700-operation-sams-feeder
+  namespace: flux-system
+spec:
+  interval: 30s
+  dependsOn:
+    - name: onepassword-connect
+  targetNamespace: pr-700-operation
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: compute/kubernetes/charts/go-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    environment: pr-700
+    module: operation
+    app: sams-feeder
+    replicas: 1
+    ingress:
+      enabled: true
+      host: pr-700.go-stg.tmlmobilidade.pt
+    secrets:
+      - stg-platform-godb
+      - stg-platform-labdb
+      - stg-platform-sentry
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
+    env: []
+  suspend: false

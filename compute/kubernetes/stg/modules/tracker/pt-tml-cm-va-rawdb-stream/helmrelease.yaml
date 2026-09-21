@@ -23,13 +23,20 @@ spec:
     module: tracker
     app: pt-tml-cm-va-rawdb-stream
     replicas: 1
+    resources:
+      memory: 4Gi
     service:
       targetPort: 5050
     ingress:
       enabled: false
     secrets:
-      - stg-module-tracker
       - stg-platform-rawdb
       - stg-platform-godb
       - stg-platform-labdb
+      - stg-platform-sentry
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
     env: []

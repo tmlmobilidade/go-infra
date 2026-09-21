@@ -19,10 +19,12 @@ spec:
         namespace: flux-system
       reconcileStrategy: Revision
   values:
+    resources:
+      memory: 2Gi
     environment: stg
     module: offer
     app: api
-    replicas: 1
+    replicas: 2
     service:
       targetPort: 5050
     ingress:
@@ -35,4 +37,13 @@ spec:
     secrets:
       - stg-platform-godb
       - stg-platform-valhalla
+      - stg-platform-sentry
+    probes:
+      startup:
+        enabled: true
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
     env: []

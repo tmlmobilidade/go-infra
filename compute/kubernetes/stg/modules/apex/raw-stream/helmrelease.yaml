@@ -23,13 +23,20 @@ spec:
     module: apex
     app: raw-stream
     replicas: 1
+    resources:
+      memory: 2Gi
     service:
       targetPort: 5050
     ingress:
       enabled: false
     secrets:
-      - stg-module-apex
       - stg-platform-godb
-      - stg-platform-labdb
       - stg-platform-rawdb
+      - stg-platform-labdb
+      - stg-platform-sentry
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
     env: []

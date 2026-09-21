@@ -33,6 +33,14 @@ spec:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     secrets:
-      - stg-module-locations
       - stg-platform-godb
+      - stg-platform-sentry
+    probes:
+      startup:
+        enabled: true
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
     env: []

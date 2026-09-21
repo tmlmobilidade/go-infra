@@ -30,4 +30,10 @@ spec:
       - stg-platform-godb
       - stg-platform-cachedb
       - stg-platform-storage
+      - stg-platform-sentry
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
     env: []

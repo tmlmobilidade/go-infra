@@ -25,6 +25,8 @@ spec:
     replicas: 1
     service:
       targetPort: 5050
+    resources:
+      memory: 1Gi
     ingress:
       enabled: true
       path: /infrastructure/api(/|$)(.*)
@@ -36,4 +38,13 @@ spec:
       - stg-module-infrastructure
       - stg-platform-godb
       - stg-platform-storage
+      - stg-platform-sentry
+    probes:
+      startup:
+        enabled: true
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
     env: []

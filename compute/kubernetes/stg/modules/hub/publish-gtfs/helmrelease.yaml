@@ -24,13 +24,19 @@ spec:
     app: publish-gtfs
     replicas: 1
     resources:
-      memory: 4Gi
+      memory: 12Gi
+      cpu: 8000m
     service:
       targetPort: 5050
     ingress:
       enabled: false
     secrets:
       - stg-platform-godb
-      - stg-platform-cachedb
       - stg-platform-storage
+      - stg-platform-sentry
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
     env: []

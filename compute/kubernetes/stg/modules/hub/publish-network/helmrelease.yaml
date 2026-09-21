@@ -24,7 +24,7 @@ spec:
     app: publish-network
     replicas: 1
     resources:
-      memory: 4Gi
+      memory: 8Gi
       cpu: 4000m
     service:
       targetPort: 5050
@@ -34,4 +34,10 @@ spec:
       - stg-platform-godb
       - stg-platform-cachedb
       - stg-platform-storage
+      - stg-platform-sentry
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
     env: []

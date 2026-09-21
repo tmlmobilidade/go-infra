@@ -7,6 +7,7 @@ spec:
   interval: 30s
   dependsOn:
     - name: onepassword-connect
+    - name: infrastructure-tts-server
   targetNamespace: stg-infrastructure
   install:
     createNamespace: true
@@ -23,11 +24,16 @@ spec:
     module: infrastructure
     app: tts-cli
     replicas: 1
+    resources:
+      memory: 4Gi
+      cpu: 2000m
     service:
-      targetPort: 8000
+      targetPort: 3000
     ingress:
       enabled: false
     secrets:
-      - stg-platform-cachedb
+      - stg-module-infrastructure
+      - stg-platform-godb
       - stg-platform-storage
+      - stg-platform-sentry
     env: []

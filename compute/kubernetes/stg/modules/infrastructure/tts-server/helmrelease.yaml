@@ -23,8 +23,16 @@ spec:
     module: infrastructure
     app: tts-server
     replicas: 1
+    resources:
+      memory: 12Gi
+      cpu: 4000m
     service:
       targetPort: 8000
     ingress:
       enabled: false
+    secrets:
+      - stg-module-infrastructure
+      - stg-platform-godb
+      - stg-platform-storage
+      - stg-platform-sentry
     env: []

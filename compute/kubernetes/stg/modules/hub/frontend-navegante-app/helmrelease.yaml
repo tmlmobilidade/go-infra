@@ -29,4 +29,13 @@ spec:
       enabled: true
       path: /hub/navegante-app
       pathType: Prefix
+    probes:
+      startup:
+        enabled: true
+        path: /hub/navegante-app/health
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
     env: []

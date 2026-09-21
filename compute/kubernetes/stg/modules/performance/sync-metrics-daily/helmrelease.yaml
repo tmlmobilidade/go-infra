@@ -23,6 +23,8 @@ spec:
     module: performance
     app: sync-metrics-daily
     replicas: 1
+    resources:
+      memory: 2Gi
     service:
       targetPort: 5050
     ingress:
@@ -31,4 +33,10 @@ spec:
       - stg-module-performance
       - stg-platform-godb
       - stg-platform-labdb
+      - stg-platform-sentry
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
     env: []

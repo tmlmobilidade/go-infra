@@ -22,12 +22,20 @@ spec:
     environment: stg
     module: tracker
     app: pt-tml-cm-core-migrate
-    replicas: 1
+    replicas: 75
+    deployment:
+      strategy:
+        type: Recreate
     service:
       targetPort: 5050
     ingress:
       enabled: false
     secrets:
-      - stg-module-tracker
       - stg-platform-rawdb
+      - stg-platform-sentry
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
     env: []

@@ -22,9 +22,10 @@ spec:
     environment: stg
     module: hub
     app: api
-    replicas: 1
+    replicas: 3
     resources:
-      memory: 2Gi
+      memory: 4Gi
+      cpu: 2
     service:
       targetPort: 5050
     ingress:
@@ -38,8 +39,14 @@ spec:
       - stg-platform-godb
       - stg-platform-cachedb
       - stg-platform-storage
+      - stg-platform-sentry
       - stg-platform-labdb
     probes:
       startup:
         enabled: true
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
     env: []

@@ -22,7 +22,7 @@ spec:
     environment: stg
     module: hub
     app: api
-    replicas: 3
+    replicas: 1
     resources:
       memory: 4Gi
       cpu: 2

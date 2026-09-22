@@ -30,6 +30,7 @@ spec:
     secrets:
       - stg-platform-labdb
       - stg-platform-sentry
+      - stg-platform-godb
     logging:
       enabled: true
       cluster: go-stg

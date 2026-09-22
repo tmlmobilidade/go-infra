@@ -30,6 +30,7 @@ spec:
     secrets:
       - prd-platform-labdb
       - prd-platform-sentry
+      - prd-platform-godb
     logging:
       enabled: true
       cluster: go-prd

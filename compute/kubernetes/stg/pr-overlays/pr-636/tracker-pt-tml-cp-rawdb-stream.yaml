@@ -1,0 +1,42 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pr-636-tracker-pt-tml-cp-rawdb-stream
+  namespace: flux-system
+spec:
+  interval: 30s
+  dependsOn:
+    - name: onepassword-connect
+  targetNamespace: pr-636-tracker
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: compute/kubernetes/charts/go-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    environment: pr-636
+    module: tracker
+    app: pt-tml-cp-rawdb-stream
+    replicas: 1
+    service:
+      targetPort: 5050
+    ingress:
+      enabled: true
+      host: pr-636.go-stg.tmlmobilidade.pt
+    secrets:
+      - stg-platform-rawdb
+      - stg-platform-godb
+      - stg-platform-labdb
+      - stg-platform-sentry
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
+    env: []
+  suspend: false

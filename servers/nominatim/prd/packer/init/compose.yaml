@@ -7,15 +7,15 @@ secrets:
     file: ./secrets/cloudflare.token
 
 services:
-  nominatim-import:
+  nominatim:
     image: ghcr.io/tmlmobilidade/nominatim:latest
-    profiles: ["tools"]
-    working_dir: /
+    container_name: nominatim
+    extra_hosts:
+      - "go-nominatim-1.tmlmobilidade.pt:10.81.101.15"
+    restart: unless-stopped
     volumes:
-      - /opt/app/persistent-data/input:/input:ro
-      - /opt/app/config.yml:/config.yml:ro
-      - /opt/app/persistent-data/data:/data
-    command: ["import"]
+      - /opt/app/nominatim/postgres:/var/lib/postgresql/16/main
+      - /opt/app/nominatim/flatnode:/nominatim/flatnode
 
   certbot:
     image: certbot/dns-cloudflare

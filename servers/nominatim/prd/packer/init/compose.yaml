@@ -14,8 +14,8 @@ services:
       - "go-nominatim-1.tmlmobilidade.pt:10.81.101.15"
     restart: unless-stopped
     volumes:
-      - /opt/app/nominatim/postgres:/var/lib/postgresql/16/main
-      - /opt/app/nominatim/flatnode:/nominatim/flatnode
+      - /opt/app/persistent-data/postgres:/var/lib/postgresql/16/main
+      - /opt/app/persistent-data/flatnode:/nominatim/flatnode
 
   certbot:
     image: certbot/dns-cloudflare

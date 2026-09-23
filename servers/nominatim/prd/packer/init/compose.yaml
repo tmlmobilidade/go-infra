@@ -11,7 +11,7 @@ services:
     image: ghcr.io/tmlmobilidade/nominatim:latest
     container_name: nominatim
     extra_hosts:
-      - "go-nominatim-1.tmlmobilidade.pt:10.81.101.15"
+      - "go-nominatim-1.tmlmobilidade.pt:10.81.101.9"
     restart: unless-stopped
     volumes:
       - /opt/app/persistent-data/postgres:/var/lib/postgresql/16/main

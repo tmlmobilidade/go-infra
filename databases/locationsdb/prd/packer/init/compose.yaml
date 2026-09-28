@@ -1,0 +1,119 @@
+services:
+
+  postgis:
+    image: beginor/postgis:17-3.5
+    container_name: osm-postgis
+    restart: unless-stopped
+    env_file:
+      - /opt/app/secrets/.env
+    ports:
+      - "5432:5432"
+    volumes:
+      # PostgreSQL/PostGIS database — persistent forever
+      - /opt/app/persistent-data/osm/postgres:/var/lib/postgresql/data
+      - ./sql/01-postgis.sql:/docker-entrypoint-initdb.d/01-postgis.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U osm -d osm"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+        
+  osm-download:
+    image: alpine:latest
+    container_name: osm-download
+    profiles: ["import"]
+    volumes:
+      - /opt/app/persistent-data/osm/pbf:/data
+    command:
+      - sh
+      - -c
+      - |
+        set -e
+        apk add --no-cache curl
+        PBF="/data/europe-latest.osm.pbf"
+        TMP="/data/europe-latest.osm.pbf.tmp"
+        URL="https://download.geofabrik.de/europe-latest.osm.pbf"
+
+        if [ -f "$$PBF" ] && [ -s "$$PBF" ]; then
+          echo "PBF already exists, skipping download."
+          ls -lh "$$PBF"
+          exit 0
+        fi
+
+        echo "Downloading Europe OSM extract (~25GB)..."
+        curl --location --fail --retry 5 --retry-delay 5 \
+          --continue-at - \
+          --output "$$TMP" "$$URL"
+        mv "$$TMP" "$$PBF"
+        echo "Download complete:"
+        ls -lh "$$PBF"
+
+
+  osm2pgsql:
+    image: iboates/osm2pgsql:latest
+    container_name: osm2pgsql
+    profiles: ["import"]
+    # Ensure writable flat-nodes even if image USER is non-root
+    user: "0:0"
+    depends_on:
+      postgis:
+        condition: service_healthy
+      osm-download:
+        condition: service_completed_successfully
+    env_file:
+      - /opt/app/secrets/.env
+    volumes:
+      - /opt/app/persistent-data/osm/pbf:/data:ro
+      # flat-nodes on disk → required (exit 137 = OOM without this)
+      - /opt/app/persistent-data/osm/flatnodes:/flatnodes
+      - ./config.lua:/config/config.lua:ro
+    # entrypoint is already osm2pgsql — pass flags only
+    command:
+      - --create
+      - --slim
+      - --drop
+      - --flat-nodes=/flatnodes/europe.flat
+      # Keep cache small: Europe + PostGIS on same VM OOMs easily
+      - --cache=200
+      - --number-processes=1
+      - --host=postgis
+      - --port=5432
+      - --username=osm
+      - --database=osm
+      - --output=flex
+      - --style=/config/config.lua
+      - /data/europe-latest.osm.pbf
+
+
+  osm-geojson:
+    image: beginor/postgis:17-3.5
+    container_name: osm-geojson
+    profiles: ["import"]
+    depends_on:
+      postgis:
+        condition: service_healthy
+      osm2pgsql:
+        condition: service_completed_successfully
+    env_file:
+      - /opt/app/secrets/.env
+    volumes:
+      - ./sql/geojson.sql:/geojson.sql:ro
+      - /opt/app/persistent-data/osm/geojson:/output
+    entrypoint:
+      - psql
+      - -h
+      - postgis
+      - -U
+      - osm
+      - -d
+      - osm
+      - -v
+      - ON_ERROR_STOP=1
+      - -t
+      - -A
+      - -f
+      - /geojson.sql

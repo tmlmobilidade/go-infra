@@ -1,0 +1,59 @@
+#cloud-config
+
+# -----------------------------------------------------------------------
+# cloud-init.yaml — LocationsDB (PostGIS + Europe OSM)
+#
+# Packer image already has Docker + compose + import scripts.
+# Runtime: mount BV → firewall → secrets → setup (dirs+password) → import.
+#
+# Templated by Terraform: locationsdb_password
+# -----------------------------------------------------------------------
+
+timezone: Europe/Lisbon
+
+packages:
+  - xfsprogs
+  - nano
+  - vim
+  - cron
+
+runcmd:
+
+  - /opt/app/attach-volume.sh
+  - rm /opt/app/attach-volume.sh
+
+  - /opt/app/firewall.sh
+  - rm /opt/app/firewall.sh
+
+  # Runtime DB credentials BEFORE setup-postgres (it ALTERs from .env).
+  # Keys MUST be flush-left.
+  - |
+    mkdir -p /opt/app/secrets
+    cat > /opt/app/secrets/.env <<ENVEOF
+    POSTGRES_DB=osm
+    POSTGRES_USER=osm
+    POSTGRES_PASSWORD=${locationsdb_password}
+    PGPASSWORD=${locationsdb_password}
+    ENVEOF
+    chmod 600 /opt/app/secrets/.env
+    chown root:root /opt/app/secrets/.env
+
+  # Dirs + start PostGIS + ALTER USER to match .env
+  - /opt/app/setup-postgres.sh
+  - rm /opt/app/setup-postgres.sh
+
+  # Import in background (Europe = many hours)
+  - |
+    nohup /opt/app/import-osm.sh >> /opt/app/import.log 2>&1 &
+
+  # Weekly Europe OSM update — Sunday 04:00 Europe/Lisbon
+  - systemctl enable --now cron
+  - |
+    printf '%s\n' \
+      'SHELL=/bin/bash' \
+      'PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin' \
+      '0 4 * * 0 root /opt/app/update-europe-osm.sh >> /opt/app/update.log 2>&1' \
+      > /etc/cron.d/locationsdb-osm-update
+  - chmod 644 /etc/cron.d/locationsdb-osm-update
+
+final_message: "LocationsDB configuration complete. Import may still be running — check /opt/app/import.log"

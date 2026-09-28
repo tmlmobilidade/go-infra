@@ -48,19 +48,22 @@ fi
 echo "[import-osm] 1/3 download (skip if PBF exists)..."
 docker compose --profile import run --rm osm-download
 
-echo "[import-osm] 2/3 osm2pgsql (Europe — hours). Watch: ls -lh $FLATNODES/"
+echo "[import-osm] 2/3 osm2pgsql (Europe — hours). Watch: ls -lh $FLATNODES/ (deleted at end by --drop)"
 # --no-deps: postgis already up; do not re-run download (would confuse orchestration)
 docker compose --profile import run --rm --no-deps osm2pgsql
 
-if [[ ! -s "$FLATNODES/europe.flat" ]]; then
-	echo "[import-osm] ERROR: europe.flat missing — flat-nodes not used. Abort before geojson." >&2
+# --drop removes europe.flat on success — validate flex tables from config.lua
+POINT_COUNT="$(docker compose exec -T postgis psql -U osm -d osm -tAc "SELECT COUNT(*) FROM planet_osm_point;" 2>/dev/null | tr -d '[:space:]' || true)"
+POLY_COUNT="$(docker compose exec -T postgis psql -U osm -d osm -tAc "SELECT COUNT(*) FROM planet_osm_polygon;" 2>/dev/null | tr -d '[:space:]' || true)"
+if [[ -z "$POINT_COUNT" || "$POINT_COUNT" == "0" ]]; then
+	echo "[import-osm] ERROR: planet_osm_point empty/missing (count=${POINT_COUNT:-none}). osm2pgsql did not finish." >&2
 	exit 1
 fi
-ls -lh "$FLATNODES/europe.flat"
+echo "[import-osm] planet_osm_point rows: $POINT_COUNT  planet_osm_polygon rows: ${POLY_COUNT:-0}"
 
 echo "[import-osm] 3/3 geojson export..."
 docker compose --profile import run --rm --no-deps osm-geojson
 
 date -Is > "$MARKER"
 echo "[import-osm] Done. Marker: $MARKER"
-echo "[import-osm] GeoJSON: /opt/app/persistent-data/osm/geojson/pois.geojson"
+echo "[import-osm] GeoJSON: /opt/app/persistent-data/osm/geojson/{places,boundaries}.geojson"

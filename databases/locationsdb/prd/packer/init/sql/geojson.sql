@@ -1,7 +1,8 @@
--- Export named POIs as a GeoJSON FeatureCollection into /output.
--- Requires psql meta-commands (\o), so run via: psql -f geojson.sql
+-- Export flex tables from config.lua into GeoJSON FeatureCollections.
+-- Requires psql meta-commands (\o). Run: psql -t -A -f geojson.sql
 
-\o /output/pois.geojson
+-- Places (nodes with place=*)
+\o /output/places.geojson
 SELECT jsonb_build_object(
   'type', 'FeatureCollection',
   'features', COALESCE(
@@ -9,18 +10,44 @@ SELECT jsonb_build_object(
       SELECT jsonb_agg(
         jsonb_build_object(
           'type', 'Feature',
-          'geometry', ST_AsGeoJSON(geom)::jsonb,
+          'geometry', ST_AsGeoJSON(way)::jsonb,
           'properties', jsonb_build_object(
-            'osm_type', osm_type,
             'osm_id', osm_id,
             'name', name,
-            'class', class,
-            'subclass', subclass
+            'place', place,
+            'tags', tags
           )
         )
-        ORDER BY name
+        ORDER BY name NULLS LAST
       )
-      FROM pois
+      FROM planet_osm_point
+    ),
+    '[]'::jsonb
+  )
+);
+\o
+
+-- Administrative boundaries
+\o /output/boundaries.geojson
+SELECT jsonb_build_object(
+  'type', 'FeatureCollection',
+  'features', COALESCE(
+    (
+      SELECT jsonb_agg(
+        jsonb_build_object(
+          'type', 'Feature',
+          'geometry', ST_AsGeoJSON(way)::jsonb,
+          'properties', jsonb_build_object(
+            'osm_id', osm_id,
+            'name', name,
+            'admin_level', admin_level,
+            'boundary', boundary,
+            'tags', tags
+          )
+        )
+        ORDER BY name NULLS LAST
+      )
+      FROM planet_osm_polygon
     ),
     '[]'::jsonb
   )

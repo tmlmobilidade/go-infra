@@ -31,13 +31,15 @@ echo "============================================================"
 mkdir -p "$PBF_DIR" /opt/app/persistent-data/osm/geojson/backups
 
 # Backup previous GeoJSON if present
-if [[ -f /opt/app/persistent-data/osm/geojson/pois.geojson ]]; then
-	BACKUP="/opt/app/persistent-data/osm/geojson/backups/pois.geojson.$(date +%Y%m%d-%H%M%S)"
-	echo "$LOG_TAG Backing up GeoJSON → $BACKUP"
-	cp /opt/app/persistent-data/osm/geojson/pois.geojson "$BACKUP"
-	# Keep last 4 backups
-	ls -1t /opt/app/persistent-data/osm/geojson/backups/pois.geojson.* 2>/dev/null | tail -n +5 | xargs -r rm -f
-fi
+for f in places.geojson boundaries.geojson pois.geojson; do
+	src="/opt/app/persistent-data/osm/geojson/$f"
+	if [[ -f "$src" ]]; then
+		BACKUP="/opt/app/persistent-data/osm/geojson/backups/${f}.$(date +%Y%m%d-%H%M%S)"
+		echo "$LOG_TAG Backing up GeoJSON → $BACKUP"
+		cp "$src" "$BACKUP"
+	fi
+done
+ls -1t /opt/app/persistent-data/osm/geojson/backups/* 2>/dev/null | tail -n +9 | xargs -r rm -f || true
 
 # Force fresh Geofabrik extract (osm-download skips if file exists)
 if [[ -f "$PBF" ]]; then

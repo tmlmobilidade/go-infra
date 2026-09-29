@@ -32,7 +32,6 @@ spec:
     secrets:
       - prd-module-infrastructure
       - prd-platform-godb
-      - prd-platform-sentry
     logging:
       enabled: true
       cluster: go-prd

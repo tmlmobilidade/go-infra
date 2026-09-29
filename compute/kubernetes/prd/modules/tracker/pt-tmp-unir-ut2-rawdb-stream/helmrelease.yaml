@@ -31,7 +31,6 @@ spec:
       - prd-platform-rawdb
       - prd-platform-godb
       - prd-platform-labdb
-      - prd-platform-sentry
     logging:
       enabled: true
       cluster: go-prd

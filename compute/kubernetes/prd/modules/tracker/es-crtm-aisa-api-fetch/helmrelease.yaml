@@ -30,7 +30,6 @@ spec:
     secrets:
       - prd-platform-rawdb
       - prd-platform-external-app-secrets
-      - prd-platform-sentry
     logging:
       enabled: true
       cluster: go-prd

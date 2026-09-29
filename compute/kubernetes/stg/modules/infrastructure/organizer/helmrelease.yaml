@@ -32,7 +32,6 @@ spec:
     secrets:
       - stg-module-infrastructure
       - stg-platform-godb
-      - stg-platform-sentry
     logging:
       enabled: true
       cluster: go-stg

@@ -36,7 +36,6 @@ spec:
       - prd-module-performance
       - prd-platform-godb
       - prd-platform-labdb
-      - prd-platform-sentry
     probes:
       startup:
         enabled: true

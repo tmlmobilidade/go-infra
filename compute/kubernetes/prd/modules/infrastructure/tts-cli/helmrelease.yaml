@@ -35,5 +35,4 @@ spec:
       - prd-module-infrastructure
       - prd-platform-godb
       - prd-platform-storage
-      - prd-platform-sentry
     env: []

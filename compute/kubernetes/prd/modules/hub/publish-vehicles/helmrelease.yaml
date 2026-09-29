@@ -32,7 +32,6 @@ spec:
       - prd-platform-labdb
       - prd-platform-cachedb
       - prd-platform-external-app-secrets
-      - prd-platform-sentry
     logging:
       enabled: true
       cluster: go-prd

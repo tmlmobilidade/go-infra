@@ -35,7 +35,6 @@ spec:
       - stg-platform-godb
       - stg-platform-labdb
       - stg-platform-storage
-      - stg-platform-sentry
     logging:
       enabled: true
       cluster: go-stg

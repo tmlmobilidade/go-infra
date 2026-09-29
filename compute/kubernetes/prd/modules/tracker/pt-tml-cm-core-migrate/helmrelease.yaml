@@ -32,7 +32,6 @@ spec:
       enabled: false
     secrets:
       - prd-platform-rawdb
-      - prd-platform-sentry
     logging:
       enabled: true
       cluster: go-prd

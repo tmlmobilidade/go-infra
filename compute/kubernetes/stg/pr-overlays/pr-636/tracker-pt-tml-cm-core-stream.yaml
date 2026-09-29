@@ -32,7 +32,6 @@ spec:
       - stg-platform-rawdb
       - stg-platform-pcgi-tunnel
       - stg-platform-pcgi-legacy
-      - stg-platform-sentry
     logging:
       enabled: true
       cluster: go-stg

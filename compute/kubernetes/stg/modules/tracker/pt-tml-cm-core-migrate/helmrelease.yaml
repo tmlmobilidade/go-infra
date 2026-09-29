@@ -32,7 +32,6 @@ spec:
       enabled: false
     secrets:
       - stg-platform-rawdb
-      - stg-platform-sentry
     logging:
       enabled: true
       cluster: go-stg

@@ -30,7 +30,6 @@ spec:
     secrets:
       - stg-platform-rawdb
       - stg-platform-external-app-secrets
-      - stg-platform-sentry
     logging:
       enabled: true
       cluster: go-stg

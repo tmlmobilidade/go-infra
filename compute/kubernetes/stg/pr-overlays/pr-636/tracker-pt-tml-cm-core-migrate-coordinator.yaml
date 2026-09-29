@@ -30,7 +30,6 @@ spec:
       host: pr-636.go-stg.tmlmobilidade.pt
     secrets:
       - stg-platform-rawdb
-      - stg-platform-sentry
     logging:
       enabled: true
       cluster: go-stg

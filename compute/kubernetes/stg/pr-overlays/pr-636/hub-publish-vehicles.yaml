@@ -33,7 +33,6 @@ spec:
       - stg-platform-labdb
       - stg-platform-cachedb
       - stg-platform-external-app-secrets
-      - stg-platform-sentry
     logging:
       enabled: true
       cluster: go-stg

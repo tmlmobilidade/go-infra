@@ -37,7 +37,6 @@ spec:
     secrets:
       - stg-platform-godb
       - stg-platform-valhalla
-      - stg-platform-sentry
     probes:
       startup:
         enabled: true

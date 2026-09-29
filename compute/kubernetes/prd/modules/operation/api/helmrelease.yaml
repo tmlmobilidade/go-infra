@@ -41,7 +41,6 @@ spec:
       - prd-platform-storage
       - prd-platform-ai
       - prd-platform-email
-      - prd-platform-sentry
     probes:
       startup:
         enabled: true

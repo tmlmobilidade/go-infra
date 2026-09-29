@@ -33,7 +33,6 @@ spec:
       - prd-platform-rawdb
       - prd-platform-pcgi-tunnel
       - prd-platform-pcgi-file-manager
-      - prd-platform-sentry
     logging:
       enabled: true
       cluster: go-prd

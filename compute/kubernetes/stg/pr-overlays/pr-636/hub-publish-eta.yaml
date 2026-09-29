@@ -32,7 +32,6 @@ spec:
       - stg-platform-labdb
       - stg-platform-godb
       - stg-platform-cachedb
-      - stg-platform-sentry
       - stg-platform-external-app-secrets
     logging:
       enabled: true

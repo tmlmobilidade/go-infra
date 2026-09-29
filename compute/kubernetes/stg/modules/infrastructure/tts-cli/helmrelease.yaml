@@ -35,5 +35,4 @@ spec:
       - stg-module-infrastructure
       - stg-platform-godb
       - stg-platform-storage
-      - stg-platform-sentry
     env: []

@@ -36,7 +36,6 @@ spec:
       - prd-platform-godb
       - prd-platform-email
       - prd-platform-storage
-      - prd-platform-sentry
     probes:
       startup:
         enabled: true

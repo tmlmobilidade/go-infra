@@ -39,7 +39,6 @@ spec:
       - prd-platform-godb
       - prd-platform-cachedb
       - prd-platform-storage
-      - prd-platform-sentry
       - prd-platform-labdb
     probes:
       startup:

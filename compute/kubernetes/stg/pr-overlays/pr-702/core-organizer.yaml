@@ -30,7 +30,6 @@ spec:
       host: pr-702.go-stg.tmlmobilidade.pt
     secrets:
       - stg-platform-godb
-      - stg-platform-sentry
     logging:
       enabled: true
       cluster: go-stg

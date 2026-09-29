@@ -31,7 +31,6 @@ spec:
       - prd-platform-labdb
       - prd-platform-godb
       - prd-platform-cachedb
-      - prd-platform-sentry
       - prd-platform-external-app-secrets
     logging:
       enabled: true

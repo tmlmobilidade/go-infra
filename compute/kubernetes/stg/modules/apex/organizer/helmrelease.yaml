@@ -29,7 +29,6 @@ spec:
       enabled: false
     secrets:
       - stg-platform-clickhouse
-      - stg-platform-sentry
     logging:
       enabled: true
       cluster: go-stg

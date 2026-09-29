@@ -30,7 +30,6 @@ spec:
       host: pr-636.go-stg.tmlmobilidade.pt
     secrets:
       - stg-platform-labdb
-      - stg-platform-sentry
       - stg-platform-godb
     logging:
       enabled: true

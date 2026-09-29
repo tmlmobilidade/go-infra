@@ -31,7 +31,6 @@ spec:
       - prd-platform-godb
       - prd-platform-labdb
       - prd-platform-cachedb
-      - prd-platform-sentry
     logging:
       enabled: true
       cluster: go-prd

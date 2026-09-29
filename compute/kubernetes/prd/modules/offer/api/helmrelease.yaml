@@ -37,7 +37,6 @@ spec:
     secrets:
       - prd-platform-godb
       - prd-platform-valhalla
-      - prd-platform-sentry
     probes:
       startup:
         enabled: true

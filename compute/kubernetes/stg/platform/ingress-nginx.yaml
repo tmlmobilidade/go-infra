@@ -32,17 +32,16 @@ spec:
       interval: 1h
   values:
     controller:
-      # Use an OCI internal (private) Network Load Balancer.
-      # The OCI cloud controller manager provisions this automatically
-      # with a stable private IP — no need to track node IPs.
-      # TODO: Update with staging NLB IP and subnet
+      # Public OCI Network Load Balancer (internet-facing).
+      # Must sit in a public subnet. OCI cannot flip internal→public in place —
+      # changing this recreates the NLB (new IPs). Update gateway upstream after.
       service:
         type: LoadBalancer
         annotations:
           oci.oraclecloud.com/load-balancer-type: "nlb"
-          oci-network-load-balancer.oraclecloud.com/internal: "true"
-          oci-network-load-balancer.oraclecloud.com/assigned-private-ipv4: "10.91.101.150"
-          oci-network-load-balancer.oraclecloud.com/subnet: "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaamognhazfxcnompsleq3oyfsufigrrw5753vp74hmheju7uuaxtba"
+          oci-network-load-balancer.oraclecloud.com/internal: "false"
+          # STG public subnet (same as gateway / jumpserver)
+          oci-network-load-balancer.oraclecloud.com/subnet: "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaabxgcifumk7or4z5kbdj6l6tkox3xqzpnmvhmq3l5hruveil4ze3q"
       # Allow the controller to process Ingress resources from all namespaces
       watchIngressWithoutClass: false
       ingressClassResource:

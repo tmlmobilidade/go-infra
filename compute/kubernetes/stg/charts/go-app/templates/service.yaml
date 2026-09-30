@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
+  namespace: "{{ .Values.environment }}-{{ .Values.module }}"
+  labels:
+    environment: {{ .Values.environment }}
+    module: {{ .Values.module }}
+    app: {{ .Values.app }}
+spec:
+  selector:
+    environment: {{ .Values.environment }}
+    module: {{ .Values.module }}
+    app: {{ .Values.app }}
+  ports:
+    - port: 80
+      targetPort: {{ .Values.service.targetPort }}

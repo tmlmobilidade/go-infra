@@ -1,0 +1,6 @@
+apiVersion: v2
+name: go-app
+description: STG fork of go-app for PR-overlay TLS tests — modules/PRD keep shared chart
+type: application
+version: 0.2.0-stg
+appVersion: "1.0.0"

@@ -1,0 +1,49 @@
+# Cloudflare token for cert-manager DNS-01 (Let's Encrypt wildcard).
+# 1Password item must expose field `api-token` (the raw Cloudflare API token).
+# Create: vaults/go-stg/items/stg-platform-cloudflare
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: stg-platform-cloudflare
+  namespace: cert-manager
+spec:
+  itemPath: vaults/go-stg/items/stg-platform-cloudflare
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: iso@tmlmobilidade.pt
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod-account-key
+    solvers:
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: stg-platform-cloudflare
+              key: api-token
+---
+# Wildcard TLS for go-stg.tmlmobilidade.pt + *.go-stg.tmlmobilidade.pt
+# Mirrored by reflector into stg-* / pr-* namespaces for Ingress TLS.
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: go-stg-tls
+  namespace: cert-manager
+spec:
+  secretName: go-stg-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - go-stg.tmlmobilidade.pt
+    - "*.go-stg.tmlmobilidade.pt"
+  secretTemplate:
+    annotations:
+      reflector.v1.k8s.emberstack.com/reflection-allowed: "true"
+      reflector.v1.k8s.emberstack.com/reflection-auto-enabled: "true"
+      # Mirror into module + PR overlay namespaces
+      reflector.v1.k8s.emberstack.com/reflection-auto-namespaces: "stg-.+,pr-.+"

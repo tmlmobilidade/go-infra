@@ -1,0 +1,34 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
+  namespace: "{{ .Values.environment }}-{{ .Values.module }}"
+  labels:
+    environment: {{ .Values.environment }}
+    module: {{ .Values.module }}
+    app: {{ .Values.app }}
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "1g"
+    {{- with .Values.ingress.annotations }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - "{{ .Values.environment }}.go-stg.tmlmobilidade.pt"
+      secretName: {{ .Values.ingress.tlsSecretName | default "go-stg-tls" | quote }}
+  rules:
+    - host: "{{ .Values.environment }}.go-stg.tmlmobilidade.pt"
+      http:
+        paths:
+          - path: {{ .Values.ingress.path }}
+            pathType: {{ .Values.ingress.pathType | default "Prefix" }}
+            backend:
+              service:
+                name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
+                port:
+                  number: 80
+{{- end }}

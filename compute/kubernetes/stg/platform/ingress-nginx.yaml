@@ -42,7 +42,9 @@ spec:
           oci-network-load-balancer.oraclecloud.com/internal: "false"
           oci-network-load-balancer.oraclecloud.com/assigned-private-ipv4: "10.91.101.2"
           oci-network-load-balancer.oraclecloud.com/subnet: "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaabxgcifumk7or4z5kbdj6l6tkox3xqzpnmvhmq3l5hruveil4ze3q"
-      # Allow the controller to process Ingress resources from all namespaces
+      # Gateway-like: one wildcard cert on the controller (no per-namespace Secrets / reflector)
+      extraArgs:
+        default-ssl-certificate: "ingress-nginx/go-stg-tls"
       watchIngressWithoutClass: false
       ingressClassResource:
         name: nginx

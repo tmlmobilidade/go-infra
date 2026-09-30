@@ -16,10 +16,10 @@ metadata:
     {{- end }}
 spec:
   ingressClassName: nginx
+  # Hosts only — TLS terminates on ingress-nginx via default-ssl-certificate
   tls:
     - hosts:
         - "{{ .Values.environment }}.go-stg.tmlmobilidade.pt"
-      secretName: {{ .Values.ingress.tlsSecretName | default "go-stg-tls" | quote }}
   rules:
     - host: "{{ .Values.environment }}.go-stg.tmlmobilidade.pt"
       http:

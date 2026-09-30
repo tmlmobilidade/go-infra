@@ -18,4 +18,4 @@ spec:
     - apiVersion: cert-manager.io/v1
       kind: Certificate
       name: go-stg-tls
-      namespace: cert-manager
+      namespace: ingress-nginx

@@ -25,8 +25,7 @@ ingress:
   path: /
   pathType: Prefix
   annotations: {}
-  # Wildcard cert from cert-manager, mirrored by reflector into PR namespaces
-  tlsSecretName: go-stg-tls
+
 
 secrets: []
 

@@ -40,7 +40,7 @@ spec:
         annotations:
           oci.oraclecloud.com/load-balancer-type: "nlb"
           oci-network-load-balancer.oraclecloud.com/internal: "false"
-          oci-network-load-balancer.oraclecloud.com/assigned-private-ipv4: "10.91.101.14"
+          oci-network-load-balancer.oraclecloud.com/assigned-private-ipv4: "10.91.101.2"
           oci-network-load-balancer.oraclecloud.com/subnet: "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaabxgcifumk7or4z5kbdj6l6tkox3xqzpnmvhmq3l5hruveil4ze3q"
       # Allow the controller to process Ingress resources from all namespaces
       watchIngressWithoutClass: false

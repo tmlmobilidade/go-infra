@@ -40,7 +40,7 @@ spec:
         annotations:
           oci.oraclecloud.com/load-balancer-type: "nlb"
           oci-network-load-balancer.oraclecloud.com/internal: "false"
-          # STG public subnet (same as gateway / jumpserver)
+          oci-network-load-balancer.oraclecloud.com/assigned-private-ipv4: "10.91.101.14"
           oci-network-load-balancer.oraclecloud.com/subnet: "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaabxgcifumk7or4z5kbdj6l6tkox3xqzpnmvhmq3l5hruveil4ze3q"
       # Allow the controller to process Ingress resources from all namespaces
       watchIngressWithoutClass: false
@@ -48,7 +48,6 @@ spec:
         name: nginx
         enabled: true
         default: true
-      # Since external NGINX handles TLS and sets X-Forwarded-* headers
       config:
-        use-forwarded-headers: "true"
-        compute-full-forwarded-for: "true"
+        use-forwarded-headers: "false"
+        compute-full-forwarded-for: "false"

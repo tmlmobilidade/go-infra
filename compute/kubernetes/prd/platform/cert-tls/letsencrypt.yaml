@@ -1,0 +1,42 @@
+# Cloudflare token for cert-manager DNS-01 (Let's Encrypt).
+# 1Password item must expose field `api-token` (the raw Cloudflare API token).
+# Create: vaults/go-prd/items/prd-platform-cloudflare
+apiVersion: onepassword.com/v1
+kind: OnePasswordItem
+metadata:
+  name: prd-platform-cloudflare
+  namespace: cert-manager
+spec:
+  itemPath: vaults/go-prd/items/prd-platform-cloudflare
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    email: iso@tmlmobilidade.pt
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: letsencrypt-prod-account-key
+    solvers:
+      - dns01:
+          cloudflare:
+            apiTokenSecretRef:
+              name: prd-platform-cloudflare
+              key: api-token
+---
+# TLS for the ingress-nginx controller (gateway-like default SSL cert).
+# Secret lands in ingress-nginx; controller uses --default-ssl-certificate.
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: go-prd-tls
+  namespace: ingress-nginx
+spec:
+  secretName: go-prd-tls
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+  dnsNames:
+    - go.tmlmobilidade.pt

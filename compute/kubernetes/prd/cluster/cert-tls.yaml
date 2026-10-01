@@ -1,0 +1,21 @@
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cert-tls-prd
+  namespace: flux-system
+spec:
+  interval: 1m
+  dependsOn:
+    - name: prd-platform
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  path: ./compute/kubernetes/prd/platform/cert-tls
+  prune: true
+  wait: true
+  timeout: 10m
+  healthChecks:
+    - apiVersion: cert-manager.io/v1
+      kind: Certificate
+      name: go-prd-tls
+      namespace: ingress-nginx

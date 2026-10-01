@@ -13,7 +13,7 @@ spec:
     createNamespace: true
   chart:
     spec:
-      chart: compute/kubernetes/charts/go-app
+      chart: compute/kubernetes/prd/charts/go-app
       sourceRef:
         kind: GitRepository
         name: flux-system

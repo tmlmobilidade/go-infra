@@ -6,4 +6,6 @@ resources:
   - onepassword-connect.yaml
   - keel.yaml
   - cert-manager.yaml
+  - docs.yaml
 # - valhalla
+# cert-tls/ is applied by Flux Kustomization cert-tls-stg (depends on this platform)

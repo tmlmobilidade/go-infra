@@ -19,7 +19,7 @@ sudo rm -Rf "./letsencrypt/"
 echo ">>> Downloading recommended TLS parameters ..."
 mkdir -p "./letsencrypt"
 curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf > "./letsencrypt/options-ssl-nginx.conf"
-curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem > "./letsencrypt/ssl-dhparams.pem"
+curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/src/certbot/ssl-dhparams.pem > "./letsencrypt/ssl-dhparams.pem"
 echo
 
 echo ">>> Creating dummy certificate for "$primary_domain"..."

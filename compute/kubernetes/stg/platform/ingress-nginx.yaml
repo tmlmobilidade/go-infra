@@ -38,14 +38,14 @@ spec:
       service:
         type: LoadBalancer
         allocateLoadBalancerNodePorts: false
+        externalTrafficPolicy: Cluster
         annotations:
           oci.oraclecloud.com/load-balancer-type: "nlb"
           oci-network-load-balancer.oraclecloud.com/internal: "false"
           oci-network-load-balancer.oraclecloud.com/assigned-private-ipv4: "10.91.101.2"
           oci-network-load-balancer.oraclecloud.com/subnet: "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaabxgcifumk7or4z5kbdj6l6tkox3xqzpnmvhmq3l5hruveil4ze3q"
-          # Enables Pods as Backends; health-check on container ports
-          oci-network-load-balancer.oraclecloud.com/health-check: '{"protocol":"TCP","port":80,"retries":3,"timeoutInMillis":3000,"intervalInMillis":10000}'
-      # Gateway-like: one wildcard cert on the controller (no per-namespace Secrets / reflector)
+          # Pods as Backends — probe container ports (omit fixed port → use each backend port)
+          oci-network-load-balancer.oraclecloud.com/health-check: '{"protocol":"TCP","retries":3,"timeoutInMillis":3000,"intervalInMillis":10000}'
       extraArgs:
         default-ssl-certificate: "ingress-nginx/go-stg-tls"
       watchIngressWithoutClass: false
@@ -54,5 +54,19 @@ spec:
         enabled: true
         default: true
       config:
-        use-forwarded-headers: "false"
-        compute-full-forwarded-for: "false"
+        server-tokens: "false"
+        use-forwarded-headers: "true"
+        compute-full-forwarded-for: "true"
+        use-http2: "true"
+        ssl-redirect: "true"
+        proxy-body-size: "1g"
+        proxy-connect-timeout: "10"
+        proxy-send-timeout: "20"
+        proxy-read-timeout: "20"
+        client-body-timeout: "300"
+        keep-alive: "65"
+        upstream-keepalive-connections: "16"
+        upstream-keepalive-timeout: "10"
+        use-gzip: "true"
+        gzip-types: "application/json"
+        proxy-buffering: "on"

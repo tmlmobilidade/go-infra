@@ -50,15 +50,6 @@ spec:
       # Allow ConfigMap server-snippet (docs + custom error pages)
       allowSnippetAnnotations: true
       annotationRiskLevel: Critical
-      # Gateway error HTML (not-found / error / maintenance)
-      extraVolumes:
-        - name: error-pages
-          configMap:
-            name: ingress-nginx-error-pages
-      extraVolumeMounts:
-        - name: error-pages
-          mountPath: /var/www/html
-          readOnly: true
       watchIngressWithoutClass: false
       ingressClassResource:
         name: nginx
@@ -89,20 +80,26 @@ spec:
             server docs.docs.svc.cluster.local:80 max_fails=3 fail_timeout=5s;
             keepalive 10;
           }
+          upstream error_pages_upstream {
+            server error-pages.ingress-nginx.svc.cluster.local:80 max_fails=3 fail_timeout=5s;
+          }
         server-snippet: |
-          # Custom error pages (from gateway stg/nginx/errors)
+          # Custom error pages via proxy (root/alias are not allowed in snippets)
           error_page 404 /not-found.html;
           error_page 503 /maintenance.html;
           error_page 501 502 504 /error.html;
 
           location = /not-found.html {
-            root /var/www/html;
+            internal;
+            proxy_pass http://error_pages_upstream/not-found.html;
           }
           location = /error.html {
-            root /var/www/html;
+            internal;
+            proxy_pass http://error_pages_upstream/error.html;
           }
           location = /maintenance.html {
-            root /var/www/html;
+            internal;
+            proxy_pass http://error_pages_upstream/maintenance.html;
           }
 
           location = / {

@@ -1,0 +1,55 @@
+# Tiny static nginx to serve gateway error HTML.
+# ingress-nginx server-snippet cannot use `root`/`alias` (rejected → broken config).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: error-pages
+  namespace: ingress-nginx
+  labels:
+    app: error-pages
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: error-pages
+  template:
+    metadata:
+      labels:
+        app: error-pages
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:alpine-slim
+          ports:
+            - name: http
+              containerPort: 80
+          volumeMounts:
+            - name: pages
+              mountPath: /usr/share/nginx/html
+              readOnly: true
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 50m
+              memory: 64Mi
+      volumes:
+        - name: pages
+          configMap:
+            name: ingress-nginx-error-pages
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: error-pages
+  namespace: ingress-nginx
+  labels:
+    app: error-pages
+spec:
+  selector:
+    app: error-pages
+  ports:
+    - name: http
+      port: 80
+      targetPort: http

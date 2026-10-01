@@ -72,9 +72,16 @@ spec:
         use-gzip: "true"
         gzip-types: "application/json"
         proxy-buffering: "on"
-        # Exact `/` on EVERY host server (apex + pr-*.go-stg…) → docs pod
+        # Docs app on every host (gateway parity): `/` + Next.js/static paths
         server-snippet: |
           location = / {
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs.docs.svc.cluster.local;
+          }
+          location ~ ^/(api|reference|lab|brand|assets|files|map|_next|icon\.png|manifest\.webmanifest)(/|$) {
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;

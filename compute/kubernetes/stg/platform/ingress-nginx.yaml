@@ -32,6 +32,7 @@ spec:
       interval: 1h
   values:
     controller:
+      replicaCount: 3
       # Public OCI Network Load Balancer (internet-facing).
       # Virtual Nodes: use Pods as Backends (targetPort 80/443), not NodePort —
       # NodePort on pod IPs times out and leaves backend sets Critical.

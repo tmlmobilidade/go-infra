@@ -1,5 +1,5 @@
 # go-docs — same image as gateway compose `docs` service.
-# Pod + Service + Ingress: Exact `/` and docs paths on go-stg + *.go-stg (gateway parity).
+# Only Exact `/` on go-stg + *.go-stg → docs (e.g. https://pr-702.go-stg.tmlmobilidade.pt/).
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -34,7 +34,6 @@ spec:
             - name: http
               containerPort: 3000
           env:
-            # Next.js must listen on 0.0.0.0 (not only localhost) for probes/Service
             - name: HOSTNAME
               value: "0.0.0.0"
             - name: PORT
@@ -72,16 +71,13 @@ spec:
       port: 80
       targetPort: http
 ---
-# Explicit routes (gateway parity). default-backend alone is unreliable when the
-# host already has other Ingress rules (/core, /hub, …).
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: docs
+  name: docs-root
   namespace: docs
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   ingressClassName: nginx
   tls:
@@ -99,25 +95,11 @@ spec:
                 name: docs
                 port:
                   number: 80
-          - path: /(api|reference|lab|brand|assets|files|map|_next|icon\.png|manifest\.webmanifest)(/|$)(.*)
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: docs
-                port:
-                  number: 80
     - host: "*.go-stg.tmlmobilidade.pt"
       http:
         paths:
           - path: /
             pathType: Exact
-            backend:
-              service:
-                name: docs
-                port:
-                  number: 80
-          - path: /(api|reference|lab|brand|assets|files|map|_next|icon\.png|manifest\.webmanifest)(/|$)(.*)
-            pathType: ImplementationSpecific
             backend:
               service:
                 name: docs

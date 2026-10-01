@@ -1,6 +1,7 @@
 # go-docs — same image as gateway compose `docs` service.
-# Exact `/` with no host → applies to ALL hosts (pr-702.go-stg…, go-stg…, etc.).
-# Wildcard host rules do NOT merge into specific-host Ingress servers (nginx 404).
+# Routing for Exact `/` is on ingress-nginx (server-snippet), not an Ingress —
+# PR hosts like pr-702.go-stg… have their own server blocks; hostless Ingress
+# only hits the default server (apex), not those.
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -71,28 +72,3 @@ spec:
     - name: http
       port: 80
       targetPort: http
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: docs
-  namespace: docs
-  annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - go-stg.tmlmobilidade.pt
-        - "*.go-stg.tmlmobilidade.pt"
-  rules:
-    # No host = all hosts (needed so pr-702.go-stg… `/` hits docs)
-    - http:
-        paths:
-          - path: /
-            pathType: Exact
-            backend:
-              service:
-                name: docs
-                port:
-                  number: 80

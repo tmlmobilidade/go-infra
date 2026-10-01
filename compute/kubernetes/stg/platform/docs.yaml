@@ -1,5 +1,6 @@
 # go-docs — same image as gateway compose `docs` service.
-# Only Exact `/` on go-stg + *.go-stg → docs (e.g. https://pr-702.go-stg.tmlmobilidade.pt/).
+# Exact `/` with no host → applies to ALL hosts (pr-702.go-stg…, go-stg…, etc.).
+# Wildcard host rules do NOT merge into specific-host Ingress servers (nginx 404).
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -85,18 +86,8 @@ spec:
         - go-stg.tmlmobilidade.pt
         - "*.go-stg.tmlmobilidade.pt"
   rules:
-    - host: go-stg.tmlmobilidade.pt
-      http:
-        paths:
-          - path: /
-            pathType: Exact
-            backend:
-              service:
-                name: docs
-                port:
-                  number: 80
-    - host: "*.go-stg.tmlmobilidade.pt"
-      http:
+    # No host = all hosts (needed so pr-702.go-stg… `/` hits docs)
+    - http:
         paths:
           - path: /
             pathType: Exact

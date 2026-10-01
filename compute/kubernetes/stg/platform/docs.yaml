@@ -1,6 +1,5 @@
 # go-docs — same image as gateway compose `docs` service.
-# No Ingress: ingress-nginx uses this Service as --default-backend-service
-# (unmatched paths like `/` and docs assets → docs; /core, /hub, … keep their Ingresses).
+# Pod + Service + Ingress: Exact `/` and docs paths on go-stg + *.go-stg (gateway parity).
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -72,3 +71,55 @@ spec:
     - name: http
       port: 80
       targetPort: http
+---
+# Explicit routes (gateway parity). default-backend alone is unreliable when the
+# host already has other Ingress rules (/core, /hub, …).
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: docs
+  namespace: docs
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - go-stg.tmlmobilidade.pt
+        - "*.go-stg.tmlmobilidade.pt"
+  rules:
+    - host: go-stg.tmlmobilidade.pt
+      http:
+        paths:
+          - path: /
+            pathType: Exact
+            backend:
+              service:
+                name: docs
+                port:
+                  number: 80
+          - path: /(api|reference|lab|brand|assets|files|map|_next|icon\.png|manifest\.webmanifest)(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: docs
+                port:
+                  number: 80
+    - host: "*.go-stg.tmlmobilidade.pt"
+      http:
+        paths:
+          - path: /
+            pathType: Exact
+            backend:
+              service:
+                name: docs
+                port:
+                  number: 80
+          - path: /(api|reference|lab|brand|assets|files|map|_next|icon\.png|manifest\.webmanifest)(/|$)(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: docs
+                port:
+                  number: 80

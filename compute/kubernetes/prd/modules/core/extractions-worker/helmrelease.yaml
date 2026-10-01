@@ -35,6 +35,7 @@ spec:
       - prd-platform-godb
       - prd-platform-labdb
       - prd-platform-storage
+      - prd-platform-locationsdb
     logging:
       enabled: true
       cluster: go-prd

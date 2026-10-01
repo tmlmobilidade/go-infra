@@ -32,6 +32,7 @@ spec:
     secrets:
       - prd-platform-godb
       - prd-platform-storage
+      - prd-platform-locationsdb
     logging:
       enabled: true
       cluster: go-prd

@@ -33,15 +33,18 @@ spec:
   values:
     controller:
       # Public OCI Network Load Balancer (internet-facing).
-      # Must sit in a public subnet. OCI cannot flip internal→public in place —
-      # changing this recreates the NLB (new IPs). Update gateway upstream after.
+      # Virtual Nodes: use Pods as Backends (targetPort 80/443), not NodePort —
+      # NodePort on pod IPs times out and leaves backend sets Critical.
       service:
         type: LoadBalancer
+        allocateLoadBalancerNodePorts: false
         annotations:
           oci.oraclecloud.com/load-balancer-type: "nlb"
           oci-network-load-balancer.oraclecloud.com/internal: "false"
           oci-network-load-balancer.oraclecloud.com/assigned-private-ipv4: "10.91.101.2"
           oci-network-load-balancer.oraclecloud.com/subnet: "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaabxgcifumk7or4z5kbdj6l6tkox3xqzpnmvhmq3l5hruveil4ze3q"
+          # Enables Pods as Backends; health-check on container ports
+          oci-network-load-balancer.oraclecloud.com/health-check: '{"protocol":"TCP","port":80,"retries":3,"timeoutInMillis":3000,"intervalInMillis":10000}'
       # Gateway-like: one wildcard cert on the controller (no per-namespace Secrets / reflector)
       extraArgs:
         default-ssl-certificate: "ingress-nginx/go-stg-tls"

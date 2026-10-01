@@ -198,6 +198,19 @@ spec:
         - name: nginx-error-pages
           configMap:
             name: nginx-error-pages
+            items:
+              - key: 404.html
+                path: 404.ehtml
+              - key: 500.html
+                path: 500.ehtml
+              - key: 501.html
+                path: 501.ehtml
+              - key: 502.html
+                path: 502.ehtml
+              - key: 503.html
+                path: 503.ehtml
+              - key: 504.html
+                path: 504.ehtml
       extraVolumeMounts:
         - name: nginx-error-pages
           mountPath: /www

@@ -47,8 +47,6 @@ spec:
           oci-network-load-balancer.oraclecloud.com/health-check: '{"protocol":"TCP","retries":3,"timeoutInMillis":3000,"intervalInMillis":10000}'
       extraArgs:
         default-ssl-certificate: "ingress-nginx/go-stg-tls"
-        # Official custom error pages backend (X-Code → /www/{code}.html)
-        default-backend-service: "ingress-nginx/error-pages"
       # Allow ConfigMap server-snippet (docs routing)
       allowSnippetAnnotations: true
       annotationRiskLevel: Critical
@@ -74,8 +72,8 @@ spec:
         use-gzip: "true"
         gzip-types: "application/json"
         proxy-buffering: "on"
-        # Send these upstream statuses to default-backend-service (error-pages)
-        custom-http-errors: "404,501,502,503,504"
+        # Intercept these statuses and proxy to chart defaultBackend.
+        custom-http-errors: "404,500,501,502,503,504"
         http-snippet: |
           upstream docs_upstream {
             least_conn;
@@ -83,6 +81,8 @@ spec:
             keepalive 10;
           }
         server-snippet: |
+          # Inherit custom-http-errors for docs locations (snippet locations omit chart defaults).
+          proxy_intercept_errors on;
           location = / {
             proxy_http_version 1.1;
             proxy_set_header Connection "";
@@ -176,3 +176,29 @@ spec:
             proxy_set_header Host $host;
             proxy_pass http://docs_upstream;
           }
+    # Chart-managed default backend (wires --default-backend-service automatically).
+    # HTML from ConfigMap nginx-error-pages (platform/nginx-error-pages).
+    defaultBackend:
+      enabled: true
+      name: error-pages
+      image:
+        registry: registry.k8s.io
+        image: ingress-nginx/custom-error-pages
+        tag: v1.2.9@sha256:203d3020005dbdd735c1ad51f238d8663b9851399b52cc0c9c9e3f7273b6b299
+      replicaCount: 2
+      # Virtual Nodes: requests must equal limits.
+      resources:
+        requests:
+          cpu: 10m
+          memory: 32Mi
+        limits:
+          cpu: 10m
+          memory: 32Mi
+      extraVolumes:
+        - name: nginx-error-pages
+          configMap:
+            name: nginx-error-pages
+      extraVolumeMounts:
+        - name: nginx-error-pages
+          mountPath: /www
+          readOnly: true

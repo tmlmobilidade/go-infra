@@ -40,7 +40,7 @@ spec:
               memory: 1Gi
             requests:
               cpu: 500m
-              memory: 1Gil
+              memory: 1Gi
           readinessProbe:
             httpGet:
               path: /

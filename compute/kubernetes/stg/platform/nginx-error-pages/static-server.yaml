@@ -1,5 +1,5 @@
-# Tiny static nginx to serve gateway error HTML.
-# ingress-nginx server-snippet cannot use `root`/`alias` (rejected → broken config).
+# Official ingress-nginx custom-error-pages backend.
+# Serves /www/{code}.html and returns X-Code status (required by custom-http-errors).
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,14 +18,14 @@ spec:
         app: error-pages
     spec:
       containers:
-        - name: nginx
-          image: nginx:alpine-slim
+        - name: custom-error-pages
+          image: registry.k8s.io/ingress-nginx/custom-error-pages:v1.12.1
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
           volumeMounts:
             - name: pages
-              mountPath: /usr/share/nginx/html
+              mountPath: /www
               readOnly: true
           resources:
             requests:

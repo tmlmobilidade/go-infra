@@ -47,7 +47,9 @@ spec:
           oci-network-load-balancer.oraclecloud.com/health-check: '{"protocol":"TCP","retries":3,"timeoutInMillis":3000,"intervalInMillis":10000}'
       extraArgs:
         default-ssl-certificate: "ingress-nginx/go-stg-tls"
-      # Allow ConfigMap server-snippet (docs + custom error pages)
+        # Official custom error pages backend (X-Code → /www/{code}.html)
+        default-backend-service: "ingress-nginx/error-pages"
+      # Allow ConfigMap server-snippet (docs routing)
       allowSnippetAnnotations: true
       annotationRiskLevel: Critical
       watchIngressWithoutClass: false
@@ -72,36 +74,15 @@ spec:
         use-gzip: "true"
         gzip-types: "application/json"
         proxy-buffering: "on"
-        # Intercept backend 404/5xx like gateway (custom HTML pages)
-        proxy-intercept-errors: "on"
+        # Send these upstream statuses to default-backend-service (error-pages)
+        custom-http-errors: "404,501,502,503,504"
         http-snippet: |
           upstream docs_upstream {
             least_conn;
             server docs.docs.svc.cluster.local:80 max_fails=3 fail_timeout=5s;
             keepalive 10;
           }
-          upstream error_pages_upstream {
-            server error-pages.ingress-nginx.svc.cluster.local:80 max_fails=3 fail_timeout=5s;
-          }
         server-snippet: |
-          # Custom error pages via proxy (root/alias are not allowed in snippets)
-          error_page 404 /not-found.html;
-          error_page 503 /maintenance.html;
-          error_page 501 502 504 /error.html;
-
-          location = /not-found.html {
-            internal;
-            proxy_pass http://error_pages_upstream/not-found.html;
-          }
-          location = /error.html {
-            internal;
-            proxy_pass http://error_pages_upstream/error.html;
-          }
-          location = /maintenance.html {
-            internal;
-            proxy_pass http://error_pages_upstream/maintenance.html;
-          }
-
           location = / {
             proxy_http_version 1.1;
             proxy_set_header Connection "";

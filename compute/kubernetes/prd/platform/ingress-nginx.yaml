@@ -32,7 +32,7 @@ spec:
       interval: 1h
   values:
     controller:
-      replicaCount: 3
+      replicaCount: 4
       # Every ingress for the cluster flows through this controller.
       # Requests match limits (OKE Virtual Nodes).
       resources:

@@ -33,7 +33,7 @@ env: []
 
 # Alloy sidecar → Loki (OKE Virtual Nodes: file tail on emptyDir).
 # Off by default — PRD/STG modules unchanged until enabled.
-# Enable example:
+# Enable example in modules:
 #   logging:
 #     enabled: true
 #     cluster: go-prd          # or go-stg

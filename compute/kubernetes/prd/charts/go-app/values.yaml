@@ -26,13 +26,14 @@ ingress:
   pathType: Prefix
   annotations: {}
 
+
 secrets: []
 
 env: []
 
 # Alloy sidecar → Loki (OKE Virtual Nodes: file tail on emptyDir).
 # Off by default — PRD/STG modules unchanged until enabled.
-# Enable example:
+# Enable example in modules:
 #   logging:
 #     enabled: true
 #     cluster: go-prd          # or go-stg
@@ -40,13 +41,13 @@ env: []
 #       secretName: prd-platform-loki   # or stg-platform-loki
 logging:
   enabled: false
-  cluster: go-stg
+  cluster: go-prd
   logPath: /var/log/app
   # Override app CMD args after wrap (default: frontend* → server.js, else ./dist/index.js)
   appArgs: []
   loki:
     url: https://grafana.go.tmlmobilidade.pt/loki/api/v1/push
-    secretName: stg-platform-loki
+    secretName: prd-platform-loki
     usernameKey: username
     passwordKey: password
   alloy:

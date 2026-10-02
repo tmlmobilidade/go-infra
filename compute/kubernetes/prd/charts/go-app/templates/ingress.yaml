@@ -9,15 +9,19 @@ metadata:
     module: {{ .Values.module }}
     app: {{ .Values.app }}
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/proxy-body-size: "1g"
     {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
   ingressClassName: nginx
+  # Hosts only — TLS terminates on ingress-nginx via default-ssl-certificate
+  tls:
+    - hosts:
+        - "go.tmlmobilidade.pt"
   rules:
-    - host: {{ if eq .Values.environment "prd" }}"go.tmlmobilidade.pt"{{ else }}"{{ .Values.environment }}.go-stg.tmlmobilidade.pt"{{ end }}
+    - host: "go.tmlmobilidade.pt"
       http:
         paths:
           - path: {{ .Values.ingress.path }}

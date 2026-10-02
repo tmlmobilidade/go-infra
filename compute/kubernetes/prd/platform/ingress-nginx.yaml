@@ -32,11 +32,9 @@ spec:
       interval: 1h
   values:
     controller:
-      # Every ingress for the cluster flows through this controller, so it runs with
-      # considerably more than the chart defaults of 100m CPU / 90Mi memory, and with
-      # more than one replica so a single pod failure cannot take down all ingress.
-      # Requests match limits to mirror the go-app chart and keep the pod shape fixed.
-      replicaCount: 2
+      replicaCount: 4
+      # Every ingress for the cluster flows through this controller.
+      # Requests match limits (OKE Virtual Nodes).
       resources:
         requests:
           cpu: "2000m"
@@ -44,27 +42,179 @@ spec:
         limits:
           cpu: "2000m"
           memory: "2Gi"
-      # Use an OCI internal (private) Network Load Balancer.
-      # The OCI cloud controller manager provisions this automatically
-      # with a stable private IP — no need to track node IPs.
+      # Public OCI Network Load Balancer (internet-facing), same pattern as STG.
+      # Virtual Nodes: Pods as Backends (targetPort 80/443), not NodePort.
       service:
         type: LoadBalancer
+        allocateLoadBalancerNodePorts: false
+        externalTrafficPolicy: Cluster
         annotations:
           oci.oraclecloud.com/load-balancer-type: "nlb"
-          oci-network-load-balancer.oraclecloud.com/internal: "true"
-          oci-network-load-balancer.oraclecloud.com/assigned-private-ipv4: "10.81.101.150"
-          oci-network-load-balancer.oraclecloud.com/subnet: "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaaqwztdskuufaajsp2wz3htvywxlywkwcj63zof52hr7gywnnssbxa"
-      # Allow the controller to process Ingress resources from all namespaces
+          oci-network-load-balancer.oraclecloud.com/internal: "false"
+          oci-network-load-balancer.oraclecloud.com/assigned-private-ipv4: "10.81.101.2"
+          oci-network-load-balancer.oraclecloud.com/subnet: "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaap4iuqtem64qsbejvu73u7ssm5n3eaa7ggds76zsokytka24q5pna"
+          oci-network-load-balancer.oraclecloud.com/health-check: '{"protocol":"TCP","retries":3,"timeoutInMillis":3000,"intervalInMillis":10000}'
+      extraArgs:
+        default-ssl-certificate: "ingress-nginx/go-prd-tls"
+      allowSnippetAnnotations: true
+      annotationRiskLevel: Critical
       watchIngressWithoutClass: false
       ingressClassResource:
         name: nginx
         enabled: true
         default: true
-      # Since external NGINX handles TLS and sets X-Forwarded-* headers
       config:
+        server-tokens: "false"
         use-forwarded-headers: "true"
         compute-full-forwarded-for: "true"
-        # Forward the upstream buffering control header to the external gateway,
-        # which consumes it to disable buffering for streaming responses.
+        use-http2: "true"
+        ssl-redirect: "true"
+        proxy-body-size: "1g"
+        proxy-connect-timeout: "10"
+        proxy-send-timeout: "20"
+        proxy-read-timeout: "20"
+        client-body-timeout: "300"
+        keep-alive: "65"
+        upstream-keepalive-connections: "16"
+        upstream-keepalive-timeout: "10"
+        use-gzip: "true"
+        gzip-types: "application/json"
+        proxy-buffering: "on"
+        custom-http-errors: "404,500,501,502,503,504"
         http-snippet: |
-          proxy_pass_header X-Accel-Buffering;
+          upstream docs_upstream {
+            least_conn;
+            server docs.docs.svc.cluster.local:80 max_fails=3 fail_timeout=5s;
+            keepalive 10;
+          }
+        server-snippet: |
+          proxy_intercept_errors on;
+          location = / {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location ^~ /_next/ {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location ^~ /assets/ {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location ^~ /api/ {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location ^~ /reference {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location ^~ /lab/ {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location ^~ /brand/ {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location ^~ /files/ {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location ^~ /map/ {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location = /icon.png {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_pass http://docs_upstream;
+          }
+          location = /manifest.webmanifest {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_pass http://docs_upstream;
+          }
+    defaultBackend:
+      enabled: true
+      name: error-pages
+      image:
+        registry: registry.k8s.io
+        image: ingress-nginx/custom-error-pages
+        tag: "v1.2.9"
+      replicaCount: 1
+      resources:
+        requests:
+          cpu: 10m
+          memory: 32Mi
+        limits:
+          cpu: 10m
+          memory: 32Mi
+      extraVolumes:
+        - name: nginx-error-pages
+          configMap:
+            name: nginx-error-pages
+            items:
+              - key: 404.html
+                path: 404.ehtml
+              - key: 500.html
+                path: 500.ehtml
+              - key: 501.html
+                path: 501.ehtml
+              - key: 502.html
+                path: 502.ehtml
+              - key: 503.html
+                path: 503.ehtml
+              - key: 504.html
+                path: 504.ehtml
+      extraVolumeMounts:
+        - name: nginx-error-pages
+          mountPath: /www
+          readOnly: true

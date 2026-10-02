@@ -3,6 +3,8 @@ kind: Kustomization
 resources:
   - namespaces.yaml
   - ingress-nginx.yaml
+  - nginx-error-pages
   - onepassword-connect.yaml
   - keel.yaml
-  # - valhalla-operator.yaml
+  - cert-manager.yaml
+  - docs.yaml

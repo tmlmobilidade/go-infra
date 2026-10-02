@@ -4,6 +4,20 @@ services:
     image: beginor/postgis:17-3.5
     container_name: osm-postgis
     restart: unless-stopped
+    # Leave RAM for the OS cache and the osm2pgsql importer on the 24 GB VM.
+    shm_size: 1gb
+    command:
+      - postgres
+      - -c
+      - shared_buffers=4GB
+      - -c
+      - effective_cache_size=12GB
+      - -c
+      - work_mem=16MB
+      - -c
+      - maintenance_work_mem=256MB
+      - -c
+      - track_io_timing=on
     env_file:
       - /opt/app/secrets/.env
     ports:

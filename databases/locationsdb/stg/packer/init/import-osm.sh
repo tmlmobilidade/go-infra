@@ -16,10 +16,6 @@ FLATNODES="/opt/app/persistent-data/osm/flatnodes"
 
 cd "$APP_DIR"
 
-if [[ -f "$MARKER" && "${FORCE_IMPORT:-0}" != "1" ]]; then
-	echo "[import-osm] Already imported ($(cat "$MARKER")). Set FORCE_IMPORT=1 to redo."
-	exit 0
-fi
 
 echo "[import-osm] Ensuring PostGIS is up..."
 docker compose up -d postgis
@@ -36,6 +32,14 @@ for i in $(seq 1 60); do
 	fi
 done
 
+# Install upgrades on reused volumes without reimporting Europe.
+if [[ -f "$MARKER" && "${FORCE_IMPORT:-0}" != "1" ]]; then
+    docker compose exec -T postgis psql -U osm -d osm -v ON_ERROR_STOP=1 < "$APP_DIR/sql/02-indexes.sql"
+    docker compose exec -T postgis psql -U osm -d osm -v ON_ERROR_STOP=1 < "$APP_DIR/sql/03-cache.sql"
+    echo "[import-osm] Already imported; indexes and cache updated."
+    exit 0
+fi
+
 rm -f "$FLATNODES"/*.flat
 mkdir -p "$FLATNODES"
 chmod 777 "$FLATNODES"
@@ -49,16 +53,33 @@ echo "[import-osm] 1/2 download (skip if PBF exists)..."
 docker compose --profile import run --rm osm-download
 
 echo "[import-osm] 2/2 osm2pgsql (Europe — hours). Watch: ls -lh $FLATNODES/ (deleted at end by --drop)"
+# Mark source tables unavailable before osm2pgsql --create replaces them.
+# This state table and the previously published tree survive the replacement.
+docker compose exec -T postgis psql -U osm -d osm -v ON_ERROR_STOP=1 <<'SQL'
+CREATE TABLE IF NOT EXISTS locations_dataset (
+    id boolean PRIMARY KEY DEFAULT true CHECK (id),
+    generation bigint NOT NULL DEFAULT 0,
+    ready boolean NOT NULL DEFAULT false
+);
+INSERT INTO locations_dataset (id) VALUES (true) ON CONFLICT (id) DO NOTHING;
+UPDATE locations_dataset SET ready = false WHERE id;
+SQL
+
 docker compose --profile import run --rm --no-deps osm2pgsql
 
 # --drop removes europe.flat on success — validate flex tables from config.lua
 POINT_COUNT="$(docker compose exec -T postgis psql -U osm -d osm -tAc "SELECT COUNT(*) FROM planet_osm_point;" 2>/dev/null | tr -d '[:space:]' || true)"
 POLY_COUNT="$(docker compose exec -T postgis psql -U osm -d osm -tAc "SELECT COUNT(*) FROM planet_osm_polygon;" 2>/dev/null | tr -d '[:space:]' || true)"
-if [[ -z "$POINT_COUNT" || "$POINT_COUNT" == "0" ]]; then
+if [[ -z "$POINT_COUNT" || "$POINT_COUNT" == "0" || -z "$POLY_COUNT" || "$POLY_COUNT" == "0" ]]; then
 	echo "[import-osm] ERROR: planet_osm_point empty/missing (count=${POINT_COUNT:-none}). osm2pgsql did not finish." >&2
 	exit 1
 fi
 echo "[import-osm] planet_osm_point rows: $POINT_COUNT  planet_osm_polygon rows: ${POLY_COUNT:-0}"
+
+# --create drops custom OSM indexes. Restore indexes/statistics, then build and
+# atomically publish the tree before marking this import complete.
+docker compose exec -T postgis psql -U osm -d osm -v ON_ERROR_STOP=1 < "$APP_DIR/sql/02-indexes.sql"
+docker compose exec -T postgis psql -U osm -d osm -v ON_ERROR_STOP=1 < "$APP_DIR/sql/03-cache.sql"
 
 date -Is > "$MARKER"
 echo "[import-osm] Done. Marker: $MARKER"

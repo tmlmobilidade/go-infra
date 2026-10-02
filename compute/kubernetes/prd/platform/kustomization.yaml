@@ -8,4 +8,3 @@ resources:
   - keel.yaml
   - cert-manager.yaml
   - docs.yaml
-# - valhalla-operator.yaml

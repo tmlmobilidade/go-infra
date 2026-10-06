@@ -10,10 +10,10 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: docs
+  name: stg-docs
   namespace: stg-docs
   labels:
-    app: docs
+    app: stg-docs
   annotations:
     keel.sh/policy: force
     keel.sh/trigger: poll
@@ -22,14 +22,14 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-      app: docs
+      app: stg-docs
   template:
     metadata:
       labels:
-        app: docs
+        app: stg-docs
     spec:
       containers:
-        - name: docs
+        - name: stg-docs
           image: ghcr.io/tmlmobilidade/go-docs:production
           imagePullPolicy: Always
           ports:
@@ -61,13 +61,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: docs
+  name: stg-docs
   namespace: stg-docs
   labels:
-    app: docs
+    app: stg-docs
 spec:
   selector:
-    app: docs
+    app: stg-docs
   ports:
     - name: http
       port: 80

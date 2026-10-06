@@ -78,7 +78,7 @@ spec:
         http-snippet: |
           upstream docs_upstream {
             least_conn;
-            server docs.stg-docs.svc.cluster.local:80 max_fails=3 fail_timeout=5s;
+            server stg-docs.stg-docs.svc.cluster.local:80 max_fails=3 fail_timeout=5s;
             keepalive 10;
           }
         server-snippet: |

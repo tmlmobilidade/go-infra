@@ -1,0 +1,45 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: pr-708-core-extractions-worker
+  namespace: flux-system
+spec:
+  interval: 30s
+  dependsOn:
+    - name: onepassword-connect
+  targetNamespace: pr-708-core
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: compute/kubernetes/stg/charts/go-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    environment: pr-708
+    module: core
+    app: extractions-worker
+    replicas: 1
+    deployment:
+      strategy:
+        type: Recreate
+    resources:
+      memory: 8Gi
+      cpu: 4000m
+    ingress:
+      enabled: true
+      host: pr-708.go-stg.tmlmobilidade.pt
+    secrets:
+      - stg-platform-godb
+      - stg-platform-labdb
+      - stg-platform-storage
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
+    env: []
+  suspend: false

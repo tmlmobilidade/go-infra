@@ -3,3 +3,4 @@ kind: Kustomization
 resources:
   - pr-636
   - pr-702
+  - pr-708

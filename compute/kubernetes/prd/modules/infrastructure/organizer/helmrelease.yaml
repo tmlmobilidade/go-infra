@@ -32,6 +32,7 @@ spec:
     secrets:
       - prd-module-infrastructure
       - prd-platform-godb
+      - prd-platform-labdb
       - prd-platform-locationsdb
     logging:
       enabled: true

@@ -76,14 +76,38 @@ spec:
         # Intercept these statuses and proxy to chart defaultBackend.
         custom-http-errors: "404,500,501,502,503,504"
         http-snippet: |
+          proxy_cache_path /tmp/nginx-cache
+            levels=1:2
+            keys_zone=go_cache:10m
+            max_size=1g
+            inactive=1h
+            use_temp_path=off;
           upstream docs_upstream {
             least_conn;
             server stg-docs.stg-docs.svc.cluster.local:80 max_fails=3 fail_timeout=5s;
             keepalive 10;
           }
+        location-snippet: |
+          proxy_cache go_cache;
+          proxy_cache_key "$scheme$host$request_uri";
+          proxy_cache_valid 200 301 302 1h;
+          proxy_cache_lock on;
+          proxy_cache_lock_timeout 30s;
+          proxy_cache_lock_age 30s;
+          proxy_cache_bypass $http_authorization $cookie_session_token $http_upgrade;
+          proxy_no_cache $http_authorization $cookie_session_token $http_upgrade;
+          add_header X-Cache-Status $upstream_cache_status always;
         server-snippet: |
           # Inherit custom-http-errors for docs locations (snippet locations omit chart defaults).
           proxy_intercept_errors on;
+          proxy_cache go_cache;
+          proxy_cache_key "$scheme$host$request_uri";
+          proxy_cache_valid 200 301 302 1h;
+          proxy_cache_lock on;
+          proxy_cache_lock_timeout 30s;
+          proxy_cache_lock_age 30s;
+          proxy_cache_bypass $http_authorization $cookie_session_token $http_upgrade;
+          proxy_no_cache $http_authorization $cookie_session_token $http_upgrade;
           location = / {
             proxy_http_version 1.1;
             proxy_set_header Connection "";

@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>GO | 404 Not Found</title>
+	<meta http-equiv="refresh" content="5;url=https://go.tmlmobilidade.pt">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -111,12 +112,13 @@
 		}
 
 		/**
-		 * Reloads the page after a timeout
-		 * to try again.
+		 * Redirects to production after a timeout.
 		 */
-		function reloadPage() {
+		function redirectHome() {
 			document.getElementById("retry").style.opacity = 1;
-			setTimeout(() => window.location.reload(), 3_000);
+			setTimeout(() => {
+				window.location.href = "https://go.tmlmobilidade.pt";
+			}, 5_000);
 		}
 
 		//
@@ -126,11 +128,7 @@
 		ping();
 		setInterval(ping, 1_000);
 
-		//
-		// After 15 seconds elapsed,
-		// reload the page to try again.
-
-		setTimeout(reloadPage, 15_000);
+		redirectHome();
 
 	</script>
 

@@ -22,7 +22,7 @@ resources:
   - hub-secrets.yaml
   - operation-api.yaml
   - operation-frontend.yaml
-  - operation-gtfs-validator.yaml
+  # - operation-gtfs-validator.yaml
   - operation-organizer.yaml
   - operation-rides-acceptor.yaml
   - operation-rides-coordinator.yaml

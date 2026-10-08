@@ -48,6 +48,7 @@ spec:
           oci-network-load-balancer.oraclecloud.com/health-check: '{"protocol":"TCP","retries":3,"timeoutInMillis":3000,"intervalInMillis":10000}'
       extraArgs:
         default-ssl-certificate: "ingress-nginx/go-stg-tls"
+      # server-snippet: docs on every host (incl. pr-*.go-stg)
       allowSnippetAnnotations: true
       annotationRiskLevel: Critical
       watchIngressWithoutClass: false
@@ -73,6 +74,108 @@ spec:
         gzip-types: "application/json"
         proxy-buffering: "on"
         custom-http-errors: "404,500,501,502,503,504"
+        http-snippet: |
+          upstream docs_upstream {
+            least_conn;
+            server stg-docs.stg-docs.svc.cluster.local:80 max_fails=3 fail_timeout=5s;
+            keepalive 10;
+          }
+        server-snippet: |
+          # Docs on every server block (wildcard Ingress loses to exact pr-* hosts).
+          proxy_intercept_errors on;
+          location = / {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location ^~ /_next/ {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location ^~ /assets/ {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location ^~ /api/ {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location ^~ /reference {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location ^~ /lab/ {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location ^~ /brand/ {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location ^~ /files/ {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location ^~ /map/ {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_pass http://docs_upstream;
+          }
+          location = /icon.png {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_pass http://docs_upstream;
+          }
+          location = /manifest.webmanifest {
+            proxy_http_version 1.1;
+            proxy_set_header Connection "";
+            proxy_set_header Host $host;
+            proxy_pass http://docs_upstream;
+          }
     defaultBackend:
       enabled: true
       name: error-pages

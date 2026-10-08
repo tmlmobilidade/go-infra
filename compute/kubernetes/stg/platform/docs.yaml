@@ -1,4 +1,6 @@
-# go-docs — pod + Ingress for Exact `/` (and docs static assets) on apex + PR hosts.
+# go-docs — Deployment + Service.
+# Routing for Exact `/` and docs assets is on ingress-nginx server-snippet
+# (applies to every host, including pr-*.go-stg).
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -70,40 +72,3 @@ spec:
     - name: http
       port: 80
       targetPort: http
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: stg-docs
-  namespace: stg-docs
-  labels:
-    app: stg-docs
-  annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "true"
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - go-stg.tmlmobilidade.pt
-        - "*.go-stg.tmlmobilidade.pt"
-  rules:
-    - host: go-stg.tmlmobilidade.pt
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: stg-docs
-                port:
-                  number: 80
-    - host: "*.go-stg.tmlmobilidade.pt"
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: stg-docs
-                port:
-                  number: 80

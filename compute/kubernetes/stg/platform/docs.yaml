@@ -1,5 +1,4 @@
-# go-docs — Deployment + Service; gateway nginx still routes /_next, /assets, etc.
-# Ingress only claims Exact `/` on apex hosts (not pr-*.go-stg).
+# go-docs — pod + Ingress for Exact `/` (and docs static assets) on apex + PR hosts.
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -86,7 +85,7 @@ spec:
   tls:
     - hosts:
         - go-stg.tmlmobilidade.pt
-        - stg.go-stg.tmlmobilidade.pt
+        - "*.go-stg.tmlmobilidade.pt"
   rules:
     - host: go-stg.tmlmobilidade.pt
       http:
@@ -98,10 +97,150 @@ spec:
                 name: stg-docs
                 port:
                   number: 80
-    - host: stg.go-stg.tmlmobilidade.pt
+          - path: /_next
+            pathType: Prefix
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /assets
+            pathType: Prefix
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /reference
+            pathType: Prefix
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /lab
+            pathType: Prefix
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /brand
+            pathType: Prefix
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /files
+            pathType: Prefix
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /map
+            pathType: Prefix
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /icon.png
+            pathType: Exact
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /manifest.webmanifest
+            pathType: Exact
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+    - host: "*.go-stg.tmlmobilidade.pt"
       http:
         paths:
           - path: /
+            pathType: Exact
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /_next
+            pathType: Prefix
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /assets
+            pathType: Prefix
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /reference
+            pathType: Prefix
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /lab
+            pathType: Prefix
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /brand
+            pathType: Prefix
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /files
+            pathType: Prefix
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /map
+            pathType: Prefix
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /icon.png
+            pathType: Exact
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+          - path: /manifest.webmanifest
             pathType: Exact
             backend:
               service:

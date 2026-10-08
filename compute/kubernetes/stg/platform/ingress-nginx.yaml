@@ -72,27 +72,7 @@ spec:
         use-gzip: "true"
         gzip-types: "application/json"
         proxy-buffering: "on"
-        # Intercept these statuses and proxy to chart defaultBackend.
         custom-http-errors: "404,500,501,502,503,504"
-        http-snippet: |
-          proxy_cache_path /tmp/nginx-cache
-            levels=1:2
-            keys_zone=go_cache:10m
-            max_size=1g
-            inactive=1h
-            use_temp_path=off;
-        location-snippet: |
-          proxy_cache go_cache;
-          proxy_cache_key "$scheme$host$request_uri";
-          proxy_cache_valid 200 301 302 1h;
-          proxy_cache_lock on;
-          proxy_cache_lock_timeout 30s;
-          proxy_cache_lock_age 30s;
-          proxy_cache_bypass $http_authorization $cookie_session_token $http_upgrade;
-          proxy_no_cache $http_authorization $cookie_session_token $http_upgrade;
-          add_header X-Cache-Status $upstream_cache_status always;
-    # Quiet nginx backend (custom-error-pages logs on Accept: */* / missing X-Code).
-    # HTML from ConfigMap nginx-error-pages (platform/nginx-error-pages).
     defaultBackend:
       enabled: true
       name: error-pages
@@ -107,7 +87,6 @@ spec:
         readOnlyRootFilesystem: false
       port: 8080
       replicaCount: 1
-      # Virtual Nodes: requests must equal limits.
       resources:
         requests:
           cpu: 10m
@@ -126,7 +105,6 @@ spec:
         - name: nginx-error-pages
           mountPath: /www
           readOnly: true
-        # Whole dir mount — Virtual Nodes do not support subPath.
         - name: nginx-error-pages-conf
           mountPath: /etc/nginx/conf.d
           readOnly: true

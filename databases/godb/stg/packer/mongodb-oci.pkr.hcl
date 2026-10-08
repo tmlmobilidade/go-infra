@@ -170,11 +170,16 @@ build {
 	}
 
 	# The env-sync.sh script is responsible for
-	# syncing the environment variables to the MongoDB container.
+	# syncing MongoDB collections between environments.
 
 	provisioner "file" {
 		source = "${path.root}/init/env-sync.sh"
 		destination = "/opt/app/env-sync.sh"
+	}
+
+	provisioner "file" {
+		source = "${path.root}/init/env-sync.js"
+		destination = "/opt/app/env-sync.js"
 	}
 
 	provisioner "shell" {

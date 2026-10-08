@@ -15,3 +15,9 @@ packer init .
 packer validate .
 packer build .
 ```
+
+## Environment sync
+
+See [MongoDB environment sync](init/env-sync.md) for modes, exclusions, replica-set
+connections, deployment requirements and the cron schedule. Deploy `env-sync.sh`
+and `env-sync.js` together.

@@ -1,7 +1,5 @@
-# go-docs — same image as gateway compose `docs` service.
-# Routing for Exact `/` is on ingress-nginx (server-snippet), not an Ingress —
-# PR hosts like pr-702.go-stg… have their own server blocks; hostless Ingress
-# only hits the default server (apex), not those.
+# go-docs — Deployment + Service; gateway nginx still routes /_next, /assets, etc.
+# Ingress only claims Exact `/` on apex hosts (not pr-*.go-stg).
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -73,3 +71,40 @@ spec:
     - name: http
       port: 80
       targetPort: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: stg-docs
+  namespace: stg-docs
+  labels:
+    app: stg-docs
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - go-stg.tmlmobilidade.pt
+        - stg.go-stg.tmlmobilidade.pt
+  rules:
+    - host: go-stg.tmlmobilidade.pt
+      http:
+        paths:
+          - path: /
+            pathType: Exact
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80
+    - host: stg.go-stg.tmlmobilidade.pt
+      http:
+        paths:
+          - path: /
+            pathType: Exact
+            backend:
+              service:
+                name: stg-docs
+                port:
+                  number: 80

@@ -48,7 +48,6 @@ spec:
           oci-network-load-balancer.oraclecloud.com/health-check: '{"protocol":"TCP","retries":3,"timeoutInMillis":3000,"intervalInMillis":10000}'
       extraArgs:
         default-ssl-certificate: "ingress-nginx/go-stg-tls"
-      # Allow ConfigMap server-snippet (docs routing)
       allowSnippetAnnotations: true
       annotationRiskLevel: Critical
       watchIngressWithoutClass: false
@@ -82,11 +81,6 @@ spec:
             max_size=1g
             inactive=1h
             use_temp_path=off;
-          upstream docs_upstream {
-            least_conn;
-            server stg-docs.stg-docs.svc.cluster.local:80 max_fails=3 fail_timeout=5s;
-            keepalive 10;
-          }
         location-snippet: |
           proxy_cache go_cache;
           proxy_cache_key "$scheme$host$request_uri";
@@ -97,119 +91,21 @@ spec:
           proxy_cache_bypass $http_authorization $cookie_session_token $http_upgrade;
           proxy_no_cache $http_authorization $cookie_session_token $http_upgrade;
           add_header X-Cache-Status $upstream_cache_status always;
-        server-snippet: |
-          # Inherit custom-http-errors for docs locations (snippet locations omit chart defaults).
-          proxy_intercept_errors on;
-          proxy_cache go_cache;
-          proxy_cache_key "$scheme$host$request_uri";
-          proxy_cache_valid 200 301 302 1h;
-          proxy_cache_lock on;
-          proxy_cache_lock_timeout 30s;
-          proxy_cache_lock_age 30s;
-          proxy_cache_bypass $http_authorization $cookie_session_token $http_upgrade;
-          proxy_no_cache $http_authorization $cookie_session_token $http_upgrade;
-          location = / {
-            proxy_http_version 1.1;
-            proxy_set_header Connection "";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_pass http://docs_upstream;
-          }
-          location ^~ /_next/ {
-            proxy_http_version 1.1;
-            proxy_set_header Connection "";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_pass http://docs_upstream;
-          }
-          location ^~ /assets/ {
-            proxy_http_version 1.1;
-            proxy_set_header Connection "";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_pass http://docs_upstream;
-          }
-          location ^~ /api/ {
-            proxy_http_version 1.1;
-            proxy_set_header Connection "";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_pass http://docs_upstream;
-          }
-          location ^~ /reference {
-            proxy_http_version 1.1;
-            proxy_set_header Connection "";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_pass http://docs_upstream;
-          }
-          location ^~ /lab/ {
-            proxy_http_version 1.1;
-            proxy_set_header Connection "";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_pass http://docs_upstream;
-          }
-          location ^~ /brand/ {
-            proxy_http_version 1.1;
-            proxy_set_header Connection "";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_pass http://docs_upstream;
-          }
-          location ^~ /files/ {
-            proxy_http_version 1.1;
-            proxy_set_header Connection "";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_pass http://docs_upstream;
-          }
-          location ^~ /map/ {
-            proxy_http_version 1.1;
-            proxy_set_header Connection "";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_pass http://docs_upstream;
-          }
-          location = /icon.png {
-            proxy_http_version 1.1;
-            proxy_set_header Connection "";
-            proxy_set_header Host $host;
-            proxy_pass http://docs_upstream;
-          }
-          location = /manifest.webmanifest {
-            proxy_http_version 1.1;
-            proxy_set_header Connection "";
-            proxy_set_header Host $host;
-            proxy_pass http://docs_upstream;
-          }
-    # Chart-managed default backend (wires --default-backend-service automatically).
+    # Quiet nginx backend (custom-error-pages logs on Accept: */* / missing X-Code).
     # HTML from ConfigMap nginx-error-pages (platform/nginx-error-pages).
     defaultBackend:
       enabled: true
       name: error-pages
       image:
-        registry: registry.k8s.io
-        image: ingress-nginx/custom-error-pages
-        tag: "v1.2.9"
+        registry: docker.io
+        image: nginxinc/nginx-unprivileged
+        tag: "1.27-alpine"
+        pullPolicy: IfNotPresent
+        runAsUser: 101
+        runAsGroup: 101
+        runAsNonRoot: true
+        readOnlyRootFilesystem: false
+      port: 8080
       replicaCount: 1
       # Virtual Nodes: requests must equal limits.
       resources:
@@ -223,20 +119,17 @@ spec:
         - name: nginx-error-pages
           configMap:
             name: nginx-error-pages
+        - name: nginx-error-pages-conf
+          configMap:
+            name: nginx-error-pages-conf
             items:
-              - key: 404.html
-                path: 404.ehtml
-              - key: 500.html
-                path: 500.ehtml
-              - key: 501.html
-                path: 501.ehtml
-              - key: 502.html
-                path: 502.ehtml
-              - key: 503.html
-                path: 503.ehtml
-              - key: 504.html
-                path: 504.ehtml
+              - key: default.conf
+                path: default.conf
       extraVolumeMounts:
         - name: nginx-error-pages
           mountPath: /www
+          readOnly: true
+        - name: nginx-error-pages-conf
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: default.conf
           readOnly: true

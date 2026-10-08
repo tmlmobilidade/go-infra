@@ -22,7 +22,7 @@ spec:
     environment: prd
     module: hub
     app: api
-    replicas: 3
+    replicas: 4
     resources:
       memory: 4Gi
       cpu: 2

@@ -122,14 +122,11 @@ spec:
         - name: nginx-error-pages-conf
           configMap:
             name: nginx-error-pages-conf
-            items:
-              - key: default.conf
-                path: default.conf
       extraVolumeMounts:
         - name: nginx-error-pages
           mountPath: /www
           readOnly: true
+        # Whole dir mount — Virtual Nodes do not support subPath.
         - name: nginx-error-pages-conf
-          mountPath: /etc/nginx/conf.d/default.conf
-          subPath: default.conf
+          mountPath: /etc/nginx/conf.d
           readOnly: true

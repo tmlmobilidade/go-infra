@@ -37,6 +37,7 @@ spec:
       - stg-platform-labdb
       - stg-platform-storage
       - stg-platform-pdfs
+      - stg-platform-locationsdb
     logging:
       enabled: true
       cluster: go-stg

@@ -8,3 +8,9 @@ resources:
   - core-frontend.yaml
   - core-organizer.yaml
   - core-secrets.yaml
+  - infrastructure-api.yaml
+  - infrastructure-frontend.yaml
+  - infrastructure-organizer.yaml
+  - infrastructure-secrets.yaml
+  - infrastructure-tts-cli.yaml
+  - infrastructure-tts-server.yaml

@@ -36,6 +36,7 @@ spec:
         nginx.ingress.kubernetes.io/rewrite-target: /$2
     secrets:
       - stg-module-infrastructure
+      - stg-platform-locationsdb
       - stg-platform-godb
       - stg-platform-storage
     probes:

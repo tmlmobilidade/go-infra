@@ -34,6 +34,7 @@ spec:
       - stg-module-infrastructure
       - stg-platform-godb
       - stg-platform-labdb
+      - stg-platform-locationsdb
     logging:
       enabled: true
       cluster: go-stg

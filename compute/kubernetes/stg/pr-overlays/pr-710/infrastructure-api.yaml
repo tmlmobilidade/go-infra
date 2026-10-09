@@ -37,6 +37,7 @@ spec:
       host: pr-710.go-stg.tmlmobilidade.pt
     secrets:
       - stg-module-infrastructure
+      - stg-platform-locationsdb
       - stg-platform-godb
       - stg-platform-storage
     probes:

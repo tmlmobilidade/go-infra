@@ -28,7 +28,7 @@ spec:
     ingress:
       enabled: false
     secrets:
-      # - stg-platform-cp-tunnel
+      - stg-platform-cp-tunnel
       - stg-platform-rawdb
       - stg-platform-external-app-secrets
     logging:

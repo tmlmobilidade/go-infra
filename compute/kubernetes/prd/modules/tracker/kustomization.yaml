@@ -6,6 +6,8 @@ resources:
   - es-crtm-aisa-rawdb-stream
   - es-crtm-la-veloz-api-fetch
   - es-crtm-la-veloz-rawdb-stream
+  - pt-cimat-flaviamobil-api-fetch
+  - pt-cimat-flaviamobil-rawdb-stream
   - pt-tml-ccfl-api-fetch
   - pt-tml-ccfl-rawdb-stream
   - pt-tml-cm-alsa-rawdb-stream

@@ -28,8 +28,8 @@ resources:
   - tracker-pt-tml-cm-rl-rawdb-stream.yaml
   - tracker-pt-tml-cm-tst-rawdb-stream.yaml
   - tracker-pt-tml-cm-va-rawdb-stream.yaml
-  # - tracker-pt-tml-cp-api-fetch.yaml
-  # - tracker-pt-tml-cp-rawdb-stream.yaml
+  - tracker-pt-tml-cp-api-fetch.yaml
+  - tracker-pt-tml-cp-rawdb-stream.yaml
   - tracker-pt-tml-fertagus-api-fetch.yaml
   - tracker-pt-tml-fertagus-rawdb-stream.yaml
   - tracker-pt-tml-ml-api-fetch.yaml

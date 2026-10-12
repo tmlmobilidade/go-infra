@@ -149,13 +149,24 @@ build {
 	# Daily Portugal OSM refresh (invoked by cron from cloud-init).
 
 	provisioner "file" {
-		source = "${path.root}/init/update-motis.sh"
-		destination = "/opt/app/update-motis.sh"
+		source = "${path.root}/init/update-osm.sh"
+		destination = "/opt/app/update-osm.sh"
 	}
 
 	provisioner "shell" {
 		inline = [
-			"sudo chmod +x /opt/app/update-motis.sh"
+			"sudo chmod +x /opt/app/update-osm.sh"
+		]
+	}
+
+	provisioner "file" {
+		source = "${path.root}/init/update-gtfs.sh"
+		destination = "/opt/app/update-gtfs.sh"
+	}
+
+	provisioner "shell" {
+		inline = [
+			"sudo chmod +x /opt/app/update-gtfs.sh"
 		]
 	}
 

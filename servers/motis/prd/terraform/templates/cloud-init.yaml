@@ -54,13 +54,13 @@ runcmd:
   - cd /opt/app && docker compose up -d --force-recreate --remove-orphans --pull=always motis-server certbot
   - cd /opt/app && sh init-letsencrypt.sh
 
-  # Daily OSM update 04:00 Europe/Lisbon
+  # Daily OSM update 04:00 Europe/Lisbon (root crontab; sudo crontab -l)
   - |
     printf '%s\n' \
       'SHELL=/bin/bash' \
       'PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin' \
-      '0 4 * * * root /opt/app/update-motis.sh >> /opt/app/update.log 2>&1' \
-      > /etc/cron.d/motis-update
-  - chmod 644 /etc/cron.d/motis-update
+      '0 */1 * * * root /opt/app/update-gtfs.sh >> /opt/app/update-gtfs.log 2>&1' \
+      '0 4 * * * root /opt/app/update-osm.sh >> /opt/app/update-osm.log 2>&1' \
+      | sudo crontab -
 
 final_message: "MOTIS import + server + TLS complete."

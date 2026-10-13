@@ -3,8 +3,8 @@ kind: Kustomization
 resources:
   - namespaces.yaml
   - core-api.yaml
-  - core-extractions-coordinator.yaml
-  - core-extractions-worker.yaml
+  # - core-extractions-coordinator.yaml
+  # - core-extractions-worker.yaml
   - core-frontend.yaml
   - core-organizer.yaml
   - core-secrets.yaml

@@ -21,7 +21,7 @@ spec:
   values:
     environment: stg
     module: tracker
-    app: tst-rawdb-sync
+    app: pt-tml-cm-tst-rawdb-sync
     replicas: 1
     service:
       targetPort: 5050

@@ -21,7 +21,7 @@ spec:
   values:
     environment: stg
     module: tracker
-    app: ut1-rawdb-sync
+    app: pt-tmp-unir-ut1-rawdb-sync
     replicas: 1
     service:
       targetPort: 5050

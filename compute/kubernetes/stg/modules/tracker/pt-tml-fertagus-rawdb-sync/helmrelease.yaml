@@ -21,7 +21,7 @@ spec:
   values:
     environment: stg
     module: tracker
-    app: fertagus-rawdb-sync
+    app: pt-tml-fertagus-rawdb-sync
     replicas: 1
     service:
       targetPort: 5050

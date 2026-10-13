@@ -2,6 +2,12 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - namespaces.yaml
+  - core-api.yaml
+  - core-extractions-coordinator.yaml
+  - core-extractions-worker.yaml
+  - core-frontend.yaml
+  - core-organizer.yaml
+  - core-secrets.yaml
   - hub-api.yaml
   - hub-eta.yaml
   - hub-frontend-navegante-app.yaml
@@ -15,6 +21,19 @@ resources:
   - hub-publish-plans.yaml
   - hub-publish-vehicles.yaml
   - hub-secrets.yaml
+  - operation-api.yaml
+  - operation-frontend.yaml
+  - operation-gtfs-validator.yaml
+  - operation-organizer.yaml
+  - operation-rides-acceptor.yaml
+  - operation-rides-coordinator.yaml
+  - operation-rides-examiner.yaml
+  - operation-rides-feeder.yaml
+  - operation-rides-locker.yaml
+  - operation-rides-sync.yaml
+  - operation-sams-examiner.yaml
+  - operation-sams-feeder.yaml
+  - operation-secrets.yaml
   - tracker-es-crtm-aisa-api-fetch.yaml
   - tracker-es-crtm-aisa-rawdb-stream.yaml
   - tracker-es-crtm-la-veloz-api-fetch.yaml

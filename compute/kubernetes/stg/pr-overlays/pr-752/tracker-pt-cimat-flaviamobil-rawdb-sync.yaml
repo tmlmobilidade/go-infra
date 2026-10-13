@@ -21,7 +21,7 @@ spec:
   values:
     environment: pr-752
     module: tracker
-    app: flaviamobil-rawdb-sync
+    app: pt-cimat-flaviamobil-rawdb-sync
     replicas: 1
     service:
       targetPort: 5050

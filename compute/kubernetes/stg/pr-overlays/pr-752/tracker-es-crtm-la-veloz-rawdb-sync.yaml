@@ -21,7 +21,7 @@ spec:
   values:
     environment: pr-752
     module: tracker
-    app: la-veloz-rawdb-sync
+    app: es-crtm-la-veloz-rawdb-sync
     replicas: 1
     service:
       targetPort: 5050

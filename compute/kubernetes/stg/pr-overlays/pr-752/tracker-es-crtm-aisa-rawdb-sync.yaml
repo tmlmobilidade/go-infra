@@ -21,7 +21,7 @@ spec:
   values:
     environment: pr-752
     module: tracker
-    app: aisa-rawdb-sync
+    app: es-crtm-aisa-rawdb-sync
     replicas: 1
     service:
       targetPort: 5050

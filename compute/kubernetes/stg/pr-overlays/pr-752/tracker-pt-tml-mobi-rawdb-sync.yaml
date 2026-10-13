@@ -21,7 +21,7 @@ spec:
   values:
     environment: pr-752
     module: tracker
-    app: mobi-rawdb-sync
+    app: pt-tml-mobi-rawdb-sync
     replicas: 1
     service:
       targetPort: 5050

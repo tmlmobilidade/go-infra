@@ -21,7 +21,7 @@ spec:
   values:
     environment: pr-752
     module: tracker
-    app: ccfl-rawdb-sync
+    app: pt-tml-ccfl-rawdb-sync
     replicas: 1
     service:
       targetPort: 5050

@@ -21,7 +21,7 @@ spec:
   values:
     environment: pr-752
     module: tracker
-    app: ttsl-rawdb-sync
+    app: pt-tml-ttsl-rawdb-sync
     replicas: 1
     service:
       targetPort: 5050

@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: pr-752-tracker-la-veloz-rawdb-sync
+  name: pr-752-tracker-es-crtm-la-veloz-rawdb-sync
   namespace: flux-system
 spec:
   interval: 30s

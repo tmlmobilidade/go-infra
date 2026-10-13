@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: pr-752-tracker-mobi-rawdb-sync
+  name: pr-752-tracker-pt-tml-mobi-rawdb-sync
   namespace: flux-system
 spec:
   interval: 30s

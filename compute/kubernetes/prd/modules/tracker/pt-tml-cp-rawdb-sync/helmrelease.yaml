@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: tracker-rawdb-sync
+  name: tracker-pt-tml-cp-rawdb-sync
   namespace: flux-system
 spec:
   interval: 30s
@@ -21,7 +21,7 @@ spec:
   values:
     environment: prd
     module: tracker
-    app: rawdb-sync
+    app: pt-tml-cp-rawdb-sync
     replicas: 1
     service:
       targetPort: 5050

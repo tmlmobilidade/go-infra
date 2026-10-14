@@ -39,10 +39,13 @@ spec:
       host: pr-704.go-stg.tmlmobilidade.pt
     logging:
       enabled: true
+      # go-docs is Next.js (same entrypoint as frontends), not ./dist/index.js
+      appArgs:
+        - server.js
       cluster: go-stg
       loki:
         secretName: stg-platform-loki
-    env: 
+    env:
       - name: PORT
         value: "3000"
   suspend: false

@@ -38,4 +38,6 @@ spec:
       cluster: go-stg
       loki:
         secretName: stg-platform-loki
-    env: []
+    env: 
+      - name: PORT
+        value: "3000"

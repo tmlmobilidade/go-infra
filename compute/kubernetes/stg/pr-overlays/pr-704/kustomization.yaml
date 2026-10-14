@@ -8,3 +8,16 @@ resources:
   - core-frontend.yaml
   - core-organizer.yaml
   - core-secrets.yaml
+  - hub-api.yaml
+  - hub-eta.yaml
+  - hub-frontend-navegante-app.yaml
+  - hub-frontend-videowall.yaml
+  - hub-publish-alerts.yaml
+  - hub-publish-eta.yaml
+  - hub-publish-gtfs-cm.yaml
+  - hub-publish-gtfs.yaml
+  - hub-publish-metrics.yaml
+  - hub-publish-network.yaml
+  - hub-publish-plans.yaml
+  - hub-publish-vehicles.yaml
+  - hub-secrets.yaml

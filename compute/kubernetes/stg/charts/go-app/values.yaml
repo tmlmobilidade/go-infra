@@ -2,6 +2,10 @@ environment: environment
 module: module
 app: app
 
+# Optional full image override (e.g. ghcr.io/tmlmobilidade/go-docs:production).
+# Default: ghcr.io/tmlmobilidade/go-{{module}}-{{app}}:{{environment}}
+image: ""
+
 replicas: 1
 
 deployment:

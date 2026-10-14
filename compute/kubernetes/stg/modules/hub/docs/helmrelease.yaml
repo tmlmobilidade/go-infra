@@ -1,0 +1,44 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: hub-docs
+  namespace: flux-system
+spec:
+  interval: 30s
+  dependsOn:
+    - name: onepassword-connect
+  targetNamespace: stg-hub
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: compute/kubernetes/stg/charts/go-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    environment: stg
+    module: hub
+    app: docs
+    image: ghcr.io/tmlmobilidade/go-docs:production
+    replicas: 1
+    resources:
+      memory: 4Gi
+      cpu: 2
+    service:
+      targetPort: 3000
+    ingress:
+      enabled: true
+      path: /reference
+      pathType: Prefix
+    probes:
+      startup:
+        enabled: false
+    # go-docs is Next.js — chart log-wrap assumes go-app node entrypoints.
+    logging:
+      enabled: false
+    env:
+      - name: PORT
+        value: "3000"

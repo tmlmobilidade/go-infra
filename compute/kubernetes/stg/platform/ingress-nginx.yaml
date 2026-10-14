@@ -48,7 +48,6 @@ spec:
           oci-network-load-balancer.oraclecloud.com/health-check: '{"protocol":"TCP","retries":3,"timeoutInMillis":3000,"intervalInMillis":10000}'
       extraArgs:
         default-ssl-certificate: "ingress-nginx/go-stg-tls"
-      # server-snippet: docs on every host (incl. pr-*.go-stg)
       allowSnippetAnnotations: true
       annotationRiskLevel: Critical
       watchIngressWithoutClass: false
@@ -82,16 +81,9 @@ spec:
             max_size=1g
             inactive=1h
             use_temp_path=off;
-          upstream docs_upstream {
-            least_conn;
-            server stg-docs.stg-docs.svc.cluster.local:80 max_fails=3 fail_timeout=5s;
-            keepalive 10;
-          }
         server-snippet: |
-          # Docs on every server block (wildcard Ingress loses to exact pr-* hosts).
           proxy_intercept_errors on;
-          # Cache for all locations in this server (Ingress + docs). No proxy_cache_valid —
-          # only caches when upstream sends Cache-Control/Expires (gateway-style).
+          # Cache for all locations. No proxy_cache_valid — honor upstream Cache-Control/Expires.
           proxy_cache go_cache;
           proxy_cache_key "$scheme$host$request_uri";
           proxy_cache_lock on;

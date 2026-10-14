@@ -38,7 +38,7 @@ spec:
       {{- end }}
       containers:
         - name: "{{ .Values.environment }}-{{ .Values.module }}-{{ .Values.app }}"
-          image: "ghcr.io/tmlmobilidade/go-{{ .Values.module }}-{{ .Values.app }}:{{ .Values.environment }}"
+          image: {{ .Values.image | default (printf "ghcr.io/tmlmobilidade/go-%s-%s:%s" .Values.module .Values.app .Values.environment) | quote }}
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: {{ .Values.service.targetPort }}

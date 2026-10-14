@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - secrets.yaml
   - api
+  - docs
   - eta
   - frontend-navegante-app
   - frontend-videowall

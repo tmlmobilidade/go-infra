@@ -31,11 +31,16 @@ spec:
       targetPort: 3000
     ingress:
       enabled: true
-      path: /hub/reference
-      pathType: Prefix 
+      # /hub/reference → app /reference; /_next|/assets stay as-is (CSS/JS).
+      path: /(hub/reference|_next|assets|api|lab|brand|files|map|icon\.png|manifest\.webmanifest)(/|$)(.*)
+      pathType: ImplementationSpecific
+      annotations:
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/configuration-snippet: |
+          rewrite ^/hub/reference/?$ /reference break;
+          rewrite ^/hub/reference/(.*)$ /reference/$1 break;
     logging:
       enabled: true
-      # go-docs is Next.js (same entrypoint as frontends), not ./dist/index.js
       appArgs:
         - server.js
       cluster: go-stg

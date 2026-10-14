@@ -9,6 +9,7 @@ resources:
   - core-organizer.yaml
   - core-secrets.yaml
   - hub-api.yaml
+  - hub-docs.yaml
   - hub-eta.yaml
   - hub-frontend-navegante-app.yaml
   - hub-frontend-videowall.yaml

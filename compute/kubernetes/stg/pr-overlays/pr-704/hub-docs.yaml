@@ -31,8 +31,11 @@ spec:
       targetPort: 3000
     ingress:
       enabled: true
-      path: /hub/reference
-      pathType: Prefix
+      path: /hub/reference(/|$)(.*)
+      pathType: ImplementationSpecific
+      annotations:
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
       host: pr-704.go-stg.tmlmobilidade.pt
     logging:
       enabled: true

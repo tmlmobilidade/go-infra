@@ -29,14 +29,14 @@ spec:
       cpu: 1
     service:
       targetPort: 3000
+    # One Ingress, no rewrite: HTML at /reference, CSS/JS at /_next|/assets (gateway-style).
+    # /hub/reference cannot share rewrite-target with /_next in a single Ingress.
     ingress:
       enabled: true
-      # /hub/reference → app /reference; /_next|/assets stay as-is (CSS/JS).
-      path: /(hub/reference|_next|assets|api|lab|brand|files|map|icon\.png|manifest\.webmanifest)(/|$)(.*)
+      path: /(reference|_next|assets|api|lab|brand|files|map|icon\.png|manifest\.webmanifest)(/|$)(.*)
       pathType: ImplementationSpecific
       annotations:
         nginx.ingress.kubernetes.io/use-regex: "true"
-        nginx.ingress.kubernetes.io/rewrite-target: /$2
     logging:
       enabled: true
       appArgs:

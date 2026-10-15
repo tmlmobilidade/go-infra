@@ -31,11 +31,11 @@ spec:
       targetPort: 3000
     ingress:
       enabled: true
-      path: /hub/reference(/|$)(.*)
+      path: /reference(/|$)(.*)
       pathType: ImplementationSpecific
       annotations:
         nginx.ingress.kubernetes.io/use-regex: "true"
-        nginx.ingress.kubernetes.io/rewrite-target: /reference$1$2
+        nginx.ingress.kubernetes.io/rewrite-target: /$2
     logging:
       enabled: true
       appArgs:

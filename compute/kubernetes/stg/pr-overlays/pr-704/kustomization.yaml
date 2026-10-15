@@ -8,6 +8,9 @@ resources:
   - core-frontend.yaml
   - core-organizer.yaml
   - core-secrets.yaml
+  - dates-api.yaml
+  - dates-frontend.yaml
+  - dates-secrets.yaml
   - hub-api.yaml
   - hub-docs.yaml
   - hub-eta.yaml
@@ -22,3 +25,6 @@ resources:
   - hub-publish-plans.yaml
   - hub-publish-vehicles.yaml
   - hub-secrets.yaml
+  - offer-api.yaml
+  - offer-frontend.yaml
+  - offer-secrets.yaml

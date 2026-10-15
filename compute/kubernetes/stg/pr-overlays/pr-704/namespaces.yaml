@@ -11,3 +11,17 @@ metadata:
   name: pr-704-hub
   annotations:
     operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-704-dates
+  annotations:
+    operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-704-offer
+  annotations:
+    operator.1password.io/auto-restart: "true"

@@ -22,7 +22,7 @@ spec:
     environment: pr-704
     module: hub
     app: docs
-    image: ghcr.io/tmlmobilidade/go-docs:production
+    image: ghcr.io/tmlmobilidade/go-docs:move-docs-to-hub
     replicas: 1
     resources:
       memory: 2Gi

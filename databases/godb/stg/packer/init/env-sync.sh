@@ -129,18 +129,59 @@ normalize_array_var() {
 }
 
 # EXIT trap: stop recorded SSH processes and remove private temporary files.
-# Ignore tunnel processes that have already exited.
+# Escalate to SIGKILL if a tunnel ignores SIGTERM (e.g. stuck ssh).
 cleanup() {
+  local pid
   for pid in "${SSH_PIDS[@]:-}"; do
     [ -n "$pid" ] || continue
     kill "$pid" 2>/dev/null || true
+    for _ in 1 2 3 4 5; do
+      kill -0 "$pid" 2>/dev/null || break
+      sleep 0.2
+    done
+    if kill -0 "$pid" 2>/dev/null; then
+      kill -9 "$pid" 2>/dev/null || true
+    fi
     wait "$pid" 2>/dev/null || true
   done
   [ -z "$WORK_DIR" ] || rm -rf "$WORK_DIR"
 }
 trap cleanup EXIT
+trap 'exit 129' HUP
 trap 'exit 130' INT
 trap 'exit 143' TERM
+
+# Args: local TCP port. Kill any leftover LISTEN process (orphaned ssh -L from a
+# prior hard-killed run) so the next tunnel can bind. Prefer lsof, then fuser, then ss.
+reclaim_local_port() {
+  local port=$1
+  local pids="" pid
+
+  [ -n "$port" ] || return 0
+
+  if command -v lsof >/dev/null 2>&1; then
+    pids=$(lsof -t -iTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)
+  elif command -v fuser >/dev/null 2>&1; then
+    pids=$(fuser "$port/tcp" 2>/dev/null || true)
+  elif command -v ss >/dev/null 2>&1; then
+    pids=$(ss -lptn "sport = :$port" 2>/dev/null | sed -n 's/.*pid=\([0-9][0-9]*\).*/\1/p' | sort -u || true)
+  else
+    return 0
+  fi
+
+  [ -n "${pids// /}" ] || return 0
+
+  echo "Reclaiming localhost:$port (stale listener PID(s): $pids) ..."
+  for pid in $pids; do
+    kill "$pid" 2>/dev/null || true
+  done
+  sleep 1
+  for pid in $pids; do
+    kill -0 "$pid" 2>/dev/null || continue
+    kill -9 "$pid" 2>/dev/null || true
+  done
+  sleep 1
+}
 
 # Args: label, database host/port, SSH host/user/key, local forwarding port.
 # Start the SSH forward, record its PID for cleanup and check it remains alive.
@@ -153,10 +194,12 @@ open_ssh_tunnel() {
   local ssh_key=$6
   local local_port=$7
 
+  reclaim_local_port "$local_port"
+
   echo "Opening $label SSH tunnel via $ssh_user@$ssh_host (localhost:$local_port → $db_host:$db_port) ..."
 
   ssh -i "$ssh_key" \
-    -L "$local_port:$db_host:$db_port" \
+    -L "127.0.0.1:$local_port:$db_host:$db_port" \
     -N \
     -o ExitOnForwardFailure=yes \
     -o StrictHostKeyChecking=accept-new \

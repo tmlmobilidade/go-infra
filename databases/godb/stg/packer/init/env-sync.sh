@@ -131,12 +131,28 @@ normalize_array_var() {
 # EXIT trap: stop recorded SSH processes and remove private temporary files.
 # Ignore tunnel processes that have already exited.
 cleanup() {
-  for pid in "${SSH_PIDS[@]:-}"; do
-    [ -n "$pid" ] || continue
-    kill "$pid" 2>/dev/null || true
-    wait "$pid" 2>/dev/null || true
-  done
-  [ -z "$WORK_DIR" ] || rm -rf "$WORK_DIR"
+    local pid
+
+    for pid in "${SSH_PIDS[@]:-}"; do
+        [ -n "$pid" ] || continue
+
+        if kill -0 "$pid" 2>/dev/null; then
+            echo "Stopping SSH tunnel PID $pid ..." >&2
+
+            if ! kill "$pid" 2>/dev/null; then
+                echo "WARNING: Could not stop SSH tunnel PID $pid" >&2
+                continue
+            fi
+
+            if ! wait "$pid"; then
+                echo "SSH tunnel PID $pid exited with a non-zero status" >&2
+            fi
+        fi
+    done
+
+    if [ -n "$WORK_DIR" ]; then
+        rm -rf "$WORK_DIR"
+    fi
 }
 trap cleanup EXIT
 trap 'exit 130' INT

@@ -4,3 +4,10 @@ metadata:
   name: pr-872-core
   annotations:
     operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-872-infrastructure
+  annotations:
+    operator.1password.io/auto-restart: "true"

@@ -30,6 +30,7 @@ spec:
       host: pr-699.go-stg.tmlmobilidade.pt
     secrets:
       - stg-platform-godb
+      - stg-platform-labdb
     logging:
       enabled: true
       cluster: go-stg

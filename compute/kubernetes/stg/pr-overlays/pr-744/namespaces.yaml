@@ -11,3 +11,10 @@ metadata:
   name: pr-744-offer
   annotations:
     operator.1password.io/auto-restart: "true"
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pr-744-operation
+  annotations:
+    operator.1password.io/auto-restart: "true"

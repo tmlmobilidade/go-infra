@@ -106,7 +106,7 @@ spec:
           proxy_intercept_errors on;
           # Cache for all locations. No proxy_cache_valid — honor upstream Cache-Control/Expires.
           proxy_cache go_cache;
-          proxy_cache_key "$scheme$host$request_uri";
+          proxy_cache_key "$scheme$request_method$host$request_uri";
           proxy_cache_lock on;
           proxy_cache_lock_timeout 30s;
           proxy_cache_lock_age 30s;

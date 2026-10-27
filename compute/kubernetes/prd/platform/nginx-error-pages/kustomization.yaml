@@ -12,5 +12,9 @@ configMapGenerator:
       - 502.html
       - 503.html
       - 504.html
+  - name: nginx-error-pages-conf
+    namespace: ingress-nginx
+    files:
+      - default.conf
 generatorOptions:
   disableNameSuffixHash: true

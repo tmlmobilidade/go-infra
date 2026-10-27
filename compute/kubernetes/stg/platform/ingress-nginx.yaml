@@ -87,6 +87,7 @@ spec:
             use_temp_path=off;
         # limit_req must be in location-snippet — server-snippet does not apply to Ingress locations.
         location-snippet: |
+          limit_req_status 429;
           limit_req zone=global burst=1 nodelay;
           limit_req zone=ip burst=1 nodelay;
         server-snippet: |

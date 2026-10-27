@@ -75,8 +75,7 @@ spec:
         custom-http-errors: "404,500,501,502,503,504"
         limit-req-status: "429"
         http-snippet: |
-          # TEMP: very low rates for 429 test. Zones are per controller pod (× replicaCount),
-          # so burst must stay tiny. Restore to 1000r/s / burst+delay after test.
+          # TEMP low rates to verify clients see 429 (not 200). Restore to 1000r/s after test.
           limit_req_zone global zone=global:10m rate=1r/s;
           limit_req_zone $binary_remote_addr zone=ip:10m rate=1r/s;
           # Cache zone (gateway-style): only used when upstream sends Cache-Control/Expires.

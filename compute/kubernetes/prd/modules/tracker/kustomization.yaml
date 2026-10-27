@@ -16,8 +16,8 @@ resources:
   - pt-tml-ccfl-rawdb-sync
   - pt-tml-cm-alsa-rawdb-stream
   - pt-tml-cm-alsa-rawdb-sync
-  - pt-tml-cm-core-migrate
-  - pt-tml-cm-core-migrate-coordinator
+  # - pt-tml-cm-core-migrate
+  # - pt-tml-cm-core-migrate-coordinator
   - pt-tml-cm-core-stream
   - pt-tml-cm-rl-rawdb-stream
   - pt-tml-cm-rl-rawdb-sync

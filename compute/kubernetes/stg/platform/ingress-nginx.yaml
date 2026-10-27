@@ -73,7 +73,6 @@ spec:
         gzip-types: "application/json"
         proxy-buffering: "on"
         custom-http-errors: "404,500,501,502,503,504"
-        limit-req-status: "429"
         http-snippet: |
           # TEMP low rates to verify clients see 429 (not 200). Restore to 1000r/s after test.
           limit_req_zone global zone=global:10m rate=1r/s;

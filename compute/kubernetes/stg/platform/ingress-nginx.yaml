@@ -73,11 +73,11 @@ spec:
         gzip-types: "application/json"
         proxy-buffering: "on"
         custom-http-errors: "404,500,501,502,503,504"
+        limit-req-status: "429"
         http-snippet: |
           # Rate limits (same as stg gateway) — test in stg before prd.
           limit_req_zone global zone=global:10m rate=1000r/s;
           limit_req_zone $binary_remote_addr zone=ip:10m rate=1000r/s;
-          limit_req_status 429;
           # Cache zone (gateway-style): only used when upstream sends Cache-Control/Expires.
           proxy_cache_path /tmp/nginx-cache
             levels=1:2

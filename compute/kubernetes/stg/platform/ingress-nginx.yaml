@@ -74,9 +74,9 @@ spec:
         proxy-buffering: "on"
         custom-http-errors: "404,500,501,502,503,504"
         http-snippet: |
-          # TEMP low rates to verify clients see 429 (not 200). Restore to 1000r/s after test.
-          limit_req_zone global zone=global:10m rate=1r/s;
-          limit_req_zone $binary_remote_addr zone=ip:10m rate=1r/s;
+          # Rate limits (gateway-style). Zones are per controller pod.
+          limit_req_zone global zone=global:10m rate=1000r/s;
+          limit_req_zone $binary_remote_addr zone=ip:10m rate=1000r/s;
           # Cache zone (gateway-style): only used when upstream sends Cache-Control/Expires.
           proxy_cache_path /tmp/nginx-cache
             levels=1:2
@@ -87,8 +87,8 @@ spec:
         # limit_req must be in location-snippet — server-snippet does not apply to Ingress locations.
         location-snippet: |
           limit_req_status 429;
-          limit_req zone=global burst=1 nodelay;
-          limit_req zone=ip burst=1 nodelay;
+          limit_req zone=global burst=300 delay=2;
+          limit_req zone=ip burst=50 delay=2;
         server-snippet: |
           proxy_intercept_errors on;
           # Cache for all locations. No proxy_cache_valid — honor upstream Cache-Control/Expires.

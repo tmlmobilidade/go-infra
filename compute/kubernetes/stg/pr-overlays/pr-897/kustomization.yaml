@@ -8,3 +8,16 @@ resources:
   - core-frontend.yaml
   - core-organizer.yaml
   - core-secrets.yaml
+  - operation-api.yaml
+  - operation-frontend.yaml
+  - operation-gtfs-validator.yaml
+  - operation-organizer.yaml
+  - operation-rides-acceptor.yaml
+  - operation-rides-coordinator.yaml
+  - operation-rides-examiner.yaml
+  - operation-rides-feeder.yaml
+  - operation-rides-locker.yaml
+  - operation-rides-sync.yaml
+  - operation-sams-examiner.yaml
+  - operation-sams-feeder.yaml
+  - operation-secrets.yaml

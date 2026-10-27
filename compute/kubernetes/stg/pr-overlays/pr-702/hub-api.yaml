@@ -22,7 +22,7 @@ spec:
     environment: pr-702
     module: hub
     app: api
-    replicas: 1
+    replicas: 3
     resources:
       memory: 4Gi
       cpu: 2

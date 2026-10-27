@@ -85,10 +85,12 @@ spec:
             max_size=1g
             inactive=1h
             use_temp_path=off;
-        server-snippet: |
-          proxy_intercept_errors on;
+        # limit_req must be in location-snippet — server-snippet does not apply to Ingress locations.
+        location-snippet: |
           limit_req zone=global burst=20 nodelay;
           limit_req zone=ip burst=10 nodelay;
+        server-snippet: |
+          proxy_intercept_errors on;
           # Cache for all locations. No proxy_cache_valid — honor upstream Cache-Control/Expires.
           proxy_cache go_cache;
           proxy_cache_key "$scheme$host$request_uri";

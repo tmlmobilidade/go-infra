@@ -1,13 +1,13 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # - pr-686
-  # - pr-699
-  # - pr-704
-  # - pr-708
-  # - pr-744
-  # - pr-756
-  # - pr-872
-  # - pr-876
-  # - pr-896
+  - pr-686
+  - pr-699
+  - pr-704
+  - pr-708
+  - pr-744
+  - pr-756
+  - pr-872
+  - pr-876
+  - pr-896
   - pr-897

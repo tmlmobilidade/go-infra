@@ -33,6 +33,10 @@ services:
     image: nginx:alpine
     container_name: maps-nginx
     restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1gb
     logging:
       options:
         max-size: '1m'

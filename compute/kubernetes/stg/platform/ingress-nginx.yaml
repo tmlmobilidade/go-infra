@@ -74,9 +74,24 @@ spec:
         proxy-buffering: "on"
         custom-http-errors: "404,500,501,502,503,504"
         http-snippet: |
-          # Per-endpoint rate limit (key = $uri, no query string). Zones are per controller pod.
-          limit_req_zone $uri zone=endpoint:20m rate=500r/s;
-          # Cache zone (gateway-style): only used when upstream sends Cache-Control/Expires.
+          # Identify the user using the session cookie.
+          # Fall back to Authorization when no session cookie exists.
+          map $cookie_session_token $rate_limit_user {
+            default $cookie_session_token;
+            ""      $http_authorization;
+          }
+
+          # Anonymous requests fall back to the connecting IP.
+          map $rate_limit_user $rate_limit_identity {
+            default $rate_limit_user;
+            ""      $binary_remote_addr;
+          }
+
+          # Per-user + per-endpoint rate limit.
+          # Each controller pod maintains its own zone.
+          limit_req_zone "$rate_limit_identity:$uri" zone=user_endpoint:20m rate=500r/s;
+
+          # Cache zone
           proxy_cache_path /tmp/nginx-cache
             levels=1:2
             keys_zone=go_cache:10m

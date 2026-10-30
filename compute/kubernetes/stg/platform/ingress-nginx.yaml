@@ -72,6 +72,10 @@ spec:
         use-gzip: "true"
         gzip-types: "application/json"
         proxy-buffering: "on"
+        # Keep large upstream responses in memory (avoids proxy-temp disk warn).
+        proxy-buffer-size: "32k"
+        proxy-buffers: "16 64k"
+        proxy-busy-buffers-size: "128k"
         custom-http-errors: "404,500,501,502,503,504"
         http-snippet: |
           # Identify the user using the session cookie.

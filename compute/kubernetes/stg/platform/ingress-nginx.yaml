@@ -39,7 +39,7 @@ spec:
       service:
         type: LoadBalancer
         allocateLoadBalancerNodePorts: false
-        externalTrafficPolicy: Cluster
+        externalTrafficPolicy: Local
         annotations:
           oci.oraclecloud.com/load-balancer-type: "nlb"
           oci-network-load-balancer.oraclecloud.com/internal: "false"

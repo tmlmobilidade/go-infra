@@ -46,6 +46,7 @@ spec:
           oci-network-load-balancer.oraclecloud.com/assigned-private-ipv4: "10.91.101.2"
           oci-network-load-balancer.oraclecloud.com/subnet: "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaabxgcifumk7or4z5kbdj6l6tkox3xqzpnmvhmq3l5hruveil4ze3q"
           oci-network-load-balancer.oraclecloud.com/health-check: '{"protocol":"TCP","retries":3,"timeoutInMillis":3000,"intervalInMillis":10000}'
+          oci-network-load-balancer.oraclecloud.com/is-preserve-source: "true"
       extraArgs:
         default-ssl-certificate: "ingress-nginx/go-stg-tls"
       allowSnippetAnnotations: true

@@ -59,7 +59,6 @@ spec:
         server-tokens: "false"
         use-forwarded-headers: "true"
         compute-full-forwarded-for: "true"
-        proxy-real-ip-cidr: "10.91.101.0/24"
         log-format-upstream: '$remote_addr realip=$realip_remote_addr xff="$http_x_forwarded_for" request="$request" status=$status'
         use-http2: "true"
         ssl-redirect: "true"

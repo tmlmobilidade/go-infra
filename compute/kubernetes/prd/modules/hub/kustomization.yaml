@@ -8,7 +8,7 @@ resources:
   - frontend-videowall
   - publish-alerts
   - publish-gtfs
-  - publish-gtfs-cm
+# - publish-gtfs-cm
   - publish-metrics
   - publish-network
   - publish-plans

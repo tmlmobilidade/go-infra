@@ -82,6 +82,15 @@ spec:
         proxy-buffering: "on"
         custom-http-errors: "404,500,501,502,503,504"
         http-snippet: |
+          # Frontend documents and Next.js navigation must follow the current deployment.
+          map $http_accept $go_frontend_request {
+            default 0;
+            ~*text/(?:html|x-component) 1;
+          }
+          map $upstream_http_content_type $go_frontend_response {
+            default 0;
+            "~*^text/(?:html|x-component)(?:;|$)" 1;
+          }
           # Cache zone (gateway-style): only used when upstream sends Cache-Control/Expires.
           proxy_cache_path /tmp/nginx-cache
             levels=1:2
@@ -96,14 +105,15 @@ spec:
           }
         server-snippet: |
           proxy_intercept_errors on;
-          # Cache for all locations. No proxy_cache_valid — honor upstream Cache-Control/Expires.
+          # Honor upstream cache headers, except for frontend HTML and navigation.
           proxy_cache go_cache;
-          proxy_cache_key "$scheme$request_method$host$request_uri";
+          # Retire entries written before HTML and navigation were excluded.
+          proxy_cache_key "v2:$scheme$request_method$host$request_uri";
           proxy_cache_lock on;
           proxy_cache_lock_timeout 30s;
           proxy_cache_lock_age 30s;
-          proxy_cache_bypass $http_authorization $cookie_session_token $http_upgrade;
-          proxy_no_cache $http_authorization $cookie_session_token $http_upgrade;
+          proxy_cache_bypass $http_authorization $cookie_session_token $http_upgrade $http_rsc $go_frontend_request;
+          proxy_no_cache $http_authorization $cookie_session_token $http_upgrade $http_rsc $go_frontend_request $go_frontend_response;
           add_header Go-Cache-Status $upstream_cache_status always;
           location = / {
             proxy_http_version 1.1;

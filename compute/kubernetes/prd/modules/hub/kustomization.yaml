@@ -10,7 +10,7 @@ resources:
   - publish-gtfs
 # - publish-gtfs-cm
   - publish-metrics
-  - publish-network
+# - publish-network
   - publish-plans
   - publish-vehicles
   - publish-eta

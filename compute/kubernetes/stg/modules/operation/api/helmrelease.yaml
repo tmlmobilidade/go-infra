@@ -22,7 +22,7 @@ spec:
     environment: stg
     module: operation
     app: api
-    replicas: 3
+    replicas: 1
     service:
       targetPort: 5050
     resources:

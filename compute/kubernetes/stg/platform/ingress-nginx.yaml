@@ -76,15 +76,7 @@ spec:
         proxy-buffers: "8 32k"
         custom-http-errors: "404,500,501,502,503,504"
         http-snippet: |
-          map $cookie_session_token $rate_limit_user {
-            default $cookie_session_token;
-            ""      $http_authorization;
-          }
-          map $rate_limit_user $rate_limit_identity {
-            default $rate_limit_user;
-            ""      $binary_remote_addr;
-          }
-          limit_req_zone "$rate_limit_identity:$uri" zone=user_endpoint:20m rate=500r/s;
+          limit_req_zone $uri zone=endpoint:20m rate=500r/s;
           # Cache zone (gateway-style): only used when upstream sends Cache-Control/Expires.
           proxy_cache_path /tmp/nginx-cache
             levels=1:2
@@ -95,7 +87,7 @@ spec:
         # limit_req must be in location-snippet — server-snippet does not apply to Ingress locations.
         location-snippet: |
           limit_req_status 429;
-          limit_req zone=user_endpoint burst=150 delay=2;
+          limit_req zone=endpoint burst=150 delay=2;
         server-snippet: |
           proxy_intercept_errors on;
           # Cache for all locations. No proxy_cache_valid — honor upstream Cache-Control/Expires.

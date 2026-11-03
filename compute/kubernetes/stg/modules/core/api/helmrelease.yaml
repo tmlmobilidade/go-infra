@@ -36,6 +36,7 @@ spec:
       - stg-platform-godb
       - stg-platform-email
       - stg-platform-storage
+      - stg-platform-locationsdb
     probes:
       startup:
         enabled: true

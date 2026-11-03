@@ -72,11 +72,8 @@ spec:
         use-gzip: "true"
         gzip-types: "application/json"
         proxy-buffering: "on"
-        proxy-buffer-size: "16k"
-        proxy-buffers: "8 32k"
         custom-http-errors: "404,500,501,502,503,504"
         http-snippet: |
-          limit_req_zone $uri zone=endpoint:20m rate=500r/s;
           # Frontend documents and Next.js navigation must follow the current deployment.
           map $http_accept $go_frontend_request {
             default 0;
@@ -93,10 +90,6 @@ spec:
             max_size=1g
             inactive=1h
             use_temp_path=off;
-        # limit_req must be in location-snippet — server-snippet does not apply to Ingress locations.
-        location-snippet: |
-          limit_req_status 429;
-          limit_req zone=endpoint burst=150 delay=2;
         server-snippet: |
           proxy_intercept_errors on;
           # Honor upstream cache headers, except for frontend HTML and navigation.

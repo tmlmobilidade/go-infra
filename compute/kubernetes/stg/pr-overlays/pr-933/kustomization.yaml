@@ -10,10 +10,10 @@ resources:
   - core-secrets.yaml
   - infrastructure-api.yaml
   - infrastructure-frontend.yaml
-  - infrastructure-organizer.yaml
+  # - infrastructure-organizer.yaml
   - infrastructure-secrets.yaml
-  - infrastructure-tts-cli.yaml
-  - infrastructure-tts-server.yaml
+  # - infrastructure-tts-cli.yaml
+  # - infrastructure-tts-server.yaml
   - operation-api.yaml
   - operation-frontend.yaml
   - operation-gtfs-validator.yaml

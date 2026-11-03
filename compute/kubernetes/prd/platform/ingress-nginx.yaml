@@ -115,6 +115,9 @@ spec:
           proxy_cache_bypass $http_authorization $cookie_session_token $http_upgrade $http_rsc $go_frontend_request;
           proxy_no_cache $http_authorization $cookie_session_token $http_upgrade $http_rsc $go_frontend_request $go_frontend_response;
           add_header Go-Cache-Status $upstream_cache_status always;
+          location ^~ /hub/api/v1/plans/gtfs/cm {
+            rewrite ^/hub/api/v1/plans/gtfs/cm(.*)$ /hub/api/v1/LA3SO/plans/gtfs$1 permanent;
+          }
           location = / {
             proxy_http_version 1.1;
             proxy_set_header Connection "";

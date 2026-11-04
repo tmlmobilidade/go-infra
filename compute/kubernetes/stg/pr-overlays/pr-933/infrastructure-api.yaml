@@ -29,11 +29,11 @@ spec:
       memory: 1Gi
     ingress:
       enabled: true
-      path: /infrastructure/api(/|$)(.*)
+      # Do not match /infrastructure/api — Prefix /infrastructure steals API POSTs → Next.js 405 text/html.
+      path: "/infrastructure(?:$|/(?!api(?:/|$)).*)"
       pathType: ImplementationSpecific
       annotations:
         nginx.ingress.kubernetes.io/use-regex: "true"
-        nginx.ingress.kubernetes.io/rewrite-target: /$2
       host: pr-933.go-stg.tmlmobilidade.pt
     secrets:
       - stg-module-infrastructure

@@ -8,6 +8,9 @@ resources:
   - es-crtm-la-veloz-api-fetch
   - es-crtm-la-veloz-rawdb-stream
   - es-crtm-la-veloz-rawdb-sync
+  - pt-cimrc-sit-api-fetch
+  - pt-cimrc-sit-rawdb-stream
+  - pt-cimrc-sit-rawdb-sync
   - pt-cimat-flaviamobil-api-fetch
   - pt-cimat-flaviamobil-rawdb-stream
   - pt-cimat-flaviamobil-rawdb-sync

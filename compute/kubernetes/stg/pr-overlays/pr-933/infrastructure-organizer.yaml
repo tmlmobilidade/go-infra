@@ -28,7 +28,8 @@ spec:
     resources:
       memory: 2Gi
     ingress:
-      enabled: false
+      enabled: true
+      host: pr-933.go-stg.tmlmobilidade.pt
     secrets:
       - stg-module-infrastructure
       - stg-platform-godb

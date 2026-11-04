@@ -156,17 +156,22 @@ runcmd:
   - |
     cat > /opt/app/persistent-data/config.d/tuning.xml <<'TUNEOEOF'
     <clickhouse>
-        <!-- Server-level memory: 85% of 12GB = ~10.2GB -->
-        <max_server_memory_usage_to_ram_ratio>0.85</max_server_memory_usage_to_ram_ratio>
-        <uncompressed_cache_size>2147483648</uncompressed_cache_size>
-        <mark_cache_size>2147483648</mark_cache_size>
-        <!-- Enable Prometheus metrics -->
-        <prometheus>
-            <endpoint>/metrics</endpoint>
-            <port>9363</port>
-            <metrics>true</metrics>
-            <events>true</events>
-        </prometheus>
+      <!-- Server-level memory: 85% of 12GB = ~10.2GB -->
+      <max_server_memory_usage_to_ram_ratio>0.85</max_server_memory_usage_to_ram_ratio>
+      <uncompressed_cache_size>2147483648</uncompressed_cache_size>
+      <mark_cache_size>2147483648</mark_cache_size>
+
+      <!-- THIS IS STAGING ONLY -->
+      <max_table_size_to_drop>0</max_table_size_to_drop>
+      <max_partition_size_to_drop>0</max_partition_size_to_drop>
+
+      <!-- Enable Prometheus metrics -->
+      <prometheus>
+          <endpoint>/metrics</endpoint>
+          <port>9363</port>
+          <metrics>true</metrics>
+          <events>true</events>
+      </prometheus>
     </clickhouse>
     TUNEOEOF
 

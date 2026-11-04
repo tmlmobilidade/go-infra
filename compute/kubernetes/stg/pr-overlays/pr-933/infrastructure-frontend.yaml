@@ -27,8 +27,9 @@ spec:
       targetPort: 3000
     ingress:
       enabled: true
-      # Do not match /infrastructure/api — Prefix /infrastructure steals API POSTs → Next.js 405 text/html.
-      path: "/infrastructure(?:$|/(?!api(?:/|$)).*)"
+      # Prefix /infrastructure also matches /infrastructure/api, so nginx sends API POSTs to Next.js (405).
+      # RE2 only — ingress-nginx rejects lookaheads and then keeps the old Prefix.
+      path: "^/infrastructure(?:/(?:[^a].*|a(?:[^p].*|p(?:[^i].*|i(?:[^/].*))))?)?$"
       pathType: ImplementationSpecific
       annotations:
         nginx.ingress.kubernetes.io/use-regex: "true"

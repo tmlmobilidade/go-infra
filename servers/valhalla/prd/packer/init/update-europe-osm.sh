@@ -10,8 +10,8 @@ set -euo pipefail
 
 VALHALLA_DIR="/opt/app"
 CUSTOM_DIR="$VALHALLA_DIR/persistent-data/custom_files"
-PBF_NAME="portugal-latest.osm.pbf"
-PBF_URL="https://download.geofabrik.de/europe/portugal-latest.osm.pbf"
+PBF_NAME="europe-latest.osm.pbf"
+PBF_URL="https://download.geofabrik.de/europe-latest.osm.pbf"
 
 cd "$VALHALLA_DIR"
 
@@ -22,7 +22,7 @@ echo "============================================================"
 
 mkdir -p "$CUSTOM_DIR/backups"
 
-echo "[valhalla-update] Downloading latest Portugal OSM extract..."
+echo "[valhalla-update] Downloading latest Europe OSM extract..."
 
 wget -q --show-progress -O "$CUSTOM_DIR/$PBF_NAME.new" "$PBF_URL"
 

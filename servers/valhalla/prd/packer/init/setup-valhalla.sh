@@ -8,8 +8,8 @@ set -euo pipefail
 # Persistent volume mounted by attach-volume.sh.
 BASE_DIR="/opt/app/persistent-data"
 CUSTOM_FILES="$BASE_DIR/custom_files"
-PBF_URL="${PBF_URL:-https://download.geofabrik.de/europe/portugal-latest.osm.pbf}"
-PBF_PATH="$CUSTOM_FILES/portugal-latest.osm.pbf"
+PBF_URL="${PBF_URL:-https://download.geofabrik.de/europe-latest.osm.pbf}"
+PBF_PATH="$CUSTOM_FILES/europe-latest.osm.pbf"
 
 # valhalla-scripted image runs as user `valhalla` (UID/GID 1000).
 VALHALLA_UID=1000
@@ -27,7 +27,7 @@ mkdir -p "$CUSTOM_FILES/backups"
 if [[ -s "$PBF_PATH" ]]; then
 	echo "[setup-valhalla] PBF already present at $PBF_PATH"
 else
-	echo "[setup-valhalla] Downloading Portugal PBF from $PBF_URL ..."
+	echo "[setup-valhalla] Downloading Europe PBF from $PBF_URL ..."
 	wget -q -O "$PBF_PATH" "$PBF_URL"
 	test -s "$PBF_PATH"
 	echo "[setup-valhalla] PBF download complete."

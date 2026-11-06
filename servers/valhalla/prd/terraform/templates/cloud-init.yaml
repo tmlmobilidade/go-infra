@@ -53,16 +53,16 @@ runcmd:
   - cd /opt/app && docker compose up -d --force-recreate --remove-orphans --pull=always
   - sh init-letsencrypt.sh
 
-  # 7. Daily OSM update 04:00 Europe/Lisbon
+  # 7. Weekly OSM update — Saturday 04:00 Europe/Lisbon
   # Ensure cron is running
   - systemctl enable --now cron
 
-  # Daily OSM update 04:00 Europe/Lisbon
+  # Weekly OSM update — Saturday 04:00 Europe/Lisbon
   - |
     printf '%s\n' \
       'SHELL=/bin/bash' \
       'PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin' \
-      '0 4 * * * root /opt/app/update-europe-osm.sh >> /opt/app/update.log 2>&1' \
+      '0 2 * * 6 root /opt/app/update-europe-osm.sh >> /opt/app/update.log 2>&1' \
       > /etc/cron.d/valhalla-update
   - chmod 644 /etc/cron.d/valhalla-update
 

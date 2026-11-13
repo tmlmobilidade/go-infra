@@ -7,7 +7,7 @@ INPUT_DIR="$BASE_DIR/input"
 GTFS_DIR="$INPUT_DIR/gtfs"
 GTFS_PATH="$GTFS_DIR/GTFS.zip"
 
-GTFS_URL="${GTFS_URL:-https://go.tmlmobilidade.pt/hub/api/v1/plans/gtfs}"
+GTFS_URL="${GTFS_URL:-https://go.tmlmobilidade.pt/hub/api/v1/0XJC9/plans/gtfs}"
 
 cd "$APP_DIR"
 

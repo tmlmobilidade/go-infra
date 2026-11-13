@@ -14,7 +14,7 @@ OSM_PATH="$INPUT_DIR/osm.pbf"
 GTFS_PATH="$INPUT_DIR/gtfs/GTFS.zip"
 
 OSM_URL="${OSM_URL:-https://download.geofabrik.de/europe/portugal-latest.osm.pbf}"
-GTFS_URL="${GTFS_URL:-https://go.tmlmobilidade.pt/hub/api/v1/plans/gtfs}"
+GTFS_URL="${GTFS_URL:-https://go.tmlmobilidade.pt/hub/api/v1/0XJC9/plans/gtfs}"
 
 mkdir -p "$INPUT_DIR/gtfs" "$DATA_DIR"
 

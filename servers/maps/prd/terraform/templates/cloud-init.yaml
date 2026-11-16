@@ -38,7 +38,7 @@ runcmd:
   - /opt/app/firewall.sh
   - rm /opt/app/firewall.sh
 
-  # 4.
+  # 3.
   # Write Cloudflare API token
   # This is needed for Certbot to obtain and renew SSL certificates for the Gateway.
   # The token is injected via Terraform as a base64-encoded string.
@@ -47,11 +47,22 @@ runcmd:
   - chmod 400 /opt/app/secrets/cloudflare.token
   - chown 999:999 /opt/app/secrets/cloudflare.token
 
-
+  # 4.
   # Start Maps server + certbot renew loop; nginx via init-letsencrypt
   - cd /opt/app && docker compose up -d --force-recreate --remove-orphans --pull=always
   - sh init-letsencrypt.sh
 
-  - /opt/app/recreate.sh
+  # 5.
+  # Run the initial maps update
+  - /opt/app/update-map.sh
+
+  # 6.
+  # Daily maps update 04:00 Europe/Lisbon (root crontab; sudo crontab -l)
+  - |
+    printf '%s\n' \
+      'SHELL=/bin/bash' \
+      'PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin' \
+      '0 2 * * 6 root /opt/app/update-map.sh >> /opt/app/update-map.log 2>&1' \
+      | sudo crontab -
 
 final_message: "Maps server complete."

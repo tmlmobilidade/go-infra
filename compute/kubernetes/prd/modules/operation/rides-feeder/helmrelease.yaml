@@ -22,7 +22,7 @@ spec:
     environment: prd
     module: operation
     app: rides-feeder
-    replicas: 1
+    replicas: 3
     deployment:
       strategy:
         type: Recreate

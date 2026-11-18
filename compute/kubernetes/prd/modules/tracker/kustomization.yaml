@@ -8,6 +8,9 @@ resources:
   - es-crtm-la-veloz-api-fetch
   - es-crtm-la-veloz-rawdb-stream
   - es-crtm-la-veloz-rawdb-sync
+  - pt-cimra-cira-busway-api-fetch
+  - pt-cimra-cira-busway-rawdb-stream
+  - pt-cimra-cira-busway-rawdb-sync
   - pt-cimrc-sit-api-fetch
   - pt-cimrc-sit-rawdb-stream
   - pt-cimrc-sit-rawdb-sync

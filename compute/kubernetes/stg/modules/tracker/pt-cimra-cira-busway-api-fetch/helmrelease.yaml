@@ -1,0 +1,39 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: tracker-pt-cimra-cira-busway-api-fetch
+  namespace: flux-system
+spec:
+  interval: 30s
+  dependsOn:
+    - name: onepassword-connect
+  targetNamespace: stg-tracker
+  install:
+    createNamespace: true
+  chart:
+    spec:
+      chart: compute/kubernetes/stg/charts/go-app
+      sourceRef:
+        kind: GitRepository
+        name: flux-system
+        namespace: flux-system
+      reconcileStrategy: Revision
+  values:
+    environment: stg
+    module: tracker
+    app: pt-cimra-cira-busway-api-fetch
+    replicas: 1
+    service:
+      targetPort: 5050
+    ingress:
+      enabled: false
+    secrets:
+      - stg-platform-rawdb
+    logging:
+      enabled: true
+      cluster: go-stg
+      loki:
+        secretName: stg-platform-loki
+    env:
+      - name: PT_CIRA_VEHICLE_EVENTS_URL
+        value: "https://api.control.optibus.co/opendata/v1/gtfs-rt/vehicle-positions?uid=c-aec56622"

@@ -5,3 +5,4 @@ resources:
   - api
   - frontend
   - gtfs-exporter
+  - organizer

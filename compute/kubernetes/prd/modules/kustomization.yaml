@@ -4,11 +4,9 @@ resources:
   # - apex
   - core
   - dates
-  # - eta
   - hub
-  # - locations
-  - offer
-  - performance
-  - operation
   - infrastructure
+  - offer
+  - operation
+  - performance
   - tracker

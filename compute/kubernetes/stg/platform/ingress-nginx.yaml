@@ -59,7 +59,7 @@ spec:
         server-tokens: "false"
         use-forwarded-headers: "true"
         compute-full-forwarded-for: "true"
-        use-http2: "true"
+        use-http2: "false"
         ssl-redirect: "true"
         proxy-body-size: "2g"
         proxy-connect-timeout: "10"

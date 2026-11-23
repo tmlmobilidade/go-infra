@@ -9,4 +9,4 @@ resources:
   - offer
   - operation
   - performance
-  # - tracker
+  - tracker

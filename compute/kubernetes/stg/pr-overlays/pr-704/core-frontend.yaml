@@ -34,6 +34,8 @@ spec:
       startup:
         enabled: true
         path: /core/health
+    secrets:
+      - stg-platform-go-amplitude
     logging:
       enabled: true
       cluster: go-stg

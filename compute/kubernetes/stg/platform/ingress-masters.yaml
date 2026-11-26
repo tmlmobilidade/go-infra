@@ -3,7 +3,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: host-go-stg
+  name: host-stg
   namespace: ingress-nginx
   annotations:
     nginx.org/mergeable-ingress-type: "master"
@@ -11,9 +11,9 @@ metadata:
 spec:
   ingressClassName: nginx
   tls:
-    - hosts: [go-stg.tmlmobilidade.pt]
+    - hosts: [stg.go-stg.tmlmobilidade.pt]
   rules:
-    - host: go-stg.tmlmobilidade.pt
+    - host: stg.go-stg.tmlmobilidade.pt
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress

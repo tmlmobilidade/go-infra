@@ -74,11 +74,6 @@ spec:
           keepalive-timeout: "65s"
           keepalive: "16"
           proxy-buffering: "true"
-          location-snippets: |
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_set_header X-Forwarded-Host $host;
           http-snippets: |
             # Frontend documents and Next.js navigation must follow the current deployment.
             map $http_accept $go_frontend_request {

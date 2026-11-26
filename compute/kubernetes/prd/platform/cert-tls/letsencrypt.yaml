@@ -26,8 +26,8 @@ spec:
               name: prd-platform-cloudflare
               key: api-token
 ---
-# TLS for the ingress-nginx controller (gateway-like default SSL cert).
-# Secret lands in ingress-nginx; controller uses --default-ssl-certificate.
+# TLS for NGINX Ingress Controller (gateway-like default SSL cert).
+# Secret lands in ingress-nginx; controller uses controller.wildcardTLS.secret.
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:

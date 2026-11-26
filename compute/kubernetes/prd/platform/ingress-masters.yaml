@@ -1,0 +1,15 @@
+# One Master for go.tmlmobilidade.pt. Path Ingresses (go-app) are Minions.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: host-prd
+  namespace: ingress-nginx
+  annotations:
+    nginx.org/mergeable-ingress-type: "master"
+    nginx.org/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [go.tmlmobilidade.pt]
+  rules:
+    - host: go.tmlmobilidade.pt

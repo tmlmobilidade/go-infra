@@ -1,0 +1,66 @@
+# Standalone error backend for NGINX Ingress Controller (no Helm defaultBackend).
+# Wired from controller server-snippets → Service error-pages:8080 with X-Code.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: error-pages
+  namespace: ingress-nginx
+  labels:
+    app: error-pages
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: error-pages
+  template:
+    metadata:
+      labels:
+        app: error-pages
+    spec:
+      containers:
+        - name: error-pages
+          image: docker.io/nginxinc/nginx-unprivileged:1.27-alpine
+          ports:
+            - name: http
+              containerPort: 8080
+          resources:
+            requests:
+              cpu: 10m
+              memory: 32Mi
+            limits:
+              cpu: 10m
+              memory: 32Mi
+          volumeMounts:
+            - name: nginx-error-pages
+              mountPath: /www
+              readOnly: true
+            - name: nginx-error-pages-conf
+              mountPath: /etc/nginx/conf.d
+              readOnly: true
+          securityContext:
+            runAsUser: 101
+            runAsGroup: 101
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+      volumes:
+        - name: nginx-error-pages
+          configMap:
+            name: nginx-error-pages
+        - name: nginx-error-pages-conf
+          configMap:
+            name: nginx-error-pages-conf
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: error-pages
+  namespace: ingress-nginx
+  labels:
+    app: error-pages
+spec:
+  selector:
+    app: error-pages
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080

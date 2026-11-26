@@ -1,38 +1,47 @@
+# STG: F5 NGINX Ingress Controller (replaces deprecated kubernetes/ingress-nginx).
+# Chart: nginx-ingress from oci://ghcr.io/nginx/charts
+# Cutover: Flux removes HelmRelease ingress-nginx and installs nginx-ingress;
+# IngressClass name stays "nginx" so existing Ingresses keep working.
 apiVersion: source.toolkit.fluxcd.io/v1
 kind: HelmRepository
 metadata:
-  name: ingress-nginx-charts
+  name: nginx-ingress-charts
   namespace: flux-system
 spec:
   interval: 1h
-  url: https://kubernetes.github.io/ingress-nginx
+  type: oci
+  url: oci://ghcr.io/nginx/charts
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: ingress-nginx
+  name: nginx-ingress
   namespace: flux-system
 spec:
   interval: 5m
   targetNamespace: ingress-nginx
   install:
     createNamespace: true
+    crds: CreateReplace
     remediation:
       retries: 3
   upgrade:
+    crds: CreateReplace
     remediation:
       retries: 3
   chart:
     spec:
-      chart: ingress-nginx
+      chart: nginx-ingress
+      version: "2.9.0"
       sourceRef:
         kind: HelmRepository
-        name: ingress-nginx-charts
+        name: nginx-ingress-charts
         namespace: flux-system
       interval: 1h
   values:
     controller:
       replicaCount: 3
+      enableSnippets: true
       # Public OCI Network Load Balancer (internet-facing).
       # Virtual Nodes: use Pods as Backends (targetPort 80/443), not NodePort —
       # NodePort on pod IPs times out and leaves backend sets Critical.
@@ -46,97 +55,65 @@ spec:
           oci-network-load-balancer.oraclecloud.com/assigned-private-ipv4: "10.91.101.2"
           oci-network-load-balancer.oraclecloud.com/subnet: "ocid1.subnet.oc1.eu-frankfurt-1.aaaaaaaabxgcifumk7or4z5kbdj6l6tkox3xqzpnmvhmq3l5hruveil4ze3q"
           oci-network-load-balancer.oraclecloud.com/health-check: '{"protocol":"TCP","retries":3,"timeoutInMillis":3000,"intervalInMillis":10000}'
-      extraArgs:
-        default-ssl-certificate: "ingress-nginx/go-stg-tls"
-      allowSnippetAnnotations: true
-      annotationRiskLevel: Critical
-      watchIngressWithoutClass: false
-      ingressClassResource:
+      # TLS for hosts without their own secret (was --default-ssl-certificate).
+      wildcardTLS:
+        secret: ingress-nginx/go-stg-tls
+      ingressClass:
         name: nginx
-        enabled: true
-        default: true
+        create: true
+        setAsDefaultIngress: true
       config:
-        server-tokens: "false"
-        use-forwarded-headers: "true"
-        compute-full-forwarded-for: "true"
-        use-http2: "false"
-        ssl-redirect: "true"
-        proxy-body-size: "2g"
-        proxy-connect-timeout: "10"
-        proxy-send-timeout: "60"
-        proxy-read-timeout: "60"
-        client-body-timeout: "300"
-        keep-alive: "65"
-        upstream-keepalive-connections: "16"
-        upstream-keepalive-timeout: "10"
-        use-gzip: "true"
-        gzip-types: "application/json"
-        proxy-buffering: "on"
-        custom-http-errors: "404,500,501,502,503,504"
-        http-snippet: |
-          # Frontend documents and Next.js navigation must follow the current deployment.
-          map $http_accept $go_frontend_request {
-            default 0;
-            ~*text/(?:html|x-component) 1;
-          }
-          map $upstream_http_content_type $go_frontend_response {
-            default 0;
-            "~*^text/(?:html|x-component)(?:;|$)" 1;
-          }
-          # Cache zone (gateway-style): only used when upstream sends Cache-Control/Expires.
-          proxy_cache_path /tmp/nginx-cache
-            levels=1:2
-            keys_zone=go_cache:10m
-            max_size=1g
-            inactive=1h
-            use_temp_path=off;
-        server-snippet: |
-          proxy_intercept_errors on;
-          # Honor upstream cache headers, except for frontend HTML and navigation.
-          proxy_cache go_cache;
-          # Retire entries written before HTML and navigation were excluded.
-          proxy_cache_key "v2:$scheme$request_method$host$request_uri";
-          proxy_cache_lock on;
-          proxy_cache_lock_timeout 30s;
-          proxy_cache_lock_age 30s;
-          proxy_cache_bypass $http_authorization $cookie_session_token $http_upgrade $http_rsc $go_frontend_request;
-          proxy_no_cache $http_authorization $cookie_session_token $http_upgrade $http_rsc $go_frontend_request $go_frontend_response;
-          add_header Go-Cache-Status $upstream_cache_status always;
-          location = / {
-            rewrite ^/$ /core permanent;
-          }
-    defaultBackend:
-      enabled: true
-      name: error-pages
-      image:
-        registry: docker.io
-        image: nginxinc/nginx-unprivileged
-        tag: "1.27-alpine"
-        pullPolicy: IfNotPresent
-        runAsUser: 101
-        runAsGroup: 101
-        runAsNonRoot: true
-        readOnlyRootFilesystem: false
-      port: 8080
-      replicaCount: 1
-      resources:
-        requests:
-          cpu: 10m
-          memory: 32Mi
-        limits:
-          cpu: 10m
-          memory: 32Mi
-      extraVolumes:
-        - name: nginx-error-pages
-          configMap:
-            name: nginx-error-pages
-        - name: nginx-error-pages-conf
-          configMap:
-            name: nginx-error-pages-conf
-      extraVolumeMounts:
-        - name: nginx-error-pages
-          mountPath: /www
-          readOnly: true
-        - name: nginx-error-pages-conf
-          mountPath: /etc/nginx/conf.d
-          readOnly: true
+        entries:
+          server-tokens: "false"
+          http2: "true"
+          ssl-redirect: "true"
+          client-max-body-size: "2g"
+          proxy-connect-timeout: "10s"
+          proxy-send-timeout: "60s"
+          proxy-read-timeout: "60s"
+          keepalive-timeout: "65s"
+          keepalive: "16"
+          proxy-buffering: "true"
+          http-snippets: |
+            # Frontend documents and Next.js navigation must follow the current deployment.
+            map $http_accept $go_frontend_request {
+              default 0;
+              ~*text/(?:html|x-component) 1;
+            }
+            map $upstream_http_content_type $go_frontend_response {
+              default 0;
+              "~*^text/(?:html|x-component)(?:;|$)" 1;
+            }
+            # Cache zone (gateway-style): only used when upstream sends Cache-Control/Expires.
+            proxy_cache_path /tmp/nginx-cache
+              levels=1:2
+              keys_zone=go_cache:10m
+              max_size=1g
+              inactive=1h
+              use_temp_path=off;
+          server-snippets: |
+            # Honor upstream cache headers, except for frontend HTML and navigation.
+            proxy_cache go_cache;
+            # Retire entries written before HTML and navigation were excluded.
+            proxy_cache_key "v2:$scheme$request_method$host$request_uri";
+            proxy_cache_lock on;
+            proxy_cache_lock_timeout 30s;
+            proxy_cache_lock_age 30s;
+            proxy_cache_bypass $http_authorization $cookie_session_token $http_upgrade $http_rsc $go_frontend_request;
+            proxy_no_cache $http_authorization $cookie_session_token $http_upgrade $http_rsc $go_frontend_request $go_frontend_response;
+            add_header Go-Cache-Status $upstream_cache_status always;
+            # Custom error pages (replaces community defaultBackend / custom-http-errors).
+            proxy_intercept_errors on;
+            error_page 404 500 501 502 503 504 = @go_error_pages;
+            location @go_error_pages {
+              internal;
+              proxy_intercept_errors off;
+              proxy_method GET;
+              proxy_http_version 1.1;
+              proxy_set_header Connection "";
+              proxy_set_header X-Code $status;
+              proxy_pass http://error-pages.ingress-nginx.svc.cluster.local:8080/;
+            }
+            location = / {
+              rewrite ^/$ /core permanent;
+            }

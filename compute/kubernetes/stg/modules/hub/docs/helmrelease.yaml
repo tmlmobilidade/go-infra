@@ -35,8 +35,8 @@ spec:
       path: /(hub/reference|_next|assets|api|lab|brand|files|map|icon\.png|manifest\.webmanifest)(/|$)(.*)
       pathType: ImplementationSpecific
       annotations:
-        nginx.ingress.kubernetes.io/use-regex: "true"
-        nginx.ingress.kubernetes.io/configuration-snippet: |
+        nginx.org/path-regex: "case_sensitive"
+        nginx.org/location-snippets: |
           rewrite ^/hub/reference/?$ /reference break;
           rewrite ^/hub/reference/(.*)$ /reference/$1 break;
     logging:

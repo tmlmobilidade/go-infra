@@ -112,7 +112,9 @@ spec:
               proxy_http_version 1.1;
               proxy_set_header Connection "";
               proxy_set_header X-Code $status;
-              proxy_pass http://error-pages.ingress-nginx.svc.cluster.local:8080/;
+              # Named locations cannot use proxy_pass with a URI part — rewrite then pass host only.
+              rewrite ^ / break;
+              proxy_pass http://error-pages.ingress-nginx.svc.cluster.local:8080;
             }
             location = / {
               rewrite ^/$ /core permanent;

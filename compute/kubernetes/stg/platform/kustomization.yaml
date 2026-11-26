@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
   - namespaces.yaml
   - ingress-nginx.yaml
+  - ingress-masters.yaml
   - nginx-error-pages
   - onepassword-connect.yaml
   - keel.yaml

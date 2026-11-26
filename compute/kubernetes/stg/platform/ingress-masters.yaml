@@ -1,0 +1,196 @@
+# One Master per host. Path Ingresses (go-app) are Minions.
+# Add a new block when a new PR host appears.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: host-stg
+  namespace: ingress-nginx
+  annotations:
+    nginx.org/mergeable-ingress-type: "master"
+    nginx.org/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [stg.go-stg.tmlmobilidade.pt]
+  rules:
+    - host: stg.go-stg.tmlmobilidade.pt
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: host-pr-699
+  namespace: ingress-nginx
+  annotations:
+    nginx.org/mergeable-ingress-type: "master"
+    nginx.org/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [pr-699.go-stg.tmlmobilidade.pt]
+  rules:
+    - host: pr-699.go-stg.tmlmobilidade.pt
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: host-pr-704
+  namespace: ingress-nginx
+  annotations:
+    nginx.org/mergeable-ingress-type: "master"
+    nginx.org/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [pr-704.go-stg.tmlmobilidade.pt]
+  rules:
+    - host: pr-704.go-stg.tmlmobilidade.pt
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: host-pr-744
+  namespace: ingress-nginx
+  annotations:
+    nginx.org/mergeable-ingress-type: "master"
+    nginx.org/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [pr-744.go-stg.tmlmobilidade.pt]
+  rules:
+    - host: pr-744.go-stg.tmlmobilidade.pt
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: host-pr-756
+  namespace: ingress-nginx
+  annotations:
+    nginx.org/mergeable-ingress-type: "master"
+    nginx.org/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [pr-756.go-stg.tmlmobilidade.pt]
+  rules:
+    - host: pr-756.go-stg.tmlmobilidade.pt
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: host-pr-759
+  namespace: ingress-nginx
+  annotations:
+    nginx.org/mergeable-ingress-type: "master"
+    nginx.org/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [pr-759.go-stg.tmlmobilidade.pt]
+  rules:
+    - host: pr-759.go-stg.tmlmobilidade.pt
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: host-pr-870
+  namespace: ingress-nginx
+  annotations:
+    nginx.org/mergeable-ingress-type: "master"
+    nginx.org/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [pr-870.go-stg.tmlmobilidade.pt]
+  rules:
+    - host: pr-870.go-stg.tmlmobilidade.pt
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: host-pr-932
+  namespace: ingress-nginx
+  annotations:
+    nginx.org/mergeable-ingress-type: "master"
+    nginx.org/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [pr-932.go-stg.tmlmobilidade.pt]
+  rules:
+    - host: pr-932.go-stg.tmlmobilidade.pt
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: host-pr-936
+  namespace: ingress-nginx
+  annotations:
+    nginx.org/mergeable-ingress-type: "master"
+    nginx.org/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [pr-936.go-stg.tmlmobilidade.pt]
+  rules:
+    - host: pr-936.go-stg.tmlmobilidade.pt
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: host-pr-979
+  namespace: ingress-nginx
+  annotations:
+    nginx.org/mergeable-ingress-type: "master"
+    nginx.org/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [pr-979.go-stg.tmlmobilidade.pt]
+  rules:
+    - host: pr-979.go-stg.tmlmobilidade.pt
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: host-pr-989
+  namespace: ingress-nginx
+  annotations:
+    nginx.org/mergeable-ingress-type: "master"
+    nginx.org/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [pr-989.go-stg.tmlmobilidade.pt]
+  rules:
+    - host: pr-989.go-stg.tmlmobilidade.pt
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: host-pr-993
+  namespace: ingress-nginx
+  annotations:
+    nginx.org/mergeable-ingress-type: "master"
+    nginx.org/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [pr-993.go-stg.tmlmobilidade.pt]
+  rules:
+    - host: pr-993.go-stg.tmlmobilidade.pt
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: host-pr-999
+  namespace: ingress-nginx
+  annotations:
+    nginx.org/mergeable-ingress-type: "master"
+    nginx.org/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [pr-999.go-stg.tmlmobilidade.pt]
+  rules:
+    - host: pr-999.go-stg.tmlmobilidade.pt

@@ -1,4 +1,6 @@
-{{- if .Values.ingress.enabled }}
+{{- /* Minion: NIC merges paths only with a Master for the same host. */ -}}
+{{- if and .Values.ingress.enabled .Values.ingress.path }}
+{{- $host := .Values.ingress.host | default (printf "%s.go-stg.tmlmobilidade.pt" .Values.environment) }}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -9,19 +11,15 @@ metadata:
     module: {{ .Values.module }}
     app: {{ .Values.app }}
   annotations:
-    nginx.org/ssl-redirect: "true"
+    nginx.org/mergeable-ingress-type: "minion"
     nginx.org/client-max-body-size: "1g"
     {{- with .Values.ingress.annotations }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
 spec:
   ingressClassName: nginx
-  # Hosts only — TLS terminates on NGINX Ingress Controller via wildcardTLS
-  tls:
-    - hosts:
-        - "{{ .Values.environment }}.go-stg.tmlmobilidade.pt"
   rules:
-    - host: "{{ .Values.environment }}.go-stg.tmlmobilidade.pt"
+    - host: {{ $host | quote }}
       http:
         paths:
           - path: {{ .Values.ingress.path | quote }}

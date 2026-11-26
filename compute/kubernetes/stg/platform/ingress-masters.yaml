@@ -18,6 +18,21 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  name: host-pr-1007
+  namespace: ingress-nginx
+  annotations:
+    nginx.org/mergeable-ingress-type: "master"
+    nginx.org/ssl-redirect: "true"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts: [pr-1007.go-stg.tmlmobilidade.pt]
+  rules:
+    - host: pr-1007.go-stg.tmlmobilidade.pt
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
   name: host-pr-699
   namespace: ingress-nginx
   annotations:

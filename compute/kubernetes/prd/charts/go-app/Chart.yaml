@@ -1,6 +1,6 @@
 apiVersion: v2
 name: go-app
-description: PRD fork of go-app — TLS via ingress-nginx default cert (shared chart left for STG modules)
+description: PRD fork of go-app — TLS via NGINX Ingress Controller wildcardTLS / mergeable Master
 type: application
 version: 0.2.0-prd
 appVersion: "1.0.0"

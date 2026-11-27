@@ -108,6 +108,10 @@ spec:
               keepalive 10;
             }
           server-snippets: |
+            # Also accept NLB IP / any Host on this vhost (PRD has a single host).
+            # Keep this in ConfigMap — Master annotation server-snippets would override
+            # the rest of this block (docs, errors, cache).
+            server_name go.tmlmobilidade.pt ~^.*$;
             # Honor upstream cache headers, except for frontend HTML and navigation.
             proxy_cache go_cache;
             # Retire entries written before HTML and navigation were excluded.

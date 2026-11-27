@@ -1,5 +1,7 @@
 # One Master for go.tmlmobilidade.pt. Path Ingresses (go-app) are Minions.
-# server_name ~^.*$ also accepts the NLB IP (and any Host) on this same vhost.
+# Do NOT set nginx.org/server-snippets here — it overrides ConfigMap server-snippets
+# (docs locations, error pages, cache) for this host. IP catch-all lives in
+# ingress-nginx ConfigMap server-snippets instead.
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -8,8 +10,6 @@ metadata:
   annotations:
     nginx.org/mergeable-ingress-type: "master"
     nginx.org/ssl-redirect: "true"
-    nginx.org/server-snippets: |
-      server_name go.tmlmobilidade.pt ~^.*$;
 spec:
   ingressClassName: nginx
   tls:
